@@ -16,14 +16,13 @@ Donem boyunca asagidaki konulari isleyecegiz:
 - Fizik motoru temelleri
 - Kullanici girisleri (input) yonetimi
 - Ses ve muzik entegrasyonu
-- Basit yapay zeka algoritmalari
 
 ## Gerekli Araclar
 
 Derslerimizde asagidaki araclari kullanacagiz:
 
 ```
-- Unity veya Godot Engine
+- Unity
 - İhtiyaç duyulduğubda git versiyon kontrol sistemi
 ```
 
