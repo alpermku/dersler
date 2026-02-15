@@ -1,0 +1,34 @@
+- id: oyun-programlama
+  code: "8104292"
+  name: "Oyun Programlama"
+  color: "#6C5CE7"
+  gradient: "linear-gradient(135deg, #6C5CE7, #a29bfe)"
+  description: "Oyun gelistirme temelleri, oyun motorlari ve programlama teknikleri."
+
+- id: algoritma-ve-programlama-ii
+  code: "1407402"
+  name: "Algoritma ve Programlama II"
+  color: "#0984E3"
+  gradient: "linear-gradient(135deg, #0984E3, #74b9ff)"
+  description: "Ileri algoritma konulari ve programlama teknikleri."
+
+- id: nesne-tabanli-programlama-ii
+  code: "8104486"
+  name: "Nesne Tabanli Programlama-II"
+  color: "#00B894"
+  gradient: "linear-gradient(135deg, #00B894, #55efc4)"
+  description: "Ileri nesne yonelimli programlama kavramlari ve tasarim desenleri."
+
+- id: sistem-analizi-ve-tasarimi
+  code: "8104488"
+  name: "Sistem Analizi ve Tasarimi"
+  color: "#E17055"
+  gradient: "linear-gradient(135deg, #E17055, #fab1a0)"
+  description: "Sistem gelistirme yasam dongusu, analiz ve tasarim metodolojileri."
+
+- id: veri-tabani-yonetim-sistemleri-ii
+  code: "1407404"
+  name: "Veri Tabani Yonetim Sistemleri II"
+  color: "#D63031"
+  gradient: "linear-gradient(135deg, #D63031, #ff7675)"
+  description: "Ileri veritabani konulari, optimizasyon ve yonetim."

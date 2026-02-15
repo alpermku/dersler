@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ozyineleme ve Dinamik Programlama | Ders Takip Portali</title>
+  <meta name="description" content="2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+      </svg>
+      <span class="logo-text">Ders Takip Portali</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="/">Ana Sayfa</a>
+      <a href="/#courses">Dersler</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    
+
+
+<article class="post-page">
+  <div class="post-page-header" style="--accent: #0984E3; --gradient: linear-gradient(135deg, #0984E3, #74b9ff)">
+    <div class="post-page-header-bg"></div>
+    <div class="container post-page-header-content">
+      <nav class="breadcrumbs">
+        <a href="/">Ana Sayfa</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <a href="/courses/algoritma-ve-programlama-ii">Algoritma ve Programlama II</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>Ozyineleme ve Dinamik Programlama</span>
+      </nav>
+      <h1 class="post-page-title">Ozyineleme ve Dinamik Programlama</h1>
+      <div class="post-page-meta">
+        <time datetime="2026-02-16T00:00:00+03:00">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          16 February 2026
+        </time>
+        <span class="meta-divider"></span>
+        <span class="meta-course" style="--accent: #0984E3">Algoritma ve Programlama II</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-body">
+    <div class="container container-narrow">
+      <div class="post-content prose">
+        <p>Bu hafta Algoritma ve Programlama II dersinde ozyineleme (recursion) kavrami ve dinamik programlamaya giris yapiyoruz.</p>
+
+<h2 id="ozyineleme-nedir">Ozyineleme Nedir?</h2>
+
+<p>Ozyineleme, bir fonksiyonun kendisini cagirmasidir. Her ozyinelemeli fonksiyonun iki temel bileseni vardir:</p>
+
+<ol>
+  <li><strong>Temel durum (Base Case):</strong> Fonksiyonun kendisini cagirmayi biraktigi kosul</li>
+  <li><strong>Ozyinelemeli adim:</strong> Fonksiyonun kendisini daha kucuk bir problem ile cagirdigi adim</li>
+</ol>
+
+<h3 id="faktoryel-ornegi">Faktoryel Ornegi</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">faktoriyel</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>       <span class="c1"># Temel durum
+</span>        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">faktoriyel</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Ozyinelemeli adim
+</span></code></pre></div></div>
+
+<h2 id="dinamik-programlama">Dinamik Programlama</h2>
+
+<p>Dinamik programlama, karmasik problemleri daha kucuk alt problemlere bolerek cozen bir tekniktir. Iki temel yaklasim vardir:</p>
+
+<ul>
+  <li><strong>Top-Down (Memoization):</strong> Ozyinelemeli yaklasim + onbellek</li>
+  <li><strong>Bottom-Up (Tabulation):</strong> Iteratif yaklasim + tablo</li>
+</ul>
+
+<h3 id="fibonacci-ornegi">Fibonacci Ornegi</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Memoization ile
+</span><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">memo</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">memo</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="n">memo</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">memo</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">memo</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">memo</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Dinamik programlamanin anahtari: ayni alt problemin tekrar tekrar cozulmesini onlemektir.</p>
+</blockquote>
+
+<p>Gelecek hafta <strong>siralama algoritmalari</strong> konusunu isleyecegiz.</p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-nav">
+    <div class="container container-narrow">
+      <div class="post-nav-grid">
+        
+        <a href="/oyun-programlama/2026/02/16/oyun-programlamaya-giris/" class="post-nav-item prev">
+          <span class="post-nav-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Onceki Gonderi
+          </span>
+          <span class="post-nav-title">Oyun Programlamaya Giris ve Ders Plani</span>
+        </a>
+        
+        
+        <a href="/nesne-tabanli-programlama-ii/2026/02/16/tasarim-desenleri-singleton-ve-factory/" class="post-nav-item next">
+          <span class="post-nav-label">
+            Sonraki Gonderi
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span>
+          <span class="post-nav-title">Tasarim Desenleri: Singleton ve Factory</span>
+        </a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+        <span>Ders Takip Portali</span>
+      </div>
+      <p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 | Tum haklari saklidir.</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

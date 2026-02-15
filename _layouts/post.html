@@ -1,0 +1,74 @@
+---
+layout: default
+---
+
+{% assign course = nil %}
+{% for c in site.data.courses %}
+  {% if page.categories contains c.id %}
+    {% assign course = c %}
+  {% endif %}
+{% endfor %}
+
+<article class="post-page">
+  <div class="post-page-header" style="--accent: {{ course.color }}; --gradient: {{ course.gradient }}">
+    <div class="post-page-header-bg"></div>
+    <div class="container post-page-header-content">
+      <nav class="breadcrumbs">
+        <a href="{{ '/' | relative_url }}">Ana Sayfa</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <a href="{{ '/courses/' | append: course.id | relative_url }}">{{ course.name }}</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>{{ page.title }}</span>
+      </nav>
+      <h1 class="post-page-title">{{ page.title }}</h1>
+      <div class="post-page-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          {{ page.date | date: "%d %B %Y" }}
+        </time>
+        <span class="meta-divider"></span>
+        <span class="meta-course" style="--accent: {{ course.color }}">{{ course.name }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-body">
+    <div class="container container-narrow">
+      <div class="post-content prose">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-nav">
+    <div class="container container-narrow">
+      <div class="post-nav-grid">
+        {% if page.previous.url %}
+        <a href="{{ page.previous.url | relative_url }}" class="post-nav-item prev">
+          <span class="post-nav-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Onceki Gonderi
+          </span>
+          <span class="post-nav-title">{{ page.previous.title }}</span>
+        </a>
+        {% else %}
+        <div></div>
+        {% endif %}
+        {% if page.next.url %}
+        <a href="{{ page.next.url | relative_url }}" class="post-nav-item next">
+          <span class="post-nav-label">
+            Sonraki Gonderi
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span>
+          <span class="post-nav-title">{{ page.next.title }}</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>

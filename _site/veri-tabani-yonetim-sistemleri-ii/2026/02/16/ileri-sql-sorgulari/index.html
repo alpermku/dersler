@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ileri SQL Sorgulari ve Optimizasyon | Ders Takip Portali</title>
+  <meta name="description" content="2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+      </svg>
+      <span class="logo-text">Ders Takip Portali</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="/">Ana Sayfa</a>
+      <a href="/#courses">Dersler</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    
+
+
+<article class="post-page">
+  <div class="post-page-header" style="--accent: #D63031; --gradient: linear-gradient(135deg, #D63031, #ff7675)">
+    <div class="post-page-header-bg"></div>
+    <div class="container post-page-header-content">
+      <nav class="breadcrumbs">
+        <a href="/">Ana Sayfa</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <a href="/courses/veri-tabani-yonetim-sistemleri-ii">Veri Tabani Yonetim Sistemleri II</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>Ileri SQL Sorgulari ve Optimizasyon</span>
+      </nav>
+      <h1 class="post-page-title">Ileri SQL Sorgulari ve Optimizasyon</h1>
+      <div class="post-page-meta">
+        <time datetime="2026-02-16T00:00:00+03:00">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          16 February 2026
+        </time>
+        <span class="meta-divider"></span>
+        <span class="meta-course" style="--accent: #D63031">Veri Tabani Yonetim Sistemleri II</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-body">
+    <div class="container container-narrow">
+      <div class="post-content prose">
+        <p>Bu hafta Veri Tabani Yonetim Sistemleri II dersinde ileri SQL sorgulari ve sorgu optimizasyonu konularini isliyoruz.</p>
+
+<h2 id="alt-sorgular-subqueries">Alt Sorgular (Subqueries)</h2>
+
+<p>Alt sorgular, bir SQL sorgusu icinde yer alan baska bir SQL sorgusudur.</p>
+
+<h3 id="skaler-alt-sorgu">Skaler Alt Sorgu</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">ad</span><span class="p">,</span> <span class="n">soyad</span><span class="p">,</span>
+  <span class="p">(</span><span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">not_ortalamasi</span><span class="p">)</span>
+   <span class="k">FROM</span> <span class="n">notlar</span>
+   <span class="k">WHERE</span> <span class="n">notlar</span><span class="p">.</span><span class="n">ogrenci_id</span> <span class="o">=</span> <span class="n">ogrenciler</span><span class="p">.</span><span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">ortalama</span>
+<span class="k">FROM</span> <span class="n">ogrenciler</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="koreli-correlated-alt-sorgu">Koreli (Correlated) Alt Sorgu</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">ogrenciler</span> <span class="n">o</span>
+<span class="k">WHERE</span> <span class="n">not_ortalamasi</span> <span class="o">&gt;</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">not_ortalamasi</span><span class="p">)</span>
+  <span class="k">FROM</span> <span class="n">ogrenciler</span>
+  <span class="k">WHERE</span> <span class="n">bolum_id</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">bolum_id</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="join-cesitleri">JOIN Cesitleri</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>JOIN Tipi</th>
+      <th>Aciklama</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>INNER JOIN</td>
+      <td>Iki tabloda eslesenleri getirir</td>
+    </tr>
+    <tr>
+      <td>LEFT JOIN</td>
+      <td>Sol tablodaki tum kayitlari getirir</td>
+    </tr>
+    <tr>
+      <td>RIGHT JOIN</td>
+      <td>Sag tablodaki tum kayitlari getirir</td>
+    </tr>
+    <tr>
+      <td>FULL OUTER JOIN</td>
+      <td>Her iki tablodaki tum kayitlari getirir</td>
+    </tr>
+    <tr>
+      <td>CROSS JOIN</td>
+      <td>Kartezyen carpim olusturur</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="sorgu-optimizasyonu">Sorgu Optimizasyonu</h2>
+
+<p>Performansli sorgular yazmak icin dikkat edilmesi gerekenler:</p>
+
+<ol>
+  <li><strong>Index kullanimi:</strong> Sik sorgulanan sutunlara index ekleyin</li>
+  <li><strong>SELECT * kullanmayin:</strong> Sadece gerekli sutunlari secin</li>
+  <li><strong>WHERE kosullari:</strong> Mumkun oldugunca erken filtreleyin</li>
+  <li><strong>EXPLAIN ANALYZE:</strong> Sorgu planini inceleyin</li>
+</ol>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Yavas</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">siparisler</span> <span class="k">WHERE</span> <span class="nb">YEAR</span><span class="p">(</span><span class="n">tarih</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2026</span><span class="p">;</span>
+
+<span class="c1">-- Hizli</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">siparisler</span>
+<span class="k">WHERE</span> <span class="n">tarih</span> <span class="o">&gt;=</span> <span class="s1">'2026-01-01'</span> <span class="k">AND</span> <span class="n">tarih</span> <span class="o">&lt;</span> <span class="s1">'2027-01-01'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Iyi bir veritabani tasarimi, performansli sorgularin temelidir. Normalizasyon kurallarini unutmayin!</p>
+</blockquote>
+
+<p>Gelecek hafta <strong>stored procedures ve triggers</strong> konusunu isleyecegiz.</p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-nav">
+    <div class="container container-narrow">
+      <div class="post-nav-grid">
+        
+        <div></div>
+        
+        
+        <a href="/oyun-programlama/2026/02/16/oyun-programlamaya-giris/" class="post-nav-item next">
+          <span class="post-nav-label">
+            Sonraki Gonderi
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span>
+          <span class="post-nav-title">Oyun Programlamaya Giris ve Ders Plani</span>
+        </a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+        <span>Ders Takip Portali</span>
+      </div>
+      <p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 | Tum haklari saklidir.</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

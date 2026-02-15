@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasarim Desenleri: Singleton ve Factory | Ders Takip Portali</title>
+  <meta name="description" content="2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+      </svg>
+      <span class="logo-text">Ders Takip Portali</span>
+    </a>
+    <nav class="main-nav" id="mainNav">
+      <a href="/">Ana Sayfa</a>
+      <a href="/#courses">Dersler</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+  <main>
+    
+
+
+<article class="post-page">
+  <div class="post-page-header" style="--accent: #00B894; --gradient: linear-gradient(135deg, #00B894, #55efc4)">
+    <div class="post-page-header-bg"></div>
+    <div class="container post-page-header-content">
+      <nav class="breadcrumbs">
+        <a href="/">Ana Sayfa</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <a href="/courses/nesne-tabanli-programlama-ii">Nesne Tabanli Programlama-II</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>Tasarim Desenleri: Singleton ve Factory</span>
+      </nav>
+      <h1 class="post-page-title">Tasarim Desenleri: Singleton ve Factory</h1>
+      <div class="post-page-meta">
+        <time datetime="2026-02-16T00:00:00+03:00">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          16 February 2026
+        </time>
+        <span class="meta-divider"></span>
+        <span class="meta-course" style="--accent: #00B894">Nesne Tabanli Programlama-II</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-body">
+    <div class="container container-narrow">
+      <div class="post-content prose">
+        <p>Bu hafta Nesne Tabanli Programlama-II dersinde iki onemli tasarim desenini inceliyoruz: Singleton ve Factory.</p>
+
+<h2 id="singleton-deseni">Singleton Deseni</h2>
+
+<p>Singleton deseni, bir sinifin yalnizca <strong>tek bir orneginin</strong> olusturulmasini garanti eder ve bu ornege global bir erisim noktasi saglar.</p>
+
+<h3 id="ne-zaman-kullanilir">Ne Zaman Kullanilir?</h3>
+
+<ul>
+  <li>Veritabani baglanti yoneticisi</li>
+  <li>Yapilandirma (configuration) yoneticisi</li>
+  <li>Log servisleri</li>
+</ul>
+
+<h3 id="java-ornegi">Java Ornegi</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DatabaseConnection</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">DatabaseConnection</span> <span class="n">instance</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">DatabaseConnection</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Private constructor</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">DatabaseConnection</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DatabaseConnection</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="factory-deseni">Factory Deseni</h2>
+
+<p>Factory deseni, nesne olusturma islemini soyutlastirarak, istemci kodun hangi sinifin orneklendigini bilmesine gerek kalmadan nesne olusturmasini saglar.</p>
+
+<h3 id="java-ornegi-1">Java Ornegi</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Sekil</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">ciz</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Daire</span> <span class="kd">implements</span> <span class="nc">Sekil</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">ciz</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Daire cizildi"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Kare</span> <span class="kd">implements</span> <span class="nc">Sekil</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">ciz</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Kare cizildi"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SekilFactory</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">Sekil</span> <span class="nf">sekilOlustur</span><span class="o">(</span><span class="nc">String</span> <span class="n">tip</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">tip</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"daire"</span><span class="o">))</span> <span class="k">return</span> <span class="k">new</span> <span class="nc">Daire</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">tip</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"kare"</span><span class="o">))</span> <span class="k">return</span> <span class="k">new</span> <span class="nc">Kare</span><span class="o">();</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Tasarim desenleri, tekrar eden yazilim problemlerine kanitlanmis cozumler sunar.</p>
+</blockquote>
+
+<p>Gelecek hafta <strong>Observer ve Strategy</strong> desenlerini inceleyecegiz.</p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="post-page-nav">
+    <div class="container container-narrow">
+      <div class="post-nav-grid">
+        
+        <a href="/algoritma-ve-programlama-ii/2026/02/16/ozyineleme-ve-dinamik-programlama/" class="post-nav-item prev">
+          <span class="post-nav-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Onceki Gonderi
+          </span>
+          <span class="post-nav-title">Ozyineleme ve Dinamik Programlama</span>
+        </a>
+        
+        
+        <a href="/sistem-analizi-ve-tasarimi/2026/02/16/yazilim-gelistirme-yasam-dongusu/" class="post-nav-item next">
+          <span class="post-nav-label">
+            Sonraki Gonderi
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span>
+          <span class="post-nav-title">Yazilim Gelistirme Yasam Dongusu (SDLC)</span>
+        </a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+  </main>
+  <footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+        <span>Ders Takip Portali</span>
+      </div>
+      <p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 | Tum haklari saklidir.</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

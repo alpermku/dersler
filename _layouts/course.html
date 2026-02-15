@@ -1,0 +1,81 @@
+---
+layout: default
+---
+
+{% assign course = nil %}
+{% for c in site.data.courses %}
+  {% if c.id == page.course_id %}
+    {% assign course = c %}
+  {% endif %}
+{% endfor %}
+
+<section class="course-hero" style="--accent: {{ course.color }}; --gradient: {{ course.gradient }}">
+  <div class="course-hero-bg"></div>
+  <div class="container course-hero-content">
+    <a href="{{ '/' | relative_url }}" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Tum Dersler
+    </a>
+    <div class="course-code-badge">{{ course.code }}</div>
+    <h1 class="course-hero-title">{{ course.name }}</h1>
+    <p class="course-hero-desc">{{ course.description }}</p>
+  </div>
+</section>
+
+<section class="posts-section">
+  <div class="container">
+    {% assign posts = site.categories[page.course_id] %}
+    {% if posts.size > 0 %}
+    <h2 class="posts-section-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+      </svg>
+      Gonderiler
+      <span class="post-count">{{ posts.size }}</span>
+    </h2>
+    <div class="posts-timeline">
+      {% for post in posts %}
+      <article class="post-card animate-in" style="--accent: {{ course.color }}; --delay: {{ forloop.index0 }}">
+        <div class="post-card-date">
+          <span class="pcd-day">{{ post.date | date: "%d" }}</span>
+          <span class="pcd-month">{{ post.date | date: "%b" }}</span>
+          <span class="pcd-year">{{ post.date | date: "%Y" }}</span>
+        </div>
+        <div class="post-card-line">
+          <span class="post-card-dot"></span>
+        </div>
+        <div class="post-card-body">
+          <h3 class="post-card-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h3>
+          <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
+          <a href="{{ post.url | relative_url }}" class="post-card-link">
+            Devamini Oku
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+      </svg>
+      <h3>Henuz gonderi yok</h3>
+      <p>Bu ders icin henuz icerik eklenmemis. Yakinda yeni gonderiler burada yer alacak.</p>
+      <a href="{{ '/' | relative_url }}" class="btn-secondary">Ana Sayfaya Don</a>
+    </div>
+    {% endif %}
+  </div>
+</section>

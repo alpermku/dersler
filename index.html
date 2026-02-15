@@ -1,0 +1,90 @@
+---
+layout: default
+title: Ana Sayfa
+---
+
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+  </div>
+  <div class="hero-grid-overlay"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">2025-2026 Bahar Donemi</div>
+    <h1 class="hero-title">Ders Takip<br><span class="hero-title-accent">Portali</span></h1>
+    <p class="hero-desc">Ders iceriklerini takip edin, haftalik konulari inceleyin ve guncel kalin. Tum ders materyalleri ve duyurular tek bir yerde.</p>
+    <a href="#courses" class="hero-cta">
+      Dersleri Goruntule
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<section class="courses-section" id="courses">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Dersler</h2>
+      <p class="section-subtitle">Bu donem verilen derslerin listesi. Detaylar ve gonderiler icin bir derse tiklayin.</p>
+    </div>
+    <div class="courses-grid">
+      {% for course in site.data.courses %}
+      <a href="{{ '/courses/' | append: course.id | relative_url }}" class="course-card animate-in" style="--accent: {{ course.color }}; --gradient: {{ course.gradient }}; --delay: {{ forloop.index0 }}">
+        <div class="card-accent-bar"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-code">{{ course.code }}</span>
+            {% assign post_count = site.categories[course.id] | size %}
+            {% if post_count > 0 %}
+            <span class="card-badge">{{ post_count }} gonderi</span>
+            {% endif %}
+          </div>
+          <h3 class="card-title">{{ course.name }}</h3>
+          <p class="card-desc">{{ course.description }}</p>
+          <div class="card-footer">
+            <span class="card-link">Detaylari Gor</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="recent-posts-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Son Gonderiler</h2>
+      <p class="section-subtitle">Tum derslerden en son eklenen icerikler.</p>
+    </div>
+    <div class="recent-posts-list">
+      {% for post in site.posts limit:5 %}
+      {% assign course = nil %}
+      {% for c in site.data.courses %}
+        {% if post.categories contains c.id %}
+          {% assign course = c %}
+        {% endif %}
+      {% endfor %}
+      <a href="{{ post.url | relative_url }}" class="recent-post-item animate-in" style="--accent: {{ course.color }}; --delay: {{ forloop.index0 }}">
+        <div class="rpi-accent"></div>
+        <div class="rpi-content">
+          <div class="rpi-top">
+            <span class="rpi-course" style="--accent: {{ course.color }}">{{ course.name }}</span>
+            <time class="rpi-date">{{ post.date | date: "%d %b %Y" }}</time>
+          </div>
+          <h3 class="rpi-title">{{ post.title }}</h3>
+          <p class="rpi-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+        </div>
+        <svg class="rpi-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
