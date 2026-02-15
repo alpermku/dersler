@@ -1,0 +1,19 @@
+title: Ders Takip Portali
+description: 2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari
+baseurl: "/dersler"
+url: ""
+lang: tr
+timezone: Europe/Istanbul
+future: true
+
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:year/:month/:day/:title/
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
+  - .gitignore
+  - vendor
