@@ -24,17 +24,15 @@ Derslerimizde asagidaki araclari kullanacagiz:
 
 ```
 - Unity veya Godot Engine
-- Visual Studio Code
-- Git versiyon kontrol sistemi
+- İhtiyaç duyulduğubda git versiyon kontrol sistemi
 ```
 
 ## Degerlendirme
 
 | Kriter | Oran |
 |--------|------|
-| Ara Sinav | %30 |
-| Proje | %40 |
-| Final | %30 |
+| Ara Sinav | %40 |
+| Final | %60 |
 
 > Dersin amaci sadece kod yazmak degil, oyun tasarimi dusuncesini gelistirmektir.
 
