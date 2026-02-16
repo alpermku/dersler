@@ -23,7 +23,7 @@ Derslerimizde asagidaki araclari kullanacagiz:
 
 ```
 - Unity
-- İhtiyaç duyulduğubda git versiyon kontrol sistemi
+- İhtiyaç duyulduğunda git versiyon kontrol sistemi
 ```
 
 ## Degerlendirme
