@@ -500,6 +500,9 @@ img {
   transition: var(--transition);
   opacity: 0;
   transform: translateX(-20px);
+  overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .recent-post-item.visible {
@@ -1467,4 +1470,16 @@ img {
   word-break: break-word;
   overflow-wrap: break-word;
   min-width: 0;
+  overflow: hidden;
+}
+
+.rpi-title, .rpi-excerpt, .rpi-top {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-posts-list {
+  max-width: 100%;
+  overflow: hidden;
 }
