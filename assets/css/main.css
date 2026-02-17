@@ -552,17 +552,23 @@ img {
   font-weight: 600;
   color: var(--text);
   margin-bottom: 4px;
-  white-space: nowrap;
+  /* Multi-line clamp instead of single line */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.4;
 }
 
 .rpi-excerpt {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  white-space: nowrap;
+  /* Multi-line clamp */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.5;
 }
 
 .rpi-arrow {
