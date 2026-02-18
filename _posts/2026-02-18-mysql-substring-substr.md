@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MySQL'de Metin Parçalama: SUBSTRING ve SUBSTR Fonksiyonları"
-date: 2026-02-18
+date: 2026-02-18 11:15:00 +0300
 categories: veri-tabani-yonetim-sistemleri-ii
 course_id: veri-tabani-yonetim-sistemleri-ii
 tags: [sql, mysql, substring, substr, string-fonksiyonlari]

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Tehlikeli Sular: C Dilinde Dizi Sınır İhlali (Array Out of Bounds)"
-date: 2026-02-18
+date: 2026-02-18 09:45:00 +0300
 categories: algoritma-ve-programlama-ii
 course_id: algoritma-ve-programlama-ii
 tags: [c-programlama, diziler, hata-yonetimi, buffer-overflow, guvenlik]

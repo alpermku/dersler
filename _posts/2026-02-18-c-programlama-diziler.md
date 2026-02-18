@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Algoritma ve Programlama II: C Programlama Dilinde Diziler"
-date: 2026-02-18
+date: 2026-02-18 09:00:00 +0300
 categories: algoritma-ve-programlama-ii
 course_id: algoritma-ve-programlama-ii
 tags: [c-programlama, diziler, veri-yapilari, algoritma]

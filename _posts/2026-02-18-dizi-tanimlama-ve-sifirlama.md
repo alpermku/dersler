@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "C Dilinde Dizi Tanımlama, Değer Atama ve Sıfırlama Yöntemleri"
-date: 2026-02-18
+date: 2026-02-18 09:15:00 +0300
 categories: algoritma-ve-programlama-ii
 course_id: algoritma-ve-programlama-ii
 tags: [c-programlama, diziler, baslangic-degeri, sifirlama]

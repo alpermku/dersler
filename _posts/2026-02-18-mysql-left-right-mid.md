@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Metinleri Kesip Biçmek: LEFT, RIGHT ve MID Fonksiyonları"
-date: 2026-02-18
+date: 2026-02-18 11:30:00 +0300
 categories: veri-tabani-yonetim-sistemleri-ii
 course_id: veri-tabani-yonetim-sistemleri-ii
 tags: [sql, mysql, left, right, mid, string-fonksiyonlari]

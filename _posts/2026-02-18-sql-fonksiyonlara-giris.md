@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SQL Fonksiyonlarına Giriş: Veriyi İşlemenin Akıllı Yolu"
-date: 2026-02-18
+date: 2026-02-18 11:00:00 +0300
 categories: veri-tabani-yonetim-sistemleri-ii
 course_id: veri-tabani-yonetim-sistemleri-ii
 tags: [sql, mysql, fonksiyonlar, string-fonksiyonlari, concat, concat_ws]

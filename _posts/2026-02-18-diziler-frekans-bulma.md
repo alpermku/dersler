@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dizilerin Gücü: İf-Else Zincirinden Kurtulmak ve Frekans (Histogram) Hesabı"
-date: 2026-02-18
+date: 2026-02-18 10:15:00 +0300
 categories: algoritma-ve-programlama-ii
 course_id: algoritma-ve-programlama-ii
 tags: [c-programlama, diziler, optimizasyon, histogram, frekans]

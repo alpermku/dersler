@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Uygulama: Dizilerde Döngü Kullanımı (Okuma ve Sıfırlama)"
-date: 2026-02-18
+date: 2026-02-18 09:30:00 +0300
 categories: algoritma-ve-programlama-ii
 course_id: algoritma-ve-programlama-ii
 tags: [c-programlama, diziler, donguler, for-dongusu]

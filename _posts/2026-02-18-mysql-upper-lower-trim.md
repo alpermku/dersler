@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Veri Temizliği: UPPER, LOWER ve TRIM Fonksiyonları ile Veriyi Düzenlemek"
-date: 2026-02-18
+date: 2026-02-18 11:45:00 +0300
 categories: veri-tabani-yonetim-sistemleri-ii
 course_id: veri-tabani-yonetim-sistemleri-ii
 tags: [sql, mysql, upper, lower, trim, ltrim, rtrim, string-fonksiyonlari]

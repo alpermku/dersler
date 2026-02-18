@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "C Dilinde Sabitler ve #define Kullanımı: Neden Hayat Kurtarır?"
-date: 2026-02-18
+date: 2026-02-18 10:00:00 +0300
 categories: algoritma-ve-programlama-ii
 course_id: algoritma-ve-programlama-ii
 tags: [c-programlama, define, makrolar, temiz-kod, sabitler]
