@@ -101,4 +101,130 @@ SELECT CONCAT_WS(', ', mahalle, sokak, no, ilce, il) AS TamAdres FROM adresler;
 *   **CONCAT**, metinleri yapıştırır (`NULL` varsa sonuç yok olur).
 *   **CONCAT_WS**, araya ayraç koyarak birleştirir (`NULL` güvenlidir).
 
-Bir sonraki dersimizde, metinlerin parçalanması (`SUBSTRING`) ve değiştirilmesi (`REPLACE`) konularına değineceğiz.
+---
+
+## Metin Analizi ve Dönüştürme Fonksiyonları
+
+Veriyi sadece birleştirmek yetmez; bazen içini ölçmek, değiştirmek veya içinde arama yapmak gerekir. İşte bu işler için el aletlerimiz:
+
+### 3. LENGTH (Uzunluk Ölçme)
+
+Bir metnin (veya sütundaki verinin) kaç karakterden oluştuğunu verir. Boşluklar da karakter sayılır!
+
+**Neden Kullanırız?**
+*   Veri temizliği: "TC Kimlik No 11 haneli mi?" kontrolü için.
+*   Kısıtlama kontrolü: "Kullanıcı adı çok kısa mı?"
+
+**Kullanımı:**
+```sql
+LENGTH(metin)
+```
+
+**Örnek:**
+```sql
+SELECT LENGTH('Veri Tabanı');
+-- Çıktı: 11 (Boşluk dahil!)
+```
+
+**Pratik Örnek:**
+```sql
+-- Telefon numarası 10 haneden eksik/fazla olan hatalı kayıtları bul:
+SELECT * FROM musteriler WHERE LENGTH(telefon) != 10;
+```
+
+---
+
+### 4. REPLACE (Bul ve Değiştir)
+
+Bir metnin içindeki belirli bir ifadeyi bulup, başka bir ifadeyle değiştirir. Tıpkı Word'deki "Bul ve Değiştir" gibi.
+
+**Neden Kullanırız?**
+*   Veri standardizasyonu: "İst" yazanları "İstanbul" yapmak için.
+*   Hatalı karakter temizliği: Telefon numaralarındaki boşlukları veya tireleri kaldırmak için.
+
+**Kullanımı:**
+```sql
+REPLACE(metin, 'aranan', 'yeni_deger')
+```
+
+**Örnek:**
+```sql
+SELECT REPLACE('Veri Tabanı Yönetimi', ' ', '_');
+-- Çıktı: Veri_Tabanı_Yönetimi (Boşluklar alt tire oldu)
+```
+
+**Pratik Örnek:**
+```sql
+-- Telefon numaralarındaki tireleri temizle:
+UPDATE musteriler SET telefon = REPLACE(telefon, '-', '');
+-- '555-123-4567' -> '5551234567' olur.
+```
+
+---
+
+### 5. INSTR (Konum Bulma - In String)
+
+Bir metnin içinde, başka bir metnin **kaçıncı karakterden başladığını** verir. Eğer bulamazsa `0` döner.
+
+**Neden Kullanırız?**
+*   E-posta adresi geçerli mi? (İçinde '@' var mı?)
+*   Bir metni belirli bir karakterden bölmek için o karakterin yerini bulmada.
+
+**Kullanımı:**
+```sql
+INSTR(ana_metin, 'aranan_metin')
+```
+
+**Örnek:**
+```sql
+SELECT INSTR('bilgi@alyaka.com', '@');
+-- Çıktı: 6 (Altıncı karakter '@' işareti)
+```
+
+**Pratik Örnek:**
+```sql
+-- E-posta adresinde '@' işareti olmayan (hatalı) kayıtları bul:
+SELECT * FROM uyeler WHERE INSTR(email, '@') = 0;
+```
+
+---
+
+### 6. REVERSE (Ters Çevirme)
+
+Adı üzerinde, metni aynadan yansımış gibi ters çevirir.
+
+**Neden Kullanırız?**
+*   Genellikle veri şifreleme veya karmaşık string manipülasyonlarında yardımcı olarak kullanılır.
+*   Palindrom (tersten okunuşu aynı olan) kelime kontrolü.
+*   Dosya uzantısı bulma (Bazen dosya adını ters çevirip ilk noktayı bulmak daha kolaydır).
+
+**Kullanımı:**
+```sql
+REVERSE(metin)
+```
+
+**Örnek:**
+```sql
+SELECT REVERSE('Veri');
+-- Çıktı: ireV
+```
+
+**Pratik Örnek (Eğlenceli):**
+```sql
+-- Adı tersten de aynı olan (palindrom) müşterileri bul (Örn: Ece, Ada):
+SELECT ad FROM musteriler WHERE ad = REVERSE(ad);
+```
+
+---
+
+## Özet
+
+Bu derste heybemize şunları kattık:
+
+*   **LENGTH**: "Bu veri ne kadar uzun?" (Doğrulama için birebir).
+*   **REPLACE**: "Bunu şununla değiştir." (Temizlik işleri).
+*   **INSTR**: "Aradığım şey nerede?" (Konum bulma).
+*   **REVERSE**: "Ters çevir." (Simetri ve ileri düzey işlemler).
+
+Bir sonraki dersimizde, metinlerin içinden parça koparmamızı sağlayan `SUBSTRING` ve `LEFT/RIGHT` fonksiyonlarına dalacağız. Hazır olun, cerrahi operasyon yapacağız! 🔪
+
