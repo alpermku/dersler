@@ -1,42 +1,42 @@
 ---
 layout: post
-title: "Java'da Paket Yonetimi: Katmanli Mimari ile Telefon Rehberi Ornegi"
+title: "Java'da Paket Yönetimi: Katmanlı Mimari ile Telefon Rehberi Örneği"
 date: 2026-02-23
 categories: nesne-tabanli-programlama-ii
 ---
 
-Bu derste Java'da **paket (package) yonetimi** konusunu, gercek hayata yakin bir **Telefon Rehberi** uygulamasi uzerinden detayli inceleyecegiz.
+Bu derste Java'da **paket (package) yönetimi** konusunu, gerçek hayata yakın bir **Telefon Rehberi** uygulaması üzerinden detaylı inceleyeceğiz.
 
-Amacimiz sadece `package` yazmayi ogrenmek degil; kodu **duzenli, bakimi kolay ve buyumeye uygun** sekilde nasil organize edecegimizi kavramak.
+Amacımız sadece `package` yazmayı öğrenmek değil; kodu **düzenli, bakımı kolay ve büyümeye uygun** şekilde nasıl organize edeceğimizi kavramak.
 
 ## Paket (Package) Nedir?
 
-Paket, Java'da siniflari mantiksal olarak grupladigimiz isim alanidir (namespace).
+Paket, Java'da sınıfları mantıksal olarak grupladığımız isim alanıdır (namespace).
 
-Paket kullanmanin faydalari:
+Paket kullanmanın faydaları:
 
-- Sinif isim cakismalarini onler
-- Kod tabanini moduler hale getirir
-- Takim calismasinda duzen saglar
-- Katmanli mimari kurmayi kolaylastirir
+- Sınıf isim çakışmalarını önler
+- Kod tabanını modüler hâle getirir
+- Takım çalışmasında düzen sağlar
+- Katmanlı mimari kurmayı kolaylaştırır
 
 ## Neden Paketleme Gerekli?
 
-Kucuk bir projede tum siniflari tek klasore atmak ilk basta kolay gorunur. Ama proje buyudukce su sorunlar baslar:
+Küçük bir projede tüm sınıfları tek klasöre atmak ilk başta kolay görünür. Ama proje büyüdükçe şu sorunlar başlar:
 
-- Hangi sinif ne ise yariyor belli olmaz
-- UI, is kurallari ve veri erisim kodu birbirine girer
-- Test yazmak ve hata ayiklamak zorlasir
+- Hangi sınıf ne işe yarıyor belli olmaz
+- UI, iş kuralları ve veri erişim kodu birbirine girer
+- Test yazmak ve hata ayıklamak zorlaşır
 
-Cozum: Baslangictan itibaren dogru paket yapisi.
+Çözüm: Başlangıçtan itibaren doğru paket yapısı.
 
-## Ornek Senaryo: Telefon Rehberi Uygulamasi
+## Örnek Senaryo: Telefon Rehberi Uygulaması
 
-Kurumsal bir yapi dusunelim. Ana paketimiz:
+Kurumsal bir yapı düşünelim. Ana paketimiz:
 
 `com.firmaadi.rehber`
 
-Bunun altinda katmanlara gore alt paketler olusturalim.
+Bunun altında katmanlara göre alt paketler oluşturalım.
 
 ```text
 com/firmaadi/rehber/
@@ -54,57 +54,57 @@ com/firmaadi/rehber/
       └── Main.java
 ```
 
-## Paketlerin Sorumluluklari
+## Paketlerin Sorumlulukları
 
 ### 1) `ui` paketi
 
-Kullanicidan girdi alma ve cikti gosterme katmanidir.
+Kullanıcıdan girdi alma ve çıktı gösterme katmanıdır.
 
-- Ekrana yazdirma
-- Menu gosterme
-- Kullanici secimlerini alma
+- Ekrana yazdırma
+- Menü gösterme
+- Kullanıcı seçimlerini alma
 
-> UI katmani is kurali yazmaz; sadece kullanici ile etkilesimi yonetir.
+> UI katmanı iş kuralı yazmaz; sadece kullanıcı ile etkileşimi yönetir.
 
 ### 2) `domain` paketi
 
-Sistemin cekirdek varliklarini (entity/model) tutar.
+Sistemin çekirdek varlıklarını (entity/model) tutar.
 
 - `Kisi`
 - `Adres`
 - `Telefon` (gerekiyorsa)
 
-Bu siniflar alanlar (fields), constructor, getter/setter ve temel davranislari barindirir.
+Bu sınıflar alanlar (fields), constructor, getter/setter ve temel davranışları barındırır.
 
 ### 3) `service` paketi
 
-Is kurallarinin oldugu yerdir.
+İş kurallarının olduğu yerdir.
 
-- Kisi ekleme
-- Kisi silme
-- Numaraya gore arama
-- Is kurali validasyonlari
+- Kişi ekleme
+- Kişi silme
+- Numaraya göre arama
+- İş kuralı doğrulamaları
 
 ### 4) `repository` paketi
 
-Veri saklama/erisimi burada toplanir.
+Veri saklama/erişim burada toplanır.
 
 - Bellekte liste
-- Dosya tabanli saklama
-- Veritabani baglantisi
+- Dosya tabanlı saklama
+- Veritabanı bağlantısı
 
 ### 5) `exception` paketi
 
-Projeye ozel hata tipleri burada bulunur.
+Projeye özel hata tipleri burada bulunur.
 
 - `KisiBulunamadiException`
 - `GecersizTelefonException`
 
 ### 6) `app` paketi
 
-Uygulamanin giris noktasi (`main`) bu pakette tutulur.
+Uygulamanın giriş noktası (`main`) bu pakette tutulur.
 
-## Kod Ornegi - Domain Sinifi
+## Kod Örneği - Domain Sınıfı
 
 `com.firmaadi.rehber.domain.Kisi`
 
@@ -135,7 +135,7 @@ public class Kisi {
 }
 ```
 
-## Kod Ornegi - Repository Katmani
+## Kod Örneği - Repository Katmanı
 
 `com.firmaadi.rehber.repository.KisiRepository`
 
@@ -159,7 +159,7 @@ public class KisiRepository {
 }
 ```
 
-## Kod Ornegi - Service Katmani
+## Kod Örneği - Service Katmanı
 
 `com.firmaadi.rehber.service.RehberService`
 
@@ -179,10 +179,10 @@ public class RehberService {
 
     public void kisiEkle(String ad, String telefon) {
         if (ad == null || ad.isBlank()) {
-            throw new IllegalArgumentException("Ad bos olamaz");
+            throw new IllegalArgumentException("Ad boş olamaz");
         }
         if (telefon == null || telefon.isBlank()) {
-            throw new IllegalArgumentException("Telefon bos olamaz");
+            throw new IllegalArgumentException("Telefon boş olamaz");
         }
         repository.ekle(new Kisi(ad, telefon));
     }
@@ -193,7 +193,7 @@ public class RehberService {
 }
 ```
 
-## Kod Ornegi - UI Katmani
+## Kod Örneği - UI Katmanı
 
 `com.firmaadi.rehber.ui.RehberConsoleUI`
 
@@ -212,7 +212,7 @@ public class RehberConsoleUI {
     }
 
     public void demoCalistir() {
-        service.kisiEkle("Ayse", "05001112233");
+        service.kisiEkle("Ayşe", "05001112233");
         service.kisiEkle("Mehmet", "05004445566");
 
         List<Kisi> kisiler = service.tumKisiler();
@@ -223,7 +223,7 @@ public class RehberConsoleUI {
 }
 ```
 
-## Kod Ornegi - Main (Giris Noktasi)
+## Kod Örneği - Main (Giriş Noktası)
 
 `com.firmaadi.rehber.app.Main`
 
@@ -245,54 +245,54 @@ public class Main {
 }
 ```
 
-## Import Mantigi ve Bagimlilik Yonetimi
+## Import Mantığı ve Bağımlılık Yönetimi
 
-Paketleme yaparken su kurali benimseyin:
+Paketleme yaparken şu kuralı benimseyin:
 
-- `ui` -> `service` kullanir
-- `service` -> `repository` ve `domain` kullanir
-- `repository` -> `domain` kullanir
-- `domain` mumkun oldugunca bagimsiz kalir
+- `ui` -> `service` kullanır
+- `service` -> `repository` ve `domain` kullanır
+- `repository` -> `domain` kullanır
+- `domain` mümkün olduğunca bağımsız kalır
 
-Bu bagimlilik yonu tersine donerse (or. domain'in ui'ya baglanmasi) mimari bozulur.
+Bu bağımlılık yönü tersine dönerse (ör. domain'in ui'ya bağlanması) mimari bozulur.
 
-## Sik Yapilan Hatalar
+## Sık Yapılan Hatalar
 
-1. Tum siniflari tek pakette toplamak
-2. `util` paketini cop kutusuna cevirmek
-3. UI katmaninda veritabani kodu yazmak
-4. Service katmanini atlayip dogrudan repository kullanmak
-5. Paket isimlerinde buyuk harf veya Turkce karakter kullanmak
+1. Tüm sınıfları tek pakette toplamak
+2. `util` paketini çöp kutusuna çevirmek
+3. UI katmanında veritabanı kodu yazmak
+4. Service katmanını atlayıp doğrudan repository kullanmak
+5. Paket isimlerinde büyük harf veya Türkçe karakter kullanmak
 
-## Paket Isimlendirme Kurallari
+## Paket İsimlendirme Kuralları
 
-Java'da yaygin konvansiyon:
+Java'da yaygın konvansiyon:
 
-- Tamami kucuk harf
-- Sirket/alan adinin tersinden baslar
-- Anlamli alt paketler kullanilir
+- Tamamı küçük harf
+- Şirket/alan adının tersinden başlar
+- Anlamlı alt paketler kullanılır
 
-Ornek:
+Örnek:
 
 - `com.firmaadi.rehber`
 - `com.universite.obs.ogrenci`
 - `org.ornek.proje.service`
 
-## Kisa Odev
+## Kısa Ödev
 
-Asagidaki paketleri olusturup mini bir rehber uygulamasi yazin:
+Aşağıdaki paketleri oluşturup mini bir rehber uygulaması yazın:
 
 1. `domain` -> `Kisi` (ad, soyad, telefon)
 2. `repository` -> `KisiRepository` (listeye ekle, listele)
-3. `service` -> `RehberService` (ad bos ise hata ver)
-4. `ui` -> Konsolda menu bastirin
-5. `app` -> `Main` ile uygulamayi calistirin
+3. `service` -> `RehberService` (ad boş ise hata ver)
+4. `ui` -> Konsolda menü bastırın
+5. `app` -> `Main` ile uygulamayı çalıştırın
 
-Ek gorev: `exception` paketinde `KisiZatenVarException` sinifi tanimlayin.
+Ek görev: `exception` paketinde `KisiZatenVarException` sınıfı tanımlayın.
 
-## Ozet
+## Özet
 
-- Paket yonetimi, buyuk projelerde duzeni korumanin temelidir.
-- `com.firmaadi.rehber` gibi ana paket altinda katmanlara ayrim yapmak profesyonel yaklasimdir.
-- UI, domain, service, repository ayrimi hem okunabilirligi hem test edilebilirligi ciddi artirir.
-- Telefon rehberi gibi kucuk bir ornek bile dogru paketleme ile kurumsal kaliteye yaklasir.
+- Paket yönetimi, büyük projelerde düzeni korumanın temelidir.
+- `com.firmaadi.rehber` gibi ana paket altında katmanlara ayrım yapmak profesyonel yaklaşımdır.
+- UI, domain, service, repository ayrımı hem okunabilirliği hem test edilebilirliği ciddi artırır.
+- Telefon rehberi gibi küçük bir örnek bile doğru paketleme ile kurumsal kaliteye yaklaşır.
