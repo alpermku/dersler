@@ -126,6 +126,34 @@ public class Main {
 
 > Not: Eski JDBC orneklerinde `Class.forName(...)` kullanimi yaygindi.
 
+### 4) `Class.forName` ile static blogu tetikleme (sizin orneginiz)
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        try {
+            Class.forName("StaticBlock");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class StaticBlock {
+    static {
+        System.out.println("Statik Blok Calisti");
+    }
+}
+```
+
+Beklenen cikti:
+
+```text
+Statik Blok Calisti
+```
+
+Bu ornekte `new StaticBlock()` cagrisi yoktur. Buna ragmen `Class.forName("StaticBlock")` sinifi yukledigi icin static blok calisir.
+
 ## Birden Fazla Static Blok
 
 Ayni sinifta birden fazla static blok olabilir. **Yazildigi siraya gore** calisir.
