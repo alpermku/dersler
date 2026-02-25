@@ -4,7 +4,7 @@ title: "Çok Boyutlu Diziler — Düz Çizgiden Tabloya, Tablodan Matrise"
 date: 2026-02-25
 categories: algoritma-ve-programlama-ii
 ---
-
+{% raw %}
 Şimdiye kadar dizileri **tek sıra halinde** öğrendik: bir raf düşünün, üstünde yan yana duran kutular. Bugün o rafı **dolaba** çeviriyoruz — satırlar ve sütunlar, Excel tabloları, piksel gridleri, sınıf not çizelgeleri. C dilinde çok boyutlu dizilere hoş geldiniz.
 
 > ☕ **Uyarı:** Bu konu "iki tane indeks mi olur ya?" diye başlar, "bellekte nasıl düz sıra oluyor?!" diye biter. Kahveniz hazırsa başlayalım.
@@ -739,3 +739,4 @@ for (i = 0; i < 4; i++)
 4. Sinema salonu örneğindeki `salon` dizisine kullanıcıdan sıra ve koltuk numarası alıp, boşsa dolduran bir **rezervasyon sistemi** ekleyin. Dizi sınır kontrolü yapmayı unutmayın!
 
 5. **Bonus:** `int d[2][3]` dizisinin elemanlarını tek bir `for` döngüsüyle (iç içe olmadan) yazdırabilir misiniz? (İpucu: Bölüm 6'daki bellek düzeni bilgisini kullanın.)
+{% endraw %}
