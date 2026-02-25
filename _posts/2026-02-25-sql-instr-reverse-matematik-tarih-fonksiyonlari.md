@@ -701,6 +701,231 @@ GROUP BY EXTRACT(QUARTER FROM islem_tarihi);
 | `CURDATE()` | Şu anki tarih | 2026-02-25 |
 | `CURTIME()` | Şu anki saat | 13:45:30 |
 | `EXTRACT(X FROM tarih)` | Tarihten bileşen çıkarma | EXTRACT(YEAR FROM ...) → 2026 |
+| `DATEDIFF(t1, t2)` | İki tarih arası gün farkı | DATEDIFF('2026-03-01', '2026-02-25') → 4 |
+| `DATE_ADD(tarih, INTERVAL)` | Tarihe ekleme | DATE_ADD('2026-02-25', INTERVAL 7 DAY) → 2026-03-04 |
+| `DATE_SUB(tarih, INTERVAL)` | Tarihten çıkarma | DATE_SUB('2026-02-25', INTERVAL 1 MONTH) → 2026-01-25 |
+
+---
+
+## 10. DATEDIFF, DATE_ADD, DATE_SUB — Tarih Aritmetiği
+
+Tarihlerle toplama, çıkarma ve fark hesabı — iş dünyasında **her gün** karşınıza çıkar: vade hesaplama, üyelik süresi, gecikme günü, kampanya bitiş tarihi...
+
+### 10.1 DATEDIFF — İki Tarih Arasındaki Gün Farkı
+
+```sql
+DATEDIFF(tarih1, tarih2)
+```
+
+`tarih1 - tarih2` işlemini yapar ve sonucu **gün** cinsinden döndürür:
+
+```sql
+SELECT DATEDIFF('2026-03-01', '2026-02-25');
+-- Sonuç: 4
+
+SELECT DATEDIFF('2026-02-25', '2026-03-01');
+-- Sonuç: -4 (tarih2 daha ileride → negatif)
+
+SELECT DATEDIFF('2026-12-31', '2026-01-01');
+-- Sonuç: 364
+```
+
+> ⚠️ **Dikkat:** Parametre sırası önemli! `DATEDIFF(büyük_tarih, küçük_tarih)` → pozitif sonuç. Tersini yazarsanız negatif döner.
+
+**Pratik kullanımlar:**
+
+**Fatura gecikme günü:**
+
+```sql
+SELECT
+    fatura_no,
+    vade_tarihi,
+    CURDATE() AS bugun,
+    DATEDIFF(CURDATE(), vade_tarihi) AS gecikme_gunu
+FROM faturalar
+WHERE DATEDIFF(CURDATE(), vade_tarihi) > 0;
+```
+
+| fatura_no | vade_tarihi | bugun | gecikme_gunu |
+|---|---|---|---|
+| F001 | 2026-02-10 | 2026-02-25 | 15 |
+| F003 | 2026-02-20 | 2026-02-25 | 5 |
+
+Sadece gecikmiş faturaları (`> 0`) getiriyoruz. Muhasebe departmanının en sevdiği sorgu!
+
+**Üyelik süresi hesaplama:**
+
+```sql
+SELECT
+    ad,
+    kayit_tarihi,
+    DATEDIFF(CURDATE(), kayit_tarihi) AS uyelik_gunu,
+    FLOOR(DATEDIFF(CURDATE(), kayit_tarihi) / 365) AS uyelik_yili
+FROM musteriler;
+```
+
+**Sipariş teslimat süresi:**
+
+```sql
+SELECT
+    siparis_no,
+    siparis_tarihi,
+    teslim_tarihi,
+    DATEDIFF(teslim_tarihi, siparis_tarihi) AS teslimat_suresi
+FROM siparisler;
+```
+
+**Ortalama teslimat süresi:**
+
+```sql
+SELECT AVG(DATEDIFF(teslim_tarihi, siparis_tarihi)) AS ort_teslimat_gunu
+FROM siparisler
+WHERE teslim_tarihi IS NOT NULL;
+```
+
+### 10.2 DATE_ADD — Tarihe Ekleme
+
+```sql
+DATE_ADD(tarih, INTERVAL deger birim)
+```
+
+Bir tarihe belirli bir süre ekler:
+
+```sql
+SELECT DATE_ADD('2026-02-25', INTERVAL 7 DAY);
+-- Sonuç: 2026-03-04
+
+SELECT DATE_ADD('2026-02-25', INTERVAL 3 MONTH);
+-- Sonuç: 2026-05-25
+
+SELECT DATE_ADD('2026-02-25', INTERVAL 1 YEAR);
+-- Sonuç: 2027-02-25
+
+SELECT DATE_ADD('2026-02-25 14:30:00', INTERVAL 2 HOUR);
+-- Sonuç: 2026-02-25 16:30:00
+```
+
+**Kullanılabilir INTERVAL birimleri:**
+
+| Birim | Açıklama | Örnek |
+|---|---|---|
+| `DAY` | Gün | `INTERVAL 30 DAY` |
+| `WEEK` | Hafta | `INTERVAL 2 WEEK` |
+| `MONTH` | Ay | `INTERVAL 6 MONTH` |
+| `YEAR` | Yıl | `INTERVAL 1 YEAR` |
+| `HOUR` | Saat | `INTERVAL 8 HOUR` |
+| `MINUTE` | Dakika | `INTERVAL 45 MINUTE` |
+| `SECOND` | Saniye | `INTERVAL 30 SECOND` |
+
+**Pratik kullanımlar:**
+
+**Fatura vade tarihi hesaplama:**
+
+```sql
+-- Sipariş tarihinden 30 gün sonra vade
+SELECT
+    siparis_no,
+    siparis_tarihi,
+    DATE_ADD(siparis_tarihi, INTERVAL 30 DAY) AS vade_tarihi
+FROM siparisler;
+```
+
+**Kampanya bitiş tarihi:**
+
+```sql
+-- Bugünden 2 hafta sonra biten kampanya
+SELECT DATE_ADD(CURDATE(), INTERVAL 2 WEEK) AS kampanya_bitis;
+-- Sonuç: 2026-03-11
+```
+
+**Deneme süresi kontrolü (30 günlük trial):**
+
+```sql
+SELECT ad, kayit_tarihi,
+       DATE_ADD(kayit_tarihi, INTERVAL 30 DAY) AS trial_bitis
+FROM kullanicilar
+WHERE DATE_ADD(kayit_tarihi, INTERVAL 30 DAY) < CURDATE();
+-- Trial süresi dolmuş kullanıcılar
+```
+
+### 10.3 DATE_SUB — Tarihten Çıkarma
+
+```sql
+DATE_SUB(tarih, INTERVAL deger birim)
+```
+
+`DATE_ADD`'in tam tersi — tarihten süre çıkarır:
+
+```sql
+SELECT DATE_SUB('2026-02-25', INTERVAL 7 DAY);
+-- Sonuç: 2026-02-18
+
+SELECT DATE_SUB('2026-02-25', INTERVAL 1 MONTH);
+-- Sonuç: 2026-01-25
+
+SELECT DATE_SUB('2026-02-25', INTERVAL 1 YEAR);
+-- Sonuç: 2025-02-25
+```
+
+> 💡 **İpucu:** `DATE_SUB(tarih, INTERVAL 7 DAY)` ile `DATE_ADD(tarih, INTERVAL -7 DAY)` aynı sonucu verir. Ama okunabilirlik açısından çıkarma için `DATE_SUB`, ekleme için `DATE_ADD` kullanmak daha temiz.
+
+**Pratik kullanımlar:**
+
+**Son 7 günün siparişleri:**
+
+```sql
+SELECT *
+FROM siparisler
+WHERE siparis_tarihi >= DATE_SUB(CURDATE(), INTERVAL 7 DAY);
+```
+
+Bu sorgu "son 1 hafta" demektir. Çok yaygın bir iş raporlama kalıbı.
+
+**Son 3 aydaki aktif müşteriler:**
+
+```sql
+SELECT DISTINCT musteri_id
+FROM siparisler
+WHERE siparis_tarihi >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH);
+```
+
+**Geçen yılın aynı dönemiyle karşılaştırma:**
+
+```sql
+SELECT
+    SUM(CASE WHEN siparis_tarihi >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+             THEN tutar ELSE 0 END) AS bu_ay,
+    SUM(CASE WHEN siparis_tarihi >= DATE_SUB(CURDATE(), INTERVAL 13 MONTH)
+              AND siparis_tarihi < DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+             THEN tutar ELSE 0 END) AS gecen_yil_ayni_ay
+FROM siparisler;
+```
+
+### 10.4 Üçünü Birlikte Kullanma — Gerçek Senaryo
+
+Bir e-ticaret sitesinin müşteri analizi:
+
+```sql
+SELECT
+    m.ad,
+    m.kayit_tarihi,
+    DATEDIFF(CURDATE(), m.kayit_tarihi) AS uyelik_gunu,
+    DATE_ADD(m.kayit_tarihi, INTERVAL 1 YEAR) AS yildonumu,
+    CASE
+        WHEN DATEDIFF(CURDATE(), m.kayit_tarihi) <= 30 THEN 'Yeni Uye'
+        WHEN DATEDIFF(CURDATE(), m.kayit_tarihi) <= 365 THEN 'Aktif Uye'
+        ELSE 'Kidemli Uye'
+    END AS uyelik_durumu
+FROM musteriler m;
+```
+
+| ad | kayit_tarihi | uyelik_gunu | yildonumu | uyelik_durumu |
+|---|---|---|---|---|
+| Ahmet | 2026-02-10 | 15 | 2027-02-10 | Yeni Uye |
+| Ayşe | 2025-06-20 | 250 | 2026-06-20 | Aktif Uye |
+| Mehmet | 2024-01-05 | 782 | 2025-01-05 | Kidemli Uye |
+
+`DATEDIFF` ile süre hesaplıyoruz, `DATE_ADD` ile yıldönümünü buluyoruz, `CASE` ile segmentasyona ayırıyoruz. Tek sorgu, üç fonksiyon, eksiksiz bir müşteri profili.
 
 ---
 
@@ -729,5 +954,9 @@ SELECT AVG(deger) FROM notlar;
 ```sql
 SELECT ROUND(SQRT(POWER(3, 4) + POWER(4, 4)), 2);
 ```
+
+7. Bir `abonelikler` tablosunda `baslangic_tarihi` ve `bitis_tarihi` sütunları var. Süresi 90 günden fazla olan abonelikleri `DATEDIFF` ile nasıl bulursunuz?
+
+8. `DATE_ADD('2026-02-28', INTERVAL 1 MONTH)` sonucu nedir? Peki `DATE_ADD('2026-01-31', INTERVAL 1 MONTH)` sonucu? MySQL ay sonu taşmalarını nasıl yönetir?
 
 {% endraw %}
