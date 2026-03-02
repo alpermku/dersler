@@ -184,6 +184,29 @@ public class Test {
 
 Yeni bir araç türü eklendiğinde mevcut döngüyü değiştirmezsin. Bu, temiz mimarinin temelidir.
 
+## Anonim Sınıf ile Anlık Metot Ezme (Pratik Kullanım)
+
+Bazen tek seferlik, hızlı bir davranış değişikliği gerekir. Böyle durumlarda **anonim sınıf** ile nesne üretirken metodu anında ezebilirsin:
+
+```java
+DusmanKarakter dusmanKarakter = new DusmanKarakter() {
+    @Override
+    public void yuru() {
+        System.out.println("Dusman portaldan kaçtı");
+    }
+};
+
+dusmanKarakter.yuru();
+```
+
+Bu kullanımın mantığı:
+
+- `DusmanKarakter` sınıfından kalıtım alan **isimsiz** bir alt sınıf oluşturulur.
+- `yuru()` metodu sadece bu nesne için özelleştirilir.
+- Kod hızlı prototipleme, event/callback ve kısa süreli davranış değişikliklerinde çok işe yarar.
+
+> Not: Sık ve karmaşık kullanımda okunabilirlik düşebilir. Uzun vadede ayrı bir sınıf açmak genelde daha temizdir.
+
 ## Sınavda ve Projede Sık Gelen Tuzaklar
 
 ### 1) Parametreyi değiştirip override yaptığını sanmak
