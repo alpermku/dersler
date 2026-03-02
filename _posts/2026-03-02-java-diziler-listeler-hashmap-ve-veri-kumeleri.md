@@ -19,26 +19,171 @@ Hazırsan başlayalım.
 
 ## 1) Dizi (Array): Hızlı, Basit, Sabit Boyutlu
 
-Dizi, aynı tipte verileri ardışık bellekte tutar.
+Dizi, aynı tipte verileri ardışık bellekte tutar. Java'da diziyi doğru yazmak temel bir beceridir.
+
+## Dizi Tanımlama Söz Dizimi
+
+En doğru ve yaygın kullanım:
+
+```java
+int[] sayilar;        // önerilen stil
+String[] isimler;
+```
+
+Teknik olarak şu da geçerli:
+
+```java
+int sayilar[];
+String isimler[];
+```
+
+Ama ekip standartlarında genelde `tip[] ad` kullanılır.
+
+## Dizi Oluşturma (new ile)
+
+```java
+int[] notlar = new int[4];
+notlar[0] = 85;
+notlar[1] = 90;
+notlar[2] = 78;
+notlar[3] = 92;
+```
+
+`new int[4]` demek, bellekte 4 elemanlık alan ayırmak demektir.
+
+## Kısa Başlatma (Literal)
 
 ```java
 int[] notlar = {85, 90, 78, 92};
-System.out.println(notlar[0]); // 85
+String[] ogrenciler = {"Ayşe", "Mehmet", "Zeynep"};
 ```
 
-### Dizi Özellikleri
+## Kullanıcının Sorduğu Formun Doğru Hali
+
+`dizi[] isim = new dizi[]` gibi bir yazım Java'da yok; `dizi` bir veri tipi değildir.
+Doğru kullanım veri tipine göre olur:
+
+```java
+String[] isim = new String[] {"Ali", "Veli", "Ayşe"};
+int[] puan = new int[] {10, 20, 30};
+```
+
+> Kısa not: Değişkeni aynı satırda tanımlıyorsan çoğu zaman `new String[]` yazmadan da `{...}` kullanabilirsin.
+
+## Diziye Erişim ve Güncelleme
+
+```java
+System.out.println(notlar[0]); // ilk eleman
+notlar[2] = 88;                // üçüncü elemanı güncelle
+```
+
+İndeksler **0'dan başlar**. 4 elemanlı dizide geçerli indeksler `0,1,2,3` olur.
+
+## `length` Özelliği (Çok Önemli)
+
+Dizinin eleman sayısını verir:
+
+```java
+int[] sayilar = {3, 5, 7, 9};
+System.out.println(sayilar.length); // 4
+```
+
+Dikkat:
+
+- Dizide `length` bir **özelliktir** (parantezsiz): `dizi.length`
+- String'de `length()` bir **metottur**
+
+```java
+String metin = "Java";
+System.out.println(metin.length()); // 4
+```
+
+## Döngü ile Dizi Kullanımı
+
+### Klasik for
+
+```java
+int[] sayilar = {10, 20, 30, 40};
+for (int i = 0; i < sayilar.length; i++) {
+    System.out.println("indeks=" + i + ", değer=" + sayilar[i]);
+}
+```
+
+### Gelişmiş for-each
+
+```java
+for (int deger : sayilar) {
+    System.out.println(deger);
+}
+```
+
+`for-each` okumada çok temizdir; ama indeks gerektiğinde klasik `for` daha uygundur.
+
+## Çok Boyutlu Dizi (2D)
+
+Tablo/matris gibi yapılarda kullanılır:
+
+```java
+int[][] matris = {
+    {1, 2, 3},
+    {4, 5, 6}
+};
+
+System.out.println(matris[1][2]); // 6
+```
+
+Java'da 2D diziler satır bazlıdır; satır uzunlukları farklı da olabilir (jagged array).
+
+## Varsayılan Değerler
+
+`new` ile oluşturulan dizilerde elemanlar varsayılan değerle gelir:
+
+- `int` -> `0`
+- `double` -> `0.0`
+- `boolean` -> `false`
+- Referans tipleri (`String`, nesne) -> `null`
+
+```java
+int[] a = new int[3];
+System.out.println(a[0]); // 0
+```
+
+## Sık Hata: ArrayIndexOutOfBoundsException
+
+```java
+int[] a = {1, 2, 3};
+System.out.println(a[3]); // HATA: son indeks 2
+```
+
+Korunma yolu: sınırı hep `i < dizi.length` ile kur.
+
+## `Arrays` Sınıfı ile Pratik İşlemler
+
+```java
+import java.util.Arrays;
+
+int[] sayilar = {5, 1, 9, 3};
+Arrays.sort(sayilar); // [1,3,5,9]
+System.out.println(Arrays.toString(sayilar));
+
+int idx = Arrays.binarySearch(sayilar, 5); // 2
+int[] kopya = Arrays.copyOf(sayilar, sayilar.length);
+```
+
+## Dizi Özellikleri (Özet)
 
 - Boyut oluşturulurken belirlenir, sonradan değişmez.
 - İndeksleme ile erişim çok hızlıdır: `O(1)`
 - Bellek düzeni sadedir.
+- `length` ile boyut bilgisi alınır.
 
-### Ne zaman iyi?
+## Ne zaman iyi?
 
 - Eleman sayısı yaklaşık belliyse
 - Performans kritikse
 - Basit, sabit yapılı veri tutuyorsan
 
-### Ne zaman yetersiz?
+## Ne zaman yetersiz?
 
 - Sürekli eleman ekleyip çıkarıyorsan
 - Veri boyutu dinamikse
