@@ -204,11 +204,37 @@ ogrenciler.add("Zeynep");
 System.out.println(ogrenciler.get(1)); // Mehmet
 ```
 
+### ArrayList'te Bilinmesi Gereken Temel Metotlar
+
+```java
+ogrenciler.add("Ece");                // sona ekle
+ogrenciler.add(1, "Can");             // indekse ekle
+ogrenciler.set(0, "Ayşe Nur");        // güncelle
+ogrenciler.remove("Mehmet");          // değere göre sil
+ogrenciler.remove(2);                  // indekse göre sil
+ogrenciler.contains("Zeynep");        // var mı?
+ogrenciler.size();                     // eleman sayısı
+ogrenciler.isEmpty();                  // boş mu?
+ogrenciler.clear();                    // hepsini temizle
+```
+
 ### ArrayList Performans Mantığı
 
 - Sona ekleme: ortalama hızlı (`O(1)` amortized)
 - İndeksle erişim: hızlı (`O(1)`)
 - Araya ekleme/silme: maliyetli (`O(n)`), çünkü kaydırma gerekir
+
+### Dolaşma (Iteration)
+
+```java
+for (int i = 0; i < ogrenciler.size(); i++) {
+    System.out.println(i + " -> " + ogrenciler.get(i));
+}
+
+for (String ogrenci : ogrenciler) {
+    System.out.println(ogrenci);
+}
+```
 
 ### Kritik Not
 
@@ -227,6 +253,18 @@ kuyruk.add("2. müşteri");
 kuyruk.addFirst("VIP müşteri");
 
 System.out.println(kuyruk);
+```
+
+### LinkedList Metotları (Detay)
+
+```java
+kuyruk.addLast("3. müşteri");
+kuyruk.getFirst();
+kuyruk.getLast();
+kuyruk.removeFirst();
+kuyruk.removeLast();
+kuyruk.peek();      // ilk elemanı silmeden göster
+kuyruk.poll();      // ilk elemanı al + sil (boşsa null)
 ```
 
 ### Nerede güçlü?
@@ -256,6 +294,23 @@ etiketler.add("java"); // tekrar, eklenmez
 System.out.println(etiketler); // [java, oop] gibi
 ```
 
+### Set Metotları
+
+```java
+etiketler.add("collections");
+etiketler.remove("oop");
+etiketler.contains("java");
+etiketler.size();
+etiketler.isEmpty();
+etiketler.clear();
+```
+
+### Set Türleri (Kısa Karşılaştırma)
+
+- `HashSet`: Sıra garantisi yok, hızlı
+- `LinkedHashSet`: Eklenme sırasını korur
+- `TreeSet`: Sıralı tutar (doğal sıra veya comparator)
+
 ### Neden önemli?
 
 - Etiket, kullanıcı adı, ID gibi tekrar etmeyecek veri kümelerinde mükemmel
@@ -277,22 +332,32 @@ ogrenciNoToAd.put(103, "Deniz");
 System.out.println(ogrenciNoToAd.get(102)); // Can
 ```
 
+### HashMap'te Kritik Metotlar (put/remove/clear dahil)
+
+```java
+ogrenciNoToAd.put(104, "Mert");                 // ekle / varsa güncelle
+ogrenciNoToAd.putIfAbsent(104, "Ahmet");        // yoksa ekle
+ogrenciNoToAd.get(101);                           // değeri getir
+ogrenciNoToAd.getOrDefault(999, "Bilinmiyor");  // yoksa default dön
+ogrenciNoToAd.containsKey(102);                   // key var mı?
+ogrenciNoToAd.containsValue("Can");             // value var mı?
+ogrenciNoToAd.remove(103);                        // key ile sil
+ogrenciNoToAd.remove(104, "Mert");               // key+value eşleşirse sil
+ogrenciNoToAd.replace(102, "Caner");             // değer güncelle
+ogrenciNoToAd.size();
+ogrenciNoToAd.isEmpty();
+ogrenciNoToAd.clear();                            // tüm map'i boşalt
+```
+
 ### HashMap Ne Sağlar?
 
 - Anahtarla hızlı erişim (`O(1)` ortalama)
 - Esnek, dinamik, çok kullanışlı
 - Büyük sistemlerde lookup işlemlerinin omurgasıdır
 
-### Sık Kullanılan Metotlar
+## 6) HashMap Dolaşma Teknikleri
 
-```java
-ogrenciNoToAd.containsKey(101);   // true/false
-ogrenciNoToAd.containsValue("Can");
-ogrenciNoToAd.remove(103);
-ogrenciNoToAd.putIfAbsent(104, "Mert");
-```
-
-## 6) HashMap Iteration (Dolaşma)
+### entrySet ile (en yaygın)
 
 ```java
 for (Map.Entry<Integer, String> entry : ogrenciNoToAd.entrySet()) {
@@ -302,7 +367,29 @@ for (Map.Entry<Integer, String> entry : ogrenciNoToAd.entrySet()) {
 }
 ```
 
-Bu yapı raporlama, log, veri dönüştürme süreçlerinde sürekli kullanılır.
+### Sadece key'ler
+
+```java
+for (Integer key : ogrenciNoToAd.keySet()) {
+    System.out.println(key);
+}
+```
+
+### Sadece value'lar
+
+```java
+for (String value : ogrenciNoToAd.values()) {
+    System.out.println(value);
+}
+```
+
+### forEach (lambda)
+
+```java
+ogrenciNoToAd.forEach((no, ad) ->
+    System.out.println(no + " numaralı öğrenci: " + ad)
+);
+```
 
 ## 7) HashMap ve Null Konusu
 
@@ -317,6 +404,14 @@ Bu yapı raporlama, log, veri dönüştürme süreçlerinde sürekli kullanılı
 String ad = ogrenciNoToAd.get(999);
 if (ad == null) {
     System.out.println("Öğrenci bulunamadı");
+}
+```
+
+Ek güvenli kullanım:
+
+```java
+if (!ogrenciNoToAd.containsKey(999)) {
+    System.out.println("Bu anahtar map içinde yok");
 }
 ```
 
