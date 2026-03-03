@@ -13,10 +13,10 @@ Bu dosyalar, özellikle **1. hafta proje teklif/ilerleme raporu** hazırlığın
 
 ## 📥 İndirilebilir Ders Dosyaları
 
-1. [Dönem Projesi Teklif Raporu Şablonu (A)](/assets/files/sistem-analizi/hafta-1/sistem-analizi-donem-projesi-teklif-raporu-sablon-a.docx)
-2. [Proje Teklif Raporu Doldurma Yönergesi](/assets/files/sistem-analizi/hafta-1/sistem-analizi-proje-teklif-raporu-doldurma-yonergesi.docx)
-3. [Dönem Projesi Teklif Raporu Şablonu (B)](/assets/files/sistem-analizi/hafta-1/sistem-analizi-donem-projesi-teklif-raporu-sablon-b.docx)
-4. [Yazılım Projelerinde Analiz — Okuma Metni](/assets/files/sistem-analizi/hafta-1/yazilim-projelerinde-analiz-okuma-metni.docx)
+1. [Dönem Projesi Teklif Raporu Şablonu (A)]({{ '/assets/files/sistem-analizi/hafta-1/sistem-analizi-donem-projesi-teklif-raporu-sablon-a.docx' | relative_url }})
+2. [Proje Teklif Raporu Doldurma Yönergesi]({{ '/assets/files/sistem-analizi/hafta-1/sistem-analizi-proje-teklif-raporu-doldurma-yonergesi.docx' | relative_url }})
+3. [Dönem Projesi Teklif Raporu Şablonu (B)]({{ '/assets/files/sistem-analizi/hafta-1/sistem-analizi-donem-projesi-teklif-raporu-sablon-b.docx' | relative_url }})
+4. [Yazılım Projelerinde Analiz — Okuma Metni]({{ '/assets/files/sistem-analizi/hafta-1/yazilim-projelerinde-analiz-okuma-metni.docx' | relative_url }})
 
 > Not: Şablon A ve Şablon B aynı amaç için alternatif formatlar içerir. Bölüm/format tercihine göre birini seçebilirsiniz.
 
