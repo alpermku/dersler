@@ -7,10 +7,6 @@ categories: sistem-analizi-ve-tasarimi
 
 Bu derste yazılım süreç modellerinin **neden ortaya çıktığını**, hangi bağlamda **hangisinin doğru tercih** olduğunu ve proje yönetiminde bu modellerin nasıl somut kararlar doğurduğunu ele alıyoruz.
 
-Ayrıca derste kullanılan kaynak dokümanı indirilebilir olarak ekledim:
-
-- [Hafta 2 Kaynak Dokümanı (DOCX)]({{ '/assets/files/sistem-analizi/hafta-2/sistem-analizi-hafta-2-surec-modelleri-ve-yaklasimlar.docx' | relative_url }})
-
 ---
 
 ## Bu Bölümde Neler Öğreneceksiniz?
