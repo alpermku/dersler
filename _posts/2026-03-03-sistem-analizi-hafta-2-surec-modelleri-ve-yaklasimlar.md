@@ -1,241 +1,342 @@
 ---
 layout: post
-title: "Hafta 2 — Süreç Modelleri ve Yaklaşımlar (Waterfall, V-Model, Prototipleme, Agile, Scrum, Kanban)"
+title: "Süreç Modelleri ve Yaklaşımlar (Waterfall, V-Model, Prototipleme, Agile, Scrum, Kanban)"
 date: 2026-03-03
 categories: sistem-analizi-ve-tasarimi
 ---
 
-Bu derste yazılım süreç modellerinin **neden ortaya çıktığını**, hangi bağlamda **hangisinin doğru tercih** olduğunu ve proje yönetiminde bu modellerin nasıl somut kararlar doğurduğunu ele alıyoruz.
+Yazılım projeleri iki şekilde batar: **ya hiç plan yoktur**, ya da plan gerçeğe hiç dokunmuyordur.
+
+Süreç modelleri, işte bu iki uçurumun arasına kurulan köprüdür. Bu derste modelleri ezberlemek için değil, **doğru bağlamda doğru modeli seçebilmek** için inceleyeceğiz.
+
+> “The major fallacy is that software development is a purely technical activity.”  
+> — Barry W. Boehm
+
+Yani mesele sadece kod değil; belirsizlik, insan, iletişim, risk ve karar yönetimi.
 
 ---
 
-## Bu Bölümde Neler Öğreneceksiniz?
+## Bu Bölümde Ne Kazanacaksınız?
 
-- Yazılım süreç modellerinin tarihsel gelişimini
-- Waterfall modelinin güçlü ve zayıf yönlerini
-- V-Model’de geliştirme-test eşleşmesinin mantığını
-- Prototipleme yaklaşımının doğru kullanımını
-- Agile felsefesinin temel değerlerini
-- Scrum ve Kanban’ın pratik farklarını
-- Kendi projeniz için model seçme kriterlerini
+Bu dersin sonunda:
 
----
-
-## 2.1 Süreç Modellerinin Tarihi: Kaos’tan Mühendisliğe
-
-1960’larda yazılım geliştirme büyük ölçüde plansız, belgeye dayanmayan bir pratikti. Projeler büyüdükçe “yazılım krizi” ortaya çıktı: projeler zamanında bitmiyor, bütçeyi aşıyor, beklentiyi karşılamıyordu.
-
-1968 NATO Konferansı’nda bu durum “software crisis” olarak isimlendirildi. Sonuç netti: yazılım işi, deneme-yanılma yerine **mühendislik disiplini** ile yürütülmeliydi.
-
-Süreç modelleri bu ihtiyacın ürünüdür:
-
-- Belirsizliği azaltmak
-- Planlamayı güçlendirmek
-- Kaliteyi sistematik hale getirmek
-- Riskleri erken görmek
+- Süreç modellerinin tarihsel nedenlerini anlayacaksınız.
+- Waterfall ve V-Model’in nerede güçlü kaldığını net göreceksiniz.
+- Prototiplemenin doğru/yanlış kullanımını ayırabileceksiniz.
+- Agile değerlerini “slogan” değil “işletim sistemi” olarak okuyacaksınız.
+- Scrum ile Kanban’ı araç düzeyinde değil, yönetim felsefesi düzeyinde kıyaslayacaksınız.
+- Kendi dönem projeniz için model seçim kararı üretebileceksiniz.
 
 ---
 
-## 2.2 Waterfall (Şelale) Modeli
+## 1) Neden Süreç Modeli Diye Bir Şey Var?
 
-### Temel mantık
+1960’ların sonunda yazılım projeleri büyüdükçe klasik sorunlar patladı:
 
-Aşamalar sıralıdır; bir aşama tamamlanmadan sonrakine geçilmez.
+- geciken teslimler,
+- şişen bütçeler,
+- testte yakalanan kritik hatalar,
+- kullanıcı beklentisi ile ürünün uyuşmaması.
+
+Bu durum, 1968 NATO Konferansı’nda “software crisis” olarak adlandırıldı.
+
+Buradaki temel ders şuydu:
+
+> Yazılım üretimi, bireysel “usta işi”nden kurumsal “mühendislik disiplini”ne geçmek zorundadır.
+
+Süreç modelleri tam olarak bunun için doğdu:
+
+- Tahmin edilebilirlik
+- İzlenebilirlik
+- Kalite güvence
+- Risk azaltma
+
+---
+
+## 2) Waterfall (Şelale) Modeli
+
+### 2.1 Mantık
+
+Aşamalar lineer ilerler:
 
 1. Gereksinim Analizi
 2. Sistem Tasarımı
 3. Ayrıntılı Tasarım
-4. Kodlama
+4. Geliştirme (Kodlama)
 5. Test
 6. Dağıtım
 7. Bakım
 
-### Avantajlar
+Bir aşamanın çıktısı, bir sonrakinin girdisidir.
 
-- Planı ve takvimi anlatması kolaydır.
-- Dokümantasyon disiplini yüksektir.
-- Regülasyon gerektiren projelerde izlenebilirlik sağlar.
+### 2.2 Nerede işe yarar?
 
-### Dezavantajlar
+- Gereksinimler baştan netse
+- Değişim maliyeti çok yüksekse
+- Ağır dokümantasyon/regülasyon gerekiyorsa
 
-- Gereksinimler başta tam net değilse hızla kırılır.
-- Değişiklik maliyeti yüksektir.
+Örnek alanlar: savunma, medikal, havacılık, kamu ihale projeleri.
+
+### 2.3 Güçlü yönler
+
+- Yönetmesi ve raporlaması kolaydır.
+- Kilometre taşları (milestone) nettir.
+- Sözleşmeye bağlanabilir yapı sağlar.
+
+### 2.4 Zayıf yönler
+
+- Erken gereksinim hatası, geç aşamada pahalı patlar.
+- Değişime dirençlidir.
 - Kullanıcı çalışan ürünü geç görür.
 
-### Ne zaman uygundur?
+> “A primary source of difficulty is that the customer does not know what he wants.”  
+> — Fred Brooks, *The Mythical Man-Month*
 
-- Gereksinimler çok netse
-- Değişiklik ihtimali düşükse
-- Sözleşme ve uyumluluk (compliance) kritikse
-
-**Örnek:** Medikal cihaz yazılımı, savunma projeleri, kamu ihale projeleri.
+Waterfall’ın en büyük kırılganlığı tam burada: müşteri başta her şeyi net anlatamıyorsa model zorlanır.
 
 ---
 
-## 2.3 V-Model
+## 3) V-Model
 
-V-Model, Waterfall’ın test boyutu güçlendirilmiş halidir.
+V-Model, Waterfall’ın test disiplinini kuvvetlendiren versiyonudur.
 
-Ana fikir:
+Temel fikir: Her geliştirme adımının bir test karşılığı olmalı.
 
-- Sol kolda geliştirme adımları
-- Sağ kolda bu adımların test karşılıkları
-
-| Geliştirme (Sol Kol) | Test (Sağ Kol) |
+| Geliştirme | Doğrulama/Test |
 |---|---|
 | Gereksinim Analizi | Kabul Testi (UAT) |
 | Sistem Tasarımı | Sistem Testi |
 | Mimari Tasarım | Entegrasyon Testi |
 | Modül Tasarımı | Birim Testi |
-| Kodlama | V’nin tabanı |
+| Kodlama | V tabanı |
 
-### Neden önemli?
+### Kritik katkısı
 
-V-Model şunu öğretir: **Test sona bırakılmaz, baştan tasarlanır.**
+Testi sona bırakmaz, baştan planlar.
 
-Bu yaklaşım özellikle hata maliyetinin yüksek olduğu projelerde kritik avantaj sağlar.
+Bu yaklaşım şu iki kavramı güçlendirir:
 
----
+- **Verification:** “Doğru ürünü mü geliştiriyoruz?”
+- **Validation:** “Geliştirdiğimiz ürün doğru mu çalışıyor?”
 
-## 2.4 Prototipleme Modeli
+### Nerede çok iyi?
 
-Gereksinimler bulanıksa kullanıcıya erken örnek göstermek en akıllı adımdır.
-
-### Prototip türleri
-
-1. **Throw-away (Atılabilir):** Sadece ihtiyaç keşfi için üretilir, çöpe atılır.
-2. **Evolutionary (Evrimsel):** Her iterasyonda gelişir, ürüne dönüşür.
-3. **Horizontal:** Sistemin geniş görünümü (arayüz akışı gibi).
-4. **Vertical:** Tek özelliğin uçtan uca derin gösterimi.
-
-### Güçlü tarafı
-
-- Kullanıcı “ne istediğini” daha net ifade eder.
-
-### Tehlike
-
-- “Prototip tamam, ürün bitti” yanılgısı.
-
-Bunu önlemek için her prototipte etiketi net koyun:
-
-- Bu bir kavram doğrulama mı?
-- Bu üretime taşınacak çekirdek mi?
+- İzlenebilir test gerektiren projelerde
+- Gereksinim-test matrisi çıkarılması gereken ortamlarda
 
 ---
 
-## 2.5 Agile Felsefe
+## 4) Prototipleme Modeli
 
-2001 Agile Manifesto ile yazılım dünyası süreç merkezinden değer merkezine kaydı.
+Gereksinimler sisliyse yapılacak en iyi şey: **göster, konuş, düzelt**.
 
-Öne çıkan değerler:
+### 4.1 Prototip türleri
 
-- Süreç ve araçlardan çok bireyler ve etkileşim
-- Kapsamlı dokümandan çok çalışan yazılım
-- Sözleşme pazarlığından çok müşteri iş birliği
-- Plana kör bağlılıktan çok değişime yanıt
+- **Throw-away prototip:** Keşif için üretilir, ürün olmaz.
+- **Evolutionary prototip:** Evrilerek gerçek ürüne dönüşür.
+- **Horizontal prototip:** Arayüz akışını genişçe gösterir.
+- **Vertical prototip:** Belirli bir özelliği uçtan uca çalıştırır.
 
-Agile “plansızlık” değildir. Agile, planı kısa döngülerle yaşayan bir yapıya dönüştürür.
+### 4.2 Gücü
 
----
+- Kullanıcı geri bildirimi erken alınır.
+- Yanlış gereksinimlerin erken fark edilmesini sağlar.
 
-## 2.6 Scrum ve Kanban: Aynı Değil
+### 4.3 Tuzağı
 
-### Scrum
+Prototip teknik borçla üretildiyse, onu direkt ürüne çevirmek kaliteyi gömer.
 
-- Sprint tabanlıdır (genelde 2 hafta)
-- Roller nettir: Product Owner, Scrum Master, Development Team
-- Törenler vardır: Sprint Planning, Daily Scrum, Review, Retrospective
+Kural net:
 
-### Kanban
-
-- Akış tabanlıdır (sabit sprint zorunlu değil)
-- Görselleştirme güçlüdür (To Do / In Progress / Done)
-- WIP (Work In Progress) limiti ile darboğaz yönetir
-
-### Hızlı kıyas
-
-| Durum | Tercih |
-|---|---|
-| Düzenli sprint ritmi isteniyorsa | Scrum |
-| Sürekli iş akışı varsa | Kanban |
-| Karma yaklaşım gerekiyorsa | Scrumban |
+- Prototipin amacı belgelenmeli
+- “Atılabilir mi, evrimsel mi?” en başta yazılmalı
 
 ---
 
-## 2.7 İteratif ve Artımlı Geliştirme
+## 5) Agile Felsefesi
 
-- **İteratif:** Aynı özelliği tekrarlı döngülerle iyileştirme
-- **Artımlı:** Ürüne parça parça yeni fonksiyon ekleme
+Agile, “plansızlık” değil; planı kısa çevrimlerle sürekli güncelleyebilen bir çalışma biçimidir.
 
-Gerçek projelerde çoğu takım bu ikisini birlikte kullanır:
+2001 Agile Manifesto’nun özü:
 
-- İlk sürüm: temel kayıt/giriş
-- Sonraki sürüm: bildirim
-- Sonraki sürüm: raporlama
+- Bireyler ve etkileşimler
+- Çalışan yazılım
+- Müşteri iş birliği
+- Değişime yanıt
 
-Her artım geri bildirimle iteratif olarak güçlenir.
+> “Responding to change over following a plan.”  
+> — Agile Manifesto
 
----
+Bu cümle “plan yapma” demiyor; “planı putlaştırma” diyor.
 
-## 2.8 Hangi Projeye Hangi Model?
+### Agile’ın omurgası
 
-Model seçimi bir “moda” değil, **bağlam kararıdır**.
-
-Aşağıdaki soruları sorun:
-
-1. Gereksinimler ne kadar net?
-2. Değişim sıklığı yüksek mi?
-3. Regülasyon baskısı var mı?
-4. Kullanıcı geri bildirimi erken alınmalı mı?
-5. Ekip tecrübesi hangi yöntemde güçlü?
-6. Teslim tarihi ne kadar esnek?
-
-### Hızlı karar rehberi
-
-- Net gereksinim + düşük değişim + ağır dokümantasyon: **Waterfall / V-Model**
-- Belirsiz ihtiyaç + yoğun kullanıcı geri bildirimi: **Prototipleme + Agile**
-- Hızlı teslim + ürün evrimi: **Agile (Scrum/Kanban)**
+- kısa teslim döngüleri,
+- sürekli geri bildirim,
+- teknik kalite disiplini,
+- görünür iş akışı.
 
 ---
 
-## 2.9 Hafta 2 Uygulama Çalışması (Öğrenci Görevi)
+## 6) Scrum: Zaman Kutulu Çevik Yönetim
 
-Dönem projeniz için 1 sayfalık “Süreç Modeli Seçim Notu” hazırlayın.
+Scrum, çerçevedir; metodoloji kitabı değildir.
 
-### İçermesi gerekenler
+### Roller
 
-- Proje adı
-- Seçilen süreç modeli (veya hibrit model)
+- **Product Owner:** İş değerini ve önceliği yönetir.
+- **Scrum Master:** Takımın akışını korur, engelleri kaldırır.
+- **Geliştirme Ekibi:** Teslimatı üretir.
+
+### Olaylar
+
+- Sprint Planning
+- Daily Scrum
+- Sprint Review
+- Sprint Retrospective
+
+### Artefaktlar
+
+- Product Backlog
+- Sprint Backlog
+- Increment
+
+### Ne zaman iyi çalışır?
+
+- Ürün yönü gelişerek netleşiyorsa
+- Takım ritmik teslimata uygunsa
+- İş değerini adım adım ölçmek isteniyorsa
+
+---
+
+## 7) Kanban: Akış Odaklı Yönetim
+
+Kanban’ın ana sorusu: “İş akışımız nerede tıkanıyor?”
+
+### Ana prensipler
+
+- İşi görselleştir
+- WIP (eşzamanlı iş) limit koy
+- Akışı ölç
+- Sürekli iyileştir
+
+### Ne zaman güçlü?
+
+- Destek/operasyon takımlarında
+- Sürekli gelen iş trafiğinde
+- Sprint ritmine uymayan ortamlarda
+
+> “Stop starting, start finishing.”  
+> — Kanban topluluklarında yaygın ilke
+
+Bu ilke, üretkenlik yanılsamasını kırar: Çok işe başlamak değil, işi bitirmek değer üretir.
+
+---
+
+## 8) Scrum vs Kanban — Pratik Karar
+
+| Kriter | Scrum | Kanban |
+|---|---|---|
+| Zaman yapısı | Sprint (sabit periyot) | Sürekli akış |
+| Planlama | Sprint başında yoğun | Sürekli öncelik güncelleme |
+| Değişiklik yönetimi | Sprint içinde sınırlı | Daha esnek |
+| Ölçüm | Velocity, sprint hedefi | Cycle time, throughput |
+| Uygun senaryo | Ürün geliştirme | Operasyon + bakım + destek |
+
+Hibrit gerekirse: **Scrumban**.
+
+---
+
+## 9) İteratif ve Artımlı Geliştirme (Karıştırılan İkili)
+
+- **İteratif:** Aynı çözümü tekrar tekrar iyileştirmek
+- **Artımlı:** Ürünü parça parça büyütmek
+
+Modern ürün geliştirmede ikisi birlikte kullanılır:
+
+- Artım: “Bildirim modülü eklendi”
+- İterasyon: “Bildirim modülü 3 tur geri bildirimle iyileştirildi”
+
+---
+
+## 10) Model Seçimi İçin Karar Matrisi
+
+Aşağıdaki sorulara dürüst cevap verin:
+
+1. Gereksinimler net mi, sisli mi?
+2. Değişim hızı ne kadar yüksek?
+3. Hata maliyeti ne kadar ağır?
+4. Regülasyon ve denetim seviyesi nedir?
+5. Kullanıcı geri bildirimi ne sıklıkta alınacak?
+6. Ekip deneyimi hangi modelde güçlü?
+7. Teslim baskısı ve tarih esnekliği ne durumda?
+
+### Hızlı seçim
+
+- **Net gereksinim + yüksek uyumluluk ihtiyacı:** Waterfall / V-Model
+- **Belirsiz ihtiyaç + yoğun kullanıcı etkileşimi:** Prototipleme + Agile
+- **Sürekli akışlı bakım/operasyon:** Kanban
+- **Ürün odaklı çevik teslimat:** Scrum
+
+---
+
+## 11) Mini Vaka: Üniversite Kulüp Etkinlik Sistemi
+
+### Senaryo
+
+- Gereksinimler başlangıçta kısmen belirsiz
+- Kullanıcı geri bildirimi önemli (öğrenci/akademisyen)
+- Dönem içinde çalışan sürüm isteniyor
+
+### Uygun yaklaşım
+
+- Başlangıçta **Horizontal prototip** (ekran akışı)
+- Sonra **Scrum ile 2 haftalık sprintler**
+- Destek taleplerinde **Kanban panosu**
+
+Bu hibrit yaklaşım, hem keşif hem teslimat hem bakım dengesini kurar.
+
+---
+
+## 12) Öğrenciler İçin Uygulama Görevi
+
+Dönem projeniz için “Süreç Modeli Seçim Raporu” hazırlayın (1–2 sayfa):
+
+- Proje adı ve kısa bağlam
+- Seçtiğiniz model (tek/hibrid)
 - Neden bu model?
-- Beklenen riskler
-- Risk azaltma stratejisi
-- 2 haftalık örnek mini plan
+- 3 risk + 3 önlem
+- 2 haftalık örnek plan
+- Başarı metrikleri (örn. teslim oranı, hata sayısı, çevrim süresi)
 
-### Değerlendirme ölçütü
+### Değerlendirme
 
-- Model seçimi gerekçesi güçlü mü?
-- Projenin gerçekliğiyle uyumlu mu?
-- Riskleri görmüş mü?
-- Plan uygulanabilir mi?
-
----
-
-## 2.10 Sık Yanlışlar
-
-- Agile’ı “plansız çalışmak” sanmak
-- Waterfall’ı “eski olduğu için kötü” diye etiketlemek
-- Prototipi gerçek ürün sanmak
-- Testi geliştirme bittiğinde başlatmak
-- Model seçimini ekip yetkinliğinden bağımsız yapmak
+- Gerekçe kalitesi
+- Proje-model uyumu
+- Risk farkındalığı
+- Planın uygulanabilirliği
 
 ---
 
-## Sonuç
+## 13) Sık Yapılan Hatalar
 
-Doğru süreç modeli, projeyi uçurur; yanlış model, en iyi ekibi bile yorar.
+- Agile = plansızlık sanmak
+- Waterfall = demode deyip bağlamı görmezden gelmek
+- Prototipi ürün gibi yayına almak
+- Testi en sona bırakmak
+- Modeli ekip yetkinliğinden bağımsız seçmek
 
-Bu haftanın özeti tek cümle:
+---
 
-> “Model, projeye uymalı; proje modele zorla uydurulmamalı.”
+## Kapanış
 
-Hafta 3’te bu temeli gereksinim analizi teknikleriyle birleştirip proje kararlarınızı daha ölçülebilir hale getireceğiz.
+Süreç modeli, proje için bir “dini inanç” değil, bir “stratejik araçtır”.
+
+> “Plans are useless, but planning is indispensable.”  
+> — Dwight D. Eisenhower
+
+Yani tek bir plana kör bağlanmak değil, planlama kasını güçlü tutmak gerekir.
+
+Bu dersin ana mesajı:
+
+**Model seçimi, teknik bir tercih değil; risk, insan, zaman ve değer yönetimi kararıdır.**
