@@ -235,7 +235,7 @@ C şıkkı yanlış sözdizimidir (parantez değil, köşeli parantez gerekir). 
 <div class="solution-box" id="sol10">
 <strong>Doğru Cevap: B)</strong><br><br>
 Dizilerin boyutu sabittir — bir kez oluşturulduktan sonra değiştirilemez. <strong>ArrayList</strong> ise <code>add()</code> ve <code>remove()</code> ile dinamik olarak büyüyüp küçülebilir.<br><br>
-A yanlış: ArrayList ek overhead taşır. C yanlış: ArrayList primitive tip saklamaz, wrapper (Integer, Double) gerekir. D yanlış: İndeks erişimi aynı hızdadır (O(1)), ama ArrayList ek katman içerir.
+A yanlış: HashMap sıralı değildir (sıralı istersen LinkedHashMap kullan). B yanlış: HashMap indeksle değil, anahtarla erişim sağlar. D yanlış: HashMap her tipte generic veri tutabilir.
 </div>
 </div>
 
@@ -244,8 +244,8 @@ A yanlış: ArrayList ek overhead taşır. C yanlış: ArrayList primitive tip s
 <h3>Soru 11 — HashMap</h3>
 <p>HashMap'in temel çalışma mantığı nedir?</p>
 <ul class="quiz-options" data-correct="c">
-  <li data-val="a">A) Elemanları sıralı olarak tutar ve indeksle erişilir</li>
-  <li data-val="b">B) Her elemandan sadece bir tane tutabilir</li>
+  <li data-val="a">A) Elemanları ekleme sırasına göre sıralı tutar</li>
+  <li data-val="b">B) İndeks numarasıyla erişim sağlar, tıpkı dizi gibi</li>
   <li data-val="c">C) Anahtar-değer (key-value) çiftleri şeklinde veri tutar, anahtarla hızlı erişim sağlar</li>
   <li data-val="d">D) Sadece String tipinde veri saklayabilir</li>
 </ul>
@@ -264,19 +264,26 @@ Anahtarlar benzersizdir (aynı key'e yeni değer atanırsa eskisi ezilir). Sıra
 <!-- SORU 12 -->
 <div class="quiz-question" id="q12">
 <h3>Soru 12 — Set (Küme)</h3>
-<p>Java'da <code>Set</code> veri yapısının en belirgin özelliği nedir?</p>
-<ul class="quiz-options" data-correct="a">
-  <li data-val="a">A) Aynı elemandan birden fazla tutmaz (tekrarsız)</li>
-  <li data-val="b">B) Elemanları indeksle erişilebilir</li>
-  <li data-val="c">C) Sadece sayısal değerler tutabilir</li>
-  <li data-val="d">D) Boyutu sabittir, değiştirilemez</li>
+<p>Aşağıdaki kod çalıştırıldığında <code>set.size()</code> kaç döndürür?</p>
+<pre><code>Set&lt;String&gt; set = new HashSet&lt;&gt;();
+set.add("Java");
+set.add("Python");
+set.add("Java");
+set.add("C++");
+System.out.println(set.size());</code></pre>
+<ul class="quiz-options" data-correct="b">
+  <li data-val="a">A) 4</li>
+  <li data-val="b">B) 3</li>
+  <li data-val="c">C) 2</li>
+  <li data-val="d">D) Derleme hatası verir çünkü aynı eleman iki kez eklenemez</li>
 </ul>
 <div class="quiz-feedback" id="fb12"></div>
 <button class="solution-toggle" id="st12" onclick="toggleSolution('sol12')">Çözümü Göster</button>
 <div class="solution-box" id="sol12">
-<strong>Doğru Cevap: A)</strong><br><br>
-<code>Set</code>, matematikteki küme kavramının Java karşılığıdır: <strong>aynı elemandan birden fazla tutmaz</strong>. Aynı değeri eklemeye çalışırsanız sessizce yok sayılır.<br><br>
-B yanlış: Set'te indeks erişimi yoktur (get(0) gibi). İterasyon ile gezmek gerekir. Set her tipte veri tutabilir (C yanlış) ve dinamik boyutludur (D yanlış).
+<strong>Doğru Cevap: B) 3</strong><br><br>
+<code>Set</code>, matematikteki küme kavramının Java karşılığıdır: <strong>aynı elemandan birden fazla tutmaz</strong>. "Java" ikinci kez eklenmeye çalışıldığında sessizce yok sayılır — hata fırlatmaz.<br><br>
+Set'teki elemanlar: {"Java", "Python", "C++"} → <strong>3 eleman</strong>.<br><br>
+D şıkkı yanlıştır çünkü Set hata vermez, sadece mükerrer eklemeyi görmezden gelir. Bu davranışı bilmek kritiktir — <code>add()</code> metodu mükerrer durumda <code>false</code> döndürür ama exception fırlatmaz.
 </div>
 </div>
 
@@ -387,9 +394,9 @@ Java autoboxing sayesinde <code>sayilar.add(5)</code> yine çalışır (int otom
 <button class="solution-toggle" id="st17" onclick="toggleSolution('sol17')">Çözümü Göster</button>
 <div class="solution-box" id="sol17">
 <strong>Doğru Cevap: C)</strong><br><br>
-<strong>ArrayList:</strong> İndeksle erişim hızlı (O(1)), ama başa/ortaya ekleme yavaş (elemanlar kaydırılır).<br>
-<strong>LinkedList:</strong> Başa/ortaya ekleme/çıkarma hızlı (O(1) referans değişimi), ama indeksle erişim yavaş (O(n) zincir takibi).<br><br>
-Genel kural: Çoğu durumda ArrayList yeterlidir. LinkedList sadece sık insertion/deletion senaryolarında avantajlıdır.
+<strong>ArrayList:</strong> İndeksle erişim hızlı (O(1)), ama başa ekleme yavaş (tüm elemanlar kaydırılır, O(n)).<br>
+<strong>LinkedList:</strong> Başa ekleme/çıkarma hızlı (O(1) — sadece referans değişimi), ama indeksle erişim yavaş (O(n) zincir takibi).<br><br>
+Not: Ortaya ekleme her iki yapıda da O(n)'dir (LinkedList'te düğümü bulmak O(n) sürer). Asıl fark <strong>baş ve son</strong> ekleme/çıkarmalardadır. Genel kural: Çoğu durumda ArrayList yeterlidir.
 </div>
 </div>
 
