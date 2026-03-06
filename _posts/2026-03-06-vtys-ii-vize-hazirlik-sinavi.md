@@ -129,7 +129,7 @@ Bu interaktif test, Veri Tabanı Yönetim Sistemleri II dersinde şimdiye kadar 
 <pre><code>SELECT CONCAT(LEFT('ABC-1234', 3), RIGHT('ABC-1234', 4));</code></pre>
 <ul class="quiz-options" data-correct="d">
   <li data-val="a">A) ABC-ABC</li>
-  <li data-val="b">B) ABC1234</li>
+  <li data-val="b">B) ABC-1234</li>
   <li data-val="c">C) ABC-123</li>
   <li data-val="d">D) ABC1234</li>
 </ul>
