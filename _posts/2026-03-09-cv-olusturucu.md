@@ -317,27 +317,44 @@ function downloadPDF(){
   const name=gv('fullName')||'CV';
   const filename=name.replace(/\s+/g,'_')+'_CV.pdf';
 
+  // Build a self-contained HTML string with all styles inlined
+  const cssText=`
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;font-size:10.5px;line-height:1.5;color:#222;padding:0;background:#fff}
+    h1{font-size:18px;text-align:center;letter-spacing:1px;color:#1a1a2e;margin:0}
+    .cv-contact{text-align:center;font-size:9.5px;color:#555;margin:4px 0 12px;word-break:break-all}
+    .cv-section{margin:10px 0}
+    .cv-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#1a1a2e;border-bottom:1.5px solid #2c3e50;padding-bottom:2px;margin-bottom:6px}
+    .cv-entry{margin-bottom:8px}
+    .cv-entry-header{display:flex;justify-content:space-between;font-weight:600;font-size:10.5px}
+    .cv-entry-sub{font-size:9.5px;color:#555;font-style:italic}
+    .cv-entry-detail{font-size:9.5px;color:#666}
+    .cv-summary{font-size:10px;color:#444;margin:0 0 6px;line-height:1.6}
+    .cv-skills-grid{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:9.5px}
+    .sk-cat{font-weight:600;color:#2c3e50}
+    .sk-val{color:#444}
+    .cv-langs{font-size:9.5px;color:#444}
+    ul{margin:2px 0 0 14px;padding:0}
+    li{font-size:9.5px;margin-bottom:1px;color:#333}
+  `;
+
+  const wrapper=document.createElement('div');
+  wrapper.innerHTML=`<style>${cssText}</style>${el.innerHTML}`;
+  wrapper.style.cssText='position:fixed;left:-9999px;top:0;width:190mm;background:#fff;padding:10mm;z-index:-1;';
+  document.body.appendChild(wrapper);
+
   const opt={
-    margin:[8,10,8,10],
+    margin:0,
     filename:filename,
     image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true,letterRendering:true},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-    pagebreak:{mode:['avoid-all','css','legacy']}
+    html2canvas:{scale:2,useCORS:true,logging:false,width:wrapper.scrollWidth,height:wrapper.scrollHeight},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
   };
 
-  // Clone and adjust for PDF
-  const clone=el.cloneNode(true);
-  clone.style.width='170mm';
-  clone.style.padding='0';
-  clone.style.fontSize='10px';
-  clone.style.lineHeight='1.45';
-  clone.style.fontFamily="'Segoe UI',Arial,Helvetica,sans-serif";
-  clone.style.color='#111';
-
-  document.body.appendChild(clone);
-  html2pdf().set(opt).from(clone).save().then(()=>{
-    document.body.removeChild(clone);
+  html2pdf().set(opt).from(wrapper).save().then(()=>{
+    document.body.removeChild(wrapper);
+  }).catch(()=>{
+    if(wrapper.parentNode)document.body.removeChild(wrapper);
   });
 }
 </script>
