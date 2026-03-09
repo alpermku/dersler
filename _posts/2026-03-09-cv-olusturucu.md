@@ -34,8 +34,19 @@ categories: genel-kultur
 .btn-share:hover{opacity:.9}
 .cv-preview-wrap{position:sticky;top:20px}
 .cv-preview{background:#fff;border:1px solid #ccc;border-radius:4px;padding:32px 36px;font-family:'Segoe UI',Arial,sans-serif;font-size:10.5px;line-height:1.5;color:#222;min-height:600px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.cv-preview h1{font-size:18px;margin:0;text-align:center;letter-spacing:1px;color:#1a1a2e}
-.cv-preview .cv-contact{text-align:center;font-size:9.5px;color:#555;margin:4px 0 12px;word-break:break-all}
+.cv-preview h1{font-size:18px;margin:0;letter-spacing:1px;color:#1a1a2e}
+.cv-preview .cv-header-row{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+.cv-preview .cv-header-row.no-photo{justify-content:center}
+.cv-preview .cv-header-row.no-photo h1{text-align:center}
+.cv-preview .cv-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1.5px solid #ccc;flex-shrink:0}
+.cv-preview .cv-header-info{flex:1}
+.cv-preview .cv-contact{font-size:9.5px;color:#555;margin:2px 0 0;word-break:break-all}
+.cv-preview .cv-contact.centered{text-align:center;margin-bottom:12px}
+.photo-upload-area{border:2px dashed #ccc;border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
+.photo-upload-area:hover{border-color:#6c5ce7}
+.photo-upload-area img{width:80px;height:80px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 6px}
+.photo-upload-area .upload-text{font-size:.82em;color:#888}
+.photo-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
 .cv-preview .cv-section{margin:10px 0}
 .cv-preview .cv-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#1a1a2e;border-bottom:1.5px solid #2c3e50;padding-bottom:2px;margin-bottom:6px}
 .cv-preview .cv-entry{margin-bottom:8px}
@@ -63,6 +74,12 @@ categories: genel-kultur
 <div class="cv-form" id="cvForm">
 
 <h3>👤 Kişisel Bilgiler</h3>
+<label>Fotoğraf (opsiyonel)</label>
+<div class="photo-upload-area" id="photoArea" onclick="document.getElementById('photoInput').click()">
+<div id="photoPreviewThumb"></div>
+<div class="upload-text" id="photoText">📷 Fotoğraf yüklemek için tıklayın<br><small>Yüklemezseniz fotoğrafsız CV oluşturulur</small></div>
+<input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+</div>
 <label>Ad Soyad</label>
 <input type="text" id="fullName" placeholder="Alper Kahraman" oninput="render()">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -157,6 +174,21 @@ categories: genel-kultur
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
+// ─── Photo ───
+let photoDataURL=null;
+function handlePhoto(input){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    photoDataURL=e.target.result;
+    document.getElementById('photoPreviewThumb').innerHTML=`<img src="${photoDataURL}" alt="foto">`;
+    document.getElementById('photoText').innerHTML='📷 Değiştirmek için tıklayın<br><small>Fotoğraf yüklendi ✓</small>';
+    render();
+  };
+  reader.readAsDataURL(file);
+}
+
 // ─── State helpers ───
 function addSkill(){
   const c=document.getElementById('skillsList');
@@ -218,14 +250,27 @@ function render(){
 
   let h='';
   // Header
-  h+=`<h1>${esc(name)||'AD SOYAD'}</h1>`;
   const contact=[];
   if(email)contact.push(esc(email));
   if(phone)contact.push(esc(phone));
   if(linkedin)contact.push(esc(linkedin));
   if(github)contact.push(esc(github));
   if(city)contact.push(esc(city));
-  if(contact.length)h+=`<div class="cv-contact">${contact.join(' &nbsp;&middot;&nbsp; ')}</div>`;
+  const contactStr=contact.join(' &nbsp;&middot;&nbsp; ');
+
+  if(photoDataURL){
+    h+=`<div class="cv-header-row">`;
+    h+=`<img class="cv-photo" src="${photoDataURL}" alt="foto">`;
+    h+=`<div class="cv-header-info">`;
+    h+=`<h1>${esc(name)||'AD SOYAD'}</h1>`;
+    if(contactStr)h+=`<div class="cv-contact">${contactStr}</div>`;
+    h+=`</div></div>`;
+  } else {
+    h+=`<div class="cv-header-row no-photo"><div class="cv-header-info">`;
+    h+=`<h1 style="text-align:center">${esc(name)||'AD SOYAD'}</h1>`;
+    h+=`</div></div>`;
+    if(contactStr)h+=`<div class="cv-contact centered">${contactStr}</div>`;
+  }
 
   // Summary
   if(summary){
