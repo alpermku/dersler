@@ -220,12 +220,12 @@ function render(){
   // Header
   h+=`<h1>${esc(name)||'AD SOYAD'}</h1>`;
   const contact=[];
-  if(email)contact.push('📧 '+esc(email));
-  if(phone)contact.push('📱 '+esc(phone));
-  if(linkedin)contact.push('🔗 '+esc(linkedin));
-  if(github)contact.push('💻 '+esc(github));
-  if(city)contact.push('📍 '+esc(city));
-  if(contact.length)h+=`<div class="cv-contact">${contact.join(' &nbsp;|&nbsp; ')}</div>`;
+  if(email)contact.push(esc(email));
+  if(phone)contact.push(esc(phone));
+  if(linkedin)contact.push(esc(linkedin));
+  if(github)contact.push(esc(github));
+  if(city)contact.push(esc(city));
+  if(contact.length)h+=`<div class="cv-contact">${contact.join(' &nbsp;&middot;&nbsp; ')}</div>`;
 
   // Summary
   if(summary){
@@ -264,7 +264,7 @@ function render(){
         const lines=p['prj-desc'].split('\n').map(l=>l.trim()).filter(l=>l);
         if(lines.length){h+=`<ul>`;lines.forEach(l=>{h+=`<li>${esc(l.replace(/^[-•]\s*/,''))}</li>`;});h+=`</ul>`;}
       }
-      if(p['prj-link'])h+=`<div class="cv-entry-detail">🔗 ${esc(p['prj-link'])}</div>`;
+      if(p['prj-link'])h+=`<div class="cv-entry-detail">${esc(p['prj-link'])}</div>`;
       h+=`</div>`;
     });
     h+=`</div>`;
