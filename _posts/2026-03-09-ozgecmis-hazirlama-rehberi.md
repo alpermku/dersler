@@ -83,6 +83,26 @@ ALPER KAHRAMAN
 
 Profesyonel e-posta formatı: **ad.soyad@provider.com** veya **adsoyad@provider.com**. Başka hiçbir şey kabul edilemez.
 
+### Fotoğraf Meselesi: Türkiye vs. Dünya
+
+Uluslararası standartlarda (ABD, İngiltere, Kanada, Kuzey Avrupa) CV'ye fotoğraf **konmaz**. Sebebi bilinçsiz önyargıyı (unconscious bias) engellemektir. Ama **Türkiye'de durum farklıdır**:
+
+- Türk şirketlerinin büyük çoğunluğu, özellikle KOBİ'ler ve geleneksel sektörler, hâlâ fotoğraf **bekler**
+- Kariyer sitelerinde (Kariyer.net, LinkedIn Türkiye) profil fotoğraflı adaylar daha fazla tıklama alır
+- Çok uluslu şirketler ve teknoloji firmaları genellikle fotoğraf **istemez**
+
+**Pratik tavsiye:**
+- Türkiye'deki KOBİ'lere başvuruyorsanız → **fotoğraf koyun**
+- Uluslararası veya teknoloji şirketlerine → **koymayın**
+- İlan açıkça istiyorsa → **koyun**
+- Emin değilseniz → **iki versiyon hazırlayın** (CV Oluşturucumuz bunu destekliyor!)
+
+**Fotoğraf koyacaksanız dikkat:**
+- Vesikalık veya iş ortamında çekilmiş portre
+- Düz veya açık renk arka plan
+- Omuz üstü, yüz net görünür
+- **Kesinlikle:** tatil fotoğrafı, selfie, grup fotoğrafından kırpılmış görsel kullanmayın
+
 ---
 
 ## 4. Profil Özeti — "Elevator Pitch"iniz
