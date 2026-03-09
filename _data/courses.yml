@@ -26,6 +26,13 @@
   gradient: "linear-gradient(135deg, #E17055, #fab1a0)"
   description: "Sistem gelistirme yasam dongusu, analiz ve tasarim metodolojileri."
 
+- id: genel-kultur
+  code: "GK"
+  name: "Genel Kültür"
+  color: "#FDCB6E"
+  gradient: "linear-gradient(135deg, #FDCB6E, #f9ca24)"
+  description: "Yazılım dünyasında işinize yarayacak genel kültür, ipuçları ve kariyer rehberi."
+
 - id: veri-tabani-yonetim-sistemleri-ii
   code: "1407404"
   name: "Veri Tabani Yonetim Sistemleri II"
