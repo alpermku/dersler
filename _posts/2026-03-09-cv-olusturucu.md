@@ -157,7 +157,8 @@ categories: genel-kultur
 </div>
 <button class="btn btn-add" onclick="addLang()">+ Dil Ekle</button>
 
-<button class="btn btn-pdf" onclick="downloadPDF()">📄 PDF Olarak İndir</button>
+<button class="btn btn-pdf" onclick="downloadPDF()">📄 PDF Olarak Kaydet / Yazdır</button>
+<div style="font-size:.75em;color:#888;text-align:center;margin-top:4px">Açılan sayfada "PDF olarak kaydet" seçeneğini kullanın</div>
 
 </div>
 
@@ -170,8 +171,6 @@ categories: genel-kultur
 
 </div>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
 // ─── Photo ───
@@ -359,47 +358,63 @@ function downloadPDF(){
   if(el.querySelector('p[style]')&&el.children.length===1){
     alert('Lütfen önce formu doldurun!');return;
   }
-  const name=gv('fullName')||'CV';
-  const filename=name.replace(/\s+/g,'_')+'_CV.pdf';
 
-  // Save original styles
-  const origStyle=el.getAttribute('style')||'';
-  const origClass=el.className;
+  // Build a fully standalone HTML page with all styles inline
+  const fullHTML=`<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>${esc(gv('fullName')||'CV')}</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;font-size:11px;line-height:1.55;color:#222;background:#fff;padding:12mm 16mm;max-width:210mm}
+h1{font-size:20px;letter-spacing:1px;color:#1a1a2e;margin:0}
+.cv-header-row{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+.cv-header-row.no-photo{justify-content:center}
+.cv-header-row.no-photo h1{text-align:center}
+.cv-photo{width:72px;height:72px;border-radius:50%;object-fit:cover;border:1.5px solid #ccc;flex-shrink:0}
+.cv-header-info{flex:1}
+.cv-contact{font-size:10px;color:#555;margin:3px 0 0;word-break:break-all}
+.cv-contact.centered{text-align:center;margin:4px 0 14px}
+.cv-section{margin:12px 0}
+.cv-section-title{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#1a1a2e;border-bottom:1.5px solid #2c3e50;padding-bottom:3px;margin-bottom:7px}
+.cv-entry{margin-bottom:9px}
+.cv-entry-header{display:flex;justify-content:space-between;font-weight:600;font-size:11px}
+.cv-entry-sub{font-size:10px;color:#555;font-style:italic}
+.cv-entry-detail{font-size:10px;color:#666}
+.cv-summary{font-size:10.5px;color:#444;margin:0 0 6px;line-height:1.65}
+.cv-skills-grid{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:10px}
+.sk-cat{font-weight:600;color:#2c3e50}
+.sk-val{color:#444}
+.cv-langs{font-size:10px;color:#444}
+.cv-langs div{margin-bottom:2px}
+ul{margin:3px 0 0 16px;padding:0}
+li{font-size:10px;margin-bottom:2px;color:#333}
+@media print{
+  body{padding:0;margin:0}
+  @page{margin:12mm 14mm;size:A4}
+}
+</style>
+</head>
+<body>
+${el.innerHTML}
+</body>
+</html>`;
 
-  // Temporarily force print-friendly styles on the visible element
-  el.style.width='190mm';
-  el.style.maxWidth='190mm';
-  el.style.padding='8mm';
-  el.style.background='#fff';
-  el.style.color='#222';
-  el.style.fontSize='10.5px';
-  el.style.lineHeight='1.5';
-  el.style.fontFamily="'Segoe UI',Arial,Helvetica,sans-serif";
-  el.style.border='none';
-  el.style.boxShadow='none';
-  el.style.borderRadius='0';
-  el.style.minHeight='auto';
+  // Open in new window and trigger print (Save as PDF)
+  const w=window.open('','_blank','width=800,height=1000');
+  if(!w){
+    alert('Pop-up engellendi. Lütfen bu site için pop-up izni verin ve tekrar deneyin.');
+    return;
+  }
+  w.document.open();
+  w.document.write(fullHTML);
+  w.document.close();
 
-  const btnEl=document.querySelector('.btn-pdf');
-  if(btnEl){btnEl.textContent='⏳ PDF hazırlanıyor...';btnEl.disabled=true;}
-
-  html2pdf().set({
-    margin:[6,8,6,8],
-    filename:filename,
-    image:{type:'jpeg',quality:0.95},
-    html2canvas:{scale:2,useCORS:true,logging:false,scrollY:0,windowWidth:el.scrollWidth},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-  }).from(el).save().then(()=>{
-    // Restore original styles
-    el.setAttribute('style',origStyle);
-    el.className=origClass;
-    if(btnEl){btnEl.textContent='📄 PDF Olarak İndir';btnEl.disabled=false;}
-  }).catch(()=>{
-    el.setAttribute('style',origStyle);
-    el.className=origClass;
-    if(btnEl){btnEl.textContent='📄 PDF Olarak İndir';btnEl.disabled=false;}
-    alert('PDF oluşturulamadı. Lütfen tekrar deneyin.');
-  });
+  // Wait for images/content to load, then print
+  w.onload=function(){w.print();};
+  // Fallback if onload doesn't fire
+  setTimeout(function(){w.print();},500);
 }
 </script>
 
