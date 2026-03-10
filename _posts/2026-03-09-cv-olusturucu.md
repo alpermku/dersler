@@ -75,10 +75,10 @@ categories: genel-kultur
 
 <h3>👤 Kişisel Bilgiler</h3>
 <label>Fotoğraf (opsiyonel)</label>
-<div class="photo-upload-area" id="photoArea" onclick="document.getElementById('photoInput').click()">
+<div class="photo-upload-area" id="photoArea">
 <div id="photoPreviewThumb"></div>
 <div class="upload-text" id="photoText">📷 Fotoğraf yüklemek için tıklayın<br><small>Yüklemezseniz fotoğrafsız CV oluşturulur</small></div>
-<input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+<input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(event)">
 </div>
 <label>Ad Soyad</label>
 <input type="text" id="fullName" placeholder="Alper Kahraman" oninput="render()">
@@ -175,14 +175,15 @@ categories: genel-kultur
 <script>
 // ─── Photo ───
 let photoDataURL=null;
-function handlePhoto(input){
-  const file=input.files[0];
+function handlePhoto(evt){
+  evt.stopPropagation();
+  const file=evt.target.files[0];
   if(!file)return;
   const reader=new FileReader();
   reader.onload=function(e){
     photoDataURL=e.target.result;
-    document.getElementById('photoPreviewThumb').innerHTML=`<img src="${photoDataURL}" alt="foto">`;
-    document.getElementById('photoText').innerHTML='📷 Değiştirmek için tıklayın<br><small>Fotoğraf yüklendi ✓</small>';
+    document.getElementById('photoPreviewThumb').innerHTML='<img src="'+photoDataURL+'" alt="foto">';
+    document.getElementById('photoText').innerHTML='Degistirmek icin tiklayin<br><small>Fotograf yuklendi ✓</small>';
     render();
   };
   reader.readAsDataURL(file);
