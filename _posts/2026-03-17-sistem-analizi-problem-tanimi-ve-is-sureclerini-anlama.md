@@ -2,7 +2,7 @@
 layout: post
 title: "Problem Tanımı ve İş Süreçlerini Anlama"
 date: 2026-03-17
-categories: sistem-analizi
+categories: sistem-analizi-ve-tasarimi
 ---
 
 Bir yazılım projesi başarısızlıkla sonuçlandığında, sebebin genellikle kodlama hatası olmadığını biliyor muydunuz? Projelerin çoğu **yanlış problemi çözdüğü için** başarısız olur. Mükemmel biçimde yazılmış, zamanında teslim edilmiş, bütçesinde tamamlanmış — ama hiçbir işe yaramayan bir sistem. Kulağa paradoks gibi geliyor, ama yazılım dünyasının en sık tekrarlanan trajedisi tam olarak budur.

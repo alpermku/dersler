@@ -2,7 +2,7 @@
 layout: post
 title: "Gereksinim Mühendisliği: Yazılımın DNA'sı"
 date: 2026-03-17
-categories: sistem-analizi
+categories: sistem-analizi-ve-tasarimi
 ---
 
 Bir ev inşa etmeyi düşünün. Temel atıldı, duvarlar yükseldi, çatı kapandı. Tam boyama aşamasına geldiniz ki müşteri diyor ki: "Ben üç katlı istemiştim, siz iki kat yapmışsınız." İki kat yıkıp üçüncüyü eklemek mi, sıfırdan mı başlamak? Her iki durumda da felaket.
