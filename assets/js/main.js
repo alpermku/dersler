@@ -1,4 +1,32 @@
+// Theme: apply before DOMContentLoaded to prevent flash
+(function() {
+  var saved = localStorage.getItem('theme');
+  if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark-theme-loading');
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('dark-theme');
+      document.documentElement.classList.remove('dark-theme-loading');
+    });
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
+
+  // Theme toggle
+  var themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    // Apply saved theme
+    var saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.body.classList.add('dark-theme');
+    }
+
+    themeToggle.addEventListener('click', function() {
+      document.body.classList.toggle('dark-theme');
+      var isDark = document.body.classList.contains('dark-theme');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
 
   // Sticky header
   var header = document.getElementById('siteHeader');
