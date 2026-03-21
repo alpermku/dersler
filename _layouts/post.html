@@ -9,6 +9,10 @@ layout: default
   {% endif %}
 {% endfor %}
 
+{% assign words = content | number_of_words %}
+{% assign reading_mins = words | divided_by: 200 %}
+{% if reading_mins < 1 %}{% assign reading_mins = 1 %}{% endif %}
+
 <article class="post-page">
   <div class="post-page-header" style="--accent: {{ course.color }}; --gradient: {{ course.gradient }}">
     <div class="post-page-header-bg"></div>
@@ -33,12 +37,18 @@ layout: default
         </time>
         <span class="meta-divider"></span>
         <span class="meta-course" style="--accent: {{ course.color }}">{{ course.name }}</span>
+        <span class="meta-divider"></span>
+        <span class="meta-reading-time">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          ~{{ reading_mins }} dk okuma
+        </span>
       </div>
     </div>
   </div>
 
   <div class="post-page-body">
     <div class="container container-narrow">
+      <div class="post-toc" id="postToc"></div>
       <div class="post-content prose">
         {{ content }}
       </div>
@@ -52,7 +62,7 @@ layout: default
         <a href="{{ page.previous.url | relative_url }}" class="post-nav-item prev">
           <span class="post-nav-label">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            Onceki Gonderi
+            Önceki Gönderi
           </span>
           <span class="post-nav-title">{{ page.previous.title }}</span>
         </a>
@@ -62,7 +72,7 @@ layout: default
         {% if page.next.url %}
         <a href="{{ page.next.url | relative_url }}" class="post-nav-item next">
           <span class="post-nav-label">
-            Sonraki Gonderi
+            Sonraki Gönderi
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </span>
           <span class="post-nav-title">{{ page.next.title }}</span>

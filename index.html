@@ -11,11 +11,11 @@ title: Ana Sayfa
   </div>
   <div class="hero-grid-overlay"></div>
   <div class="container hero-content">
-    <div class="hero-badge">2025-2026 Bahar Donemi</div>
-    <h1 class="hero-title">Ders Takip<br><span class="hero-title-accent">Portali</span></h1>
-    <p class="hero-desc">Ders iceriklerini takip edin, haftalik konulari inceleyin ve guncel kalin. Tum ders materyalleri ve duyurular tek bir yerde.</p>
+    <div class="hero-badge">2025-2026 Bahar Dönemi</div>
+    <h1 class="hero-title">Ders Takip<br><span class="hero-title-accent">Portalı</span></h1>
+    <p class="hero-desc">Ders içeriklerini takip edin, haftalık konuları inceleyin ve güncel kalın. Tüm ders materyalleri ve duyurular tek bir yerde.</p>
     <a href="#courses" class="hero-cta">
-      Dersleri Goruntule
+      Dersleri Görüntüle
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="12" y1="5" x2="12" y2="19"></line>
         <polyline points="19 12 12 19 5 12"></polyline>
@@ -28,7 +28,7 @@ title: Ana Sayfa
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Dersler</h2>
-      <p class="section-subtitle">Bu donem verilen derslerin listesi. Detaylar ve gonderiler icin bir derse tiklayin.</p>
+      <p class="section-subtitle">Bu dönem verilen derslerin listesi. Detaylar ve gönderiler için bir derse tıklayın.</p>
     </div>
     <div class="courses-grid">
       {% for course in site.data.courses %}
@@ -39,13 +39,23 @@ title: Ana Sayfa
             <span class="card-code">{{ course.code }}</span>
             {% assign post_count = site.categories[course.id] | size %}
             {% if post_count > 0 %}
-            <span class="card-badge">{{ post_count }} gonderi</span>
+            <span class="card-badge">{{ post_count }} gönderi</span>
             {% endif %}
           </div>
-          <h3 class="card-title">{{ course.name }}</h3>
+          <div class="card-title-row">
+            <span class="card-icon">{{ course.icon }}</span>
+            <h3 class="card-title">{{ course.name }}</h3>
+          </div>
           <p class="card-desc">{{ course.description }}</p>
+          {% assign latest = site.categories[course.id] | first %}
+          {% if latest %}
+          <div class="card-update">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Son güncelleme: {{ latest.date | date: "%d %b %Y" }}
+          </div>
+          {% endif %}
           <div class="card-footer">
-            <span class="card-link">Detaylari Gor</span>
+            <span class="card-link">Detayları Gör</span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
@@ -61,11 +71,11 @@ title: Ana Sayfa
 <section class="recent-posts-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Son Gonderiler</h2>
-      <p class="section-subtitle">Tum derslerden en son eklenen icerikler.</p>
+      <h2 class="section-title">Son Gönderiler</h2>
+      <p class="section-subtitle">Tüm derslerden en son eklenen içerikler.</p>
     </div>
     <div class="recent-posts-list">
-      {% for post in site.posts limit:5 %}
+      {% for post in site.posts limit:8 %}
       {% assign course = nil %}
       {% for c in site.data.courses %}
         {% if post.categories contains c.id %}
@@ -78,6 +88,10 @@ title: Ana Sayfa
           <div class="rpi-top">
             <span class="rpi-course" style="--accent: {{ course.color }}">{{ course.name }}</span>
             <time class="rpi-date">{{ post.date | date: "%d %b %Y" }}</time>
+            {% assign words = post.content | number_of_words %}
+            {% assign mins = words | divided_by: 200 %}
+            {% if mins < 1 %}{% assign mins = 1 %}{% endif %}
+            <span class="rpi-reading-time">~{{ mins }} dk okuma</span>
           </div>
           <h3 class="rpi-title">{{ post.title }}</h3>
           <p class="rpi-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
@@ -85,6 +99,12 @@ title: Ana Sayfa
         <svg class="rpi-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </a>
       {% endfor %}
+    </div>
+    <div class="section-footer">
+      <a href="{{ '/tum-gonderiler' | relative_url }}" class="btn-all-posts">
+        Tüm Gönderileri Gör
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
     </div>
   </div>
 </section>

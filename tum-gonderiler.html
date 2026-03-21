@@ -1,0 +1,61 @@
+---
+layout: default
+title: Tüm Gönderiler
+---
+
+<section class="all-posts-hero">
+  <div class="container">
+    <h1 class="all-posts-title">Tüm Gönderiler</h1>
+    <p class="all-posts-desc">Toplam {{ site.posts | size }} gönderi — tüm derslerden.</p>
+    <div class="search-box" id="searchBox">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Gönderi ara... (başlık, ders adı veya içerik)" autocomplete="off">
+      <kbd class="search-shortcut">Ctrl+K</kbd>
+    </div>
+    <div class="filter-pills" id="filterPills">
+      <button class="filter-pill active" data-filter="all">Tümü</button>
+      {% for course in site.data.courses %}
+      <button class="filter-pill" data-filter="{{ course.id }}" style="--pill-color: {{ course.color }}">{{ course.icon }} {{ course.name }}</button>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="all-posts-list-section">
+  <div class="container">
+    <div class="all-posts-list" id="allPostsList">
+      {% for post in site.posts %}
+      {% assign course = nil %}
+      {% for c in site.data.courses %}
+        {% if post.categories contains c.id %}
+          {% assign course = c %}
+        {% endif %}
+      {% endfor %}
+      {% assign words = post.content | number_of_words %}
+      {% assign mins = words | divided_by: 200 %}
+      {% if mins < 1 %}{% assign mins = 1 %}{% endif %}
+      <a href="{{ post.url | relative_url }}" class="all-post-item" data-course="{{ course.id }}" data-title="{{ post.title | downcase }}" data-excerpt="{{ post.excerpt | strip_html | truncatewords: 30 | downcase }}" style="--accent: {{ course.color }}">
+        <div class="api-accent"></div>
+        <div class="api-content">
+          <div class="api-top">
+            <span class="api-course">{{ course.icon }} {{ course.name }}</span>
+            <time class="api-date">{{ post.date | date: "%d %b %Y" }}</time>
+            <span class="api-reading-time">~{{ mins }} dk</span>
+          </div>
+          <h3 class="api-title">{{ post.title }}</h3>
+          <p class="api-excerpt">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
+        </div>
+        <svg class="api-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="no-results" id="noResults" style="display:none;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <h3>Sonuç bulunamadı</h3>
+      <p>Farklı bir arama terimi deneyin veya filtreleri temizleyin.</p>
+    </div>
+  </div>
+</section>
