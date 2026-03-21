@@ -172,7 +172,14 @@ document.addEventListener('DOMContentLoaded', function () {
   var tocContainer = document.getElementById('postToc');
   var postContent = document.querySelector('.post-content.prose');
 
-  if (tocContainer && postContent) {
+  // Skip TOC for interactive pages (quizzes, CV builder, etc.)
+  var isInteractive = postContent && (
+    postContent.querySelector('.quiz-container') ||
+    postContent.querySelector('.cv-app') ||
+    postContent.querySelector('[id*="quiz"]')
+  );
+
+  if (tocContainer && postContent && !isInteractive) {
     var headings = postContent.querySelectorAll('h2, h3');
 
     if (headings.length >= 3) {

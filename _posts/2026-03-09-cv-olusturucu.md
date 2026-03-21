@@ -13,14 +13,14 @@ categories: genel-kultur
 .cv-app{max-width:1100px;margin:0 auto;font-family:inherit}
 .cv-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
 @media(max-width:860px){.cv-layout{grid-template-columns:1fr}}
-.cv-form{background:#f8f9fa;border:1px solid #dee2e6;border-radius:12px;padding:20px}
-.cv-form h3{margin:20px 0 10px;color:#2c3e50;font-size:1em;border-bottom:2px solid #6c5ce7;padding-bottom:4px;display:flex;align-items:center;gap:8px}
+.cv-form{background:var(--bg-alt,#f8f9fa);border:1px solid var(--border,#dee2e6);border-radius:12px;padding:20px}
+.cv-form h3{margin:20px 0 10px;color:var(--text,#2c3e50);font-size:1em;border-bottom:2px solid var(--gold,#C9A84C);padding-bottom:4px;display:flex;align-items:center;gap:8px}
 .cv-form h3:first-child{margin-top:0}
-.cv-form label{display:block;font-size:.85em;color:#555;margin:8px 0 3px;font-weight:600}
-.cv-form input,.cv-form textarea,.cv-form select{width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:6px;font-size:.9em;font-family:inherit;background:#fff}
+.cv-form label{display:block;font-size:.85em;color:var(--text-secondary,#555);margin:8px 0 3px;font-weight:600}
+.cv-form input,.cv-form textarea,.cv-form select{width:100%;padding:8px 10px;border:1px solid var(--border,#ccc);border-radius:6px;font-size:.9em;font-family:inherit;background:var(--card-bg,#fff);color:var(--text,#222)}
 .cv-form textarea{resize:vertical;min-height:50px}
-.cv-form input:focus,.cv-form textarea:focus{outline:none;border-color:#6c5ce7;box-shadow:0 0 0 2px rgba(108,92,231,.15)}
-.entry-group{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin:8px 0}
+.cv-form input:focus,.cv-form textarea:focus{outline:none;border-color:var(--gold,#C9A84C);box-shadow:0 0 0 2px rgba(201,168,76,.2)}
+.entry-group{background:var(--card-bg,#fff);border:1px solid var(--border,#e0e0e0);border-radius:8px;padding:12px;margin:8px 0}
 .entry-group .entry-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:500px){.entry-group .entry-row{grid-template-columns:1fr}}
 .btn{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:.85em;font-weight:600;transition:all .2s}
@@ -28,7 +28,7 @@ categories: genel-kultur
 .btn-add:hover{background:#00a381}
 .btn-remove{background:#e74c3c;color:#fff;font-size:.75em;padding:4px 10px}
 .btn-remove:hover{background:#c0392b}
-.btn-pdf{background:linear-gradient(135deg,#6c5ce7,#a29bfe);color:#fff;padding:12px 28px;font-size:1em;border-radius:8px;margin:12px 0;width:100%}
+.btn-pdf{background:linear-gradient(135deg,var(--primary,#1B2A4A),var(--primary-mid,#2C4470));color:#fff;padding:12px 28px;font-size:1em;border-radius:8px;margin:12px 0;width:100%}
 .btn-pdf:hover{opacity:.9;transform:translateY(-1px)}
 .btn-share{background:linear-gradient(135deg,#0984e3,#74b9ff);color:#fff;padding:10px 20px;font-size:.9em;border-radius:8px;margin:6px 0;width:100%}
 .btn-share:hover{opacity:.9}
@@ -42,10 +42,10 @@ categories: genel-kultur
 .cv-preview .cv-header-info{flex:1}
 .cv-preview .cv-contact{font-size:9.5px;color:#555;margin:2px 0 0;word-break:break-all}
 .cv-preview .cv-contact.centered{text-align:center;margin-bottom:12px}
-.photo-upload-area{border:2px dashed #ccc;border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
-.photo-upload-area:hover{border-color:#6c5ce7}
+.photo-upload-area{border:2px dashed var(--border,#ccc);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
+.photo-upload-area:hover{border-color:var(--gold,#C9A84C)}
 .photo-upload-area img{width:80px;height:80px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 6px}
-.photo-upload-area .upload-text{font-size:.82em;color:#888}
+.photo-upload-area .upload-text{font-size:.82em;color:var(--text-muted,#888)}
 .photo-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
 .cv-preview .cv-section{margin:10px 0}
 .cv-preview .cv-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#1a1a2e;border-bottom:1.5px solid #2c3e50;padding-bottom:2px;margin-bottom:6px}
@@ -60,7 +60,7 @@ categories: genel-kultur
 .cv-preview .cv-skills-grid .sk-cat{font-weight:600;color:#2c3e50}
 .cv-preview .cv-skills-grid .sk-val{color:#444}
 .cv-preview .cv-langs{font-size:9.5px;color:#444}
-.tip-box{background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:8px 12px;margin:8px 0;font-size:.82em;color:#856404}
+.tip-box{background:color-mix(in srgb,var(--gold,#C9A84C) 12%,var(--bg,#fff));border:1px solid var(--gold,#C9A84C);border-radius:6px;padding:8px 12px;margin:8px 0;font-size:.82em;color:var(--text,#856404)}
 .hidden{display:none}
 </style>
 
