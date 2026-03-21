@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var filterPills = document.querySelectorAll('.filter-pill');
 
   if (searchInput && allPostsList) {
-    var allItems = allPostsList.querySelectorAll('.all-post-item');
+    var allItems = allPostsList.querySelectorAll('.all-post-card');
     var activeFilter = 'all';
 
     function filterAndSearch() {
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var matchesSearch = !query ||
           item.dataset.title.indexOf(query) !== -1 ||
           item.dataset.excerpt.indexOf(query) !== -1 ||
-          (item.querySelector('.api-course') && item.querySelector('.api-course').textContent.toLowerCase().indexOf(query) !== -1);
+          (item.querySelector('.apc-course') && item.querySelector('.apc-course').textContent.toLowerCase().indexOf(query) !== -1);
 
         if (matchesFilter && matchesSearch) {
           item.classList.remove('hidden');

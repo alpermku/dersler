@@ -1307,9 +1307,22 @@ img {
    All Posts Page
    ======================================== */
 .all-posts-hero {
-  padding: 140px 0 40px;
-  background: linear-gradient(135deg, #070720 0%, #0d0d3b 40%, #0f2850 100%);
+  position: relative;
+  padding: 140px 0 48px;
+  background: linear-gradient(135deg, #070720 0%, #0d0d3b 20%, #1a1055 40%, #0f2850 60%, #0a1628 100%);
   text-align: center;
+  overflow: hidden;
+}
+
+.all-posts-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.all-posts-hero-content {
+  position: relative;
+  z-index: 2;
 }
 
 .all-posts-title {
@@ -1317,6 +1330,7 @@ img {
   font-weight: 800;
   color: #fff;
   margin-bottom: 12px;
+  letter-spacing: -0.02em;
 }
 
 .all-posts-desc {
@@ -1325,14 +1339,18 @@ img {
   margin-bottom: 32px;
 }
 
+.all-posts-desc strong {
+  color: rgba(255,255,255,0.9);
+}
+
 /* Search */
 .search-box {
   display: flex;
   align-items: center;
   gap: 12px;
-  max-width: 500px;
-  margin: 0 auto 24px;
-  padding: 12px 20px;
+  max-width: 520px;
+  margin: 0 auto 28px;
+  padding: 14px 22px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 50px;
@@ -1341,9 +1359,9 @@ img {
 }
 
 .search-box:focus-within {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.3);
-  box-shadow: 0 0 0 4px rgba(108,92,231,0.2);
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.35);
+  box-shadow: 0 0 0 4px rgba(108,92,231,0.25);
 }
 
 .search-box svg {
@@ -1385,7 +1403,7 @@ img {
 }
 
 .filter-pill {
-  padding: 6px 16px;
+  padding: 8px 18px;
   border-radius: 50px;
   border: 1px solid rgba(255,255,255,0.15);
   background: rgba(255,255,255,0.05);
@@ -1398,125 +1416,154 @@ img {
 }
 
 .filter-pill:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.3);
+  transform: translateY(-1px);
 }
 
 .filter-pill.active {
-  background: rgba(255,255,255,0.15);
-  border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.4);
   color: #fff;
+  box-shadow: 0 2px 12px rgba(108,92,231,0.2);
 }
 
-/* All posts list */
+/* All posts grid */
 .all-posts-list-section {
   padding: 48px 0 80px;
 }
 
-.all-posts-list {
+.all-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.all-post-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.all-post-item {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 24px;
   background: var(--card-bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
   border: 1px solid var(--border);
   transition: var(--transition);
-  overflow: hidden;
 }
 
-.all-post-item:hover {
-  box-shadow: var(--shadow-md);
+.all-post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
   border-color: var(--accent);
-  transform: translateX(4px);
 }
 
-.all-post-item.hidden {
+.all-post-card.hidden {
   display: none;
 }
 
-.api-accent {
-  width: 4px;
-  height: 48px;
-  border-radius: 4px;
-  background: var(--accent);
-  flex-shrink: 0;
+.apc-accent-bar {
+  height: 4px;
+  background: var(--gradient, var(--accent));
+  transition: height 0.3s ease;
 }
 
-.api-content {
+.all-post-card:hover .apc-accent-bar {
+  height: 6px;
+}
+
+.apc-body {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  min-width: 0;
 }
 
-.api-top {
+.apc-top {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 6px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
-.api-course {
+.apc-course {
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
-.api-date {
-  font-size: 0.78rem;
+.apc-reading-time {
+  font-size: 0.72rem;
   color: var(--text-muted);
-}
-
-.api-reading-time {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 50px;
   background: var(--bg-alt);
-}
-
-.api-title {
-  font-size: 1rem;
   font-weight: 600;
-  color: var(--text);
-  margin-bottom: 4px;
 }
 
-.api-excerpt {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+.apc-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  line-height: 1.5;
 }
 
-.api-arrow {
-  flex-shrink: 0;
+.apc-excerpt {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.apc-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.apc-date {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
   color: var(--text-muted);
-  transition: var(--transition);
 }
 
-.all-post-item:hover .api-arrow {
+.apc-date svg {
+  opacity: 0.6;
+}
+
+.apc-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
   color: var(--accent);
-  transform: translateX(4px);
+  transition: var(--transition-fast);
+}
+
+.all-post-card:hover .apc-read-link {
+  gap: 8px;
 }
 
 .no-results {
   text-align: center;
-  padding: 60px 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 80px 20px;
+  grid-column: 1 / -1;
 }
 
 .no-results svg {
@@ -1526,6 +1573,7 @@ img {
 }
 
 .no-results h3 {
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 8px;
@@ -1854,19 +1902,9 @@ img {
     gap: 24px;
   }
 
-  .all-post-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .api-accent {
-    width: 48px;
-    height: 4px;
-  }
-
-  .api-arrow {
-    display: none;
+  .all-posts-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .search-shortcut {
@@ -1879,7 +1917,7 @@ img {
 
   .filter-pill {
     font-size: 0.75rem;
-    padding: 5px 12px;
+    padding: 6px 12px;
   }
 }
 
