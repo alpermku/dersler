@@ -13,6 +13,20 @@ layout: default
 {% assign reading_mins = words | divided_by: 200 %}
 {% if reading_mins < 1 %}{% assign reading_mins = 1 %}{% endif %}
 
+{% comment %} Find prev/next posts within the SAME category {% endcomment %}
+{% assign cat_posts = site.categories[course.id] %}
+{% assign prev_post = nil %}
+{% assign next_post = nil %}
+{% for p in cat_posts %}
+  {% if p.url == page.url %}
+    {% assign prev_post = cat_posts[forloop.index] %}
+    {% if forloop.index0 > 0 %}
+      {% assign next_idx = forloop.index0 | minus: 1 %}
+      {% assign next_post = cat_posts[next_idx] %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 <article class="post-page">
   <div class="post-page-header" style="--accent: {{ course.color }}; --gradient: {{ course.gradient }}">
     <div class="post-page-header-bg"></div>
@@ -58,24 +72,24 @@ layout: default
   <div class="post-page-nav">
     <div class="container container-narrow">
       <div class="post-nav-grid">
-        {% if page.previous.url %}
-        <a href="{{ page.previous.url | relative_url }}" class="post-nav-item prev">
+        {% if prev_post %}
+        <a href="{{ prev_post.url | relative_url }}" class="post-nav-item prev">
           <span class="post-nav-label">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
             Önceki Gönderi
           </span>
-          <span class="post-nav-title">{{ page.previous.title }}</span>
+          <span class="post-nav-title">{{ prev_post.title }}</span>
         </a>
         {% else %}
         <div></div>
         {% endif %}
-        {% if page.next.url %}
-        <a href="{{ page.next.url | relative_url }}" class="post-nav-item next">
+        {% if next_post %}
+        <a href="{{ next_post.url | relative_url }}" class="post-nav-item next">
           <span class="post-nav-label">
             Sonraki Gönderi
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </span>
-          <span class="post-nav-title">{{ page.next.title }}</span>
+          <span class="post-nav-title">{{ next_post.title }}</span>
         </a>
         {% endif %}
       </div>
