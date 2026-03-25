@@ -621,6 +621,204 @@ Bu, her öğrenciyi her bölümle eşleştirir: 8 öğrenci × 5 bölüm = **40 
 | Eşleşmeyen kayıtları bul | `LEFT JOIN` + `WHERE ... IS NULL` |
 | Her iki taraftaki tüm kayıtlar | `FULL OUTER JOIN` |
 | Her kombinasyonu üret | `CROSS JOIN` |
+| Aynı isimdeki sütunlarla otomatik eşleştir | `NATURAL JOIN` |
+| Tabloyu kendisiyle birleştir | `SELF JOIN` |
+
+---
+
+## NATURAL JOIN — "Otomatik Eşleştirme"
+
+NATURAL JOIN, iki tabloda **aynı isimdeki sütunları** otomatik olarak bulur ve onlar üzerinden eşleştirme yapar. `ON` koşulu yazmaya gerek yoktur — SQL bunu sizin yerinize çözer.
+
+```sql
+SELECT o.ad, o.soyad, b.bolum_adi
+FROM ogrenciler o
+NATURAL JOIN bolumler b;
+```
+
+Bu sorgu, `ogrenciler` ve `bolumler` tablolarında ortak olan `bolum_id` sütununu **otomatik tespit eder** ve şunu yazmışsınız gibi davranır:
+
+```sql
+-- NATURAL JOIN'in arka planda yaptığı iş:
+SELECT o.ad, o.soyad, b.bolum_adi
+FROM ogrenciler o
+INNER JOIN bolumler b ON o.bolum_id = b.bolum_id;
+```
+
+**Sonuç:**
+
+| ad | soyad | bolum_adi |
+|----|-------|-----------|
+| Ahmet | Yılmaz | Bilgisayar Mühendisliği |
+| Ayşe | Demir | İşletme |
+| Mehmet | Kaya | Elektrik Elektronik Müh. |
+| Elif | Çelik | Psikoloji |
+| Can | Şahin | Makine Mühendisliği |
+| Zeynep | Arslan | Bilgisayar Mühendisliği |
+
+### NATURAL JOIN'in Tuzağı
+
+Kulağa harika geliyor değil mi? Ama **profesyonel projelerde tehlikeli** kabul edilir. Neden?
+
+Diyelim ki ileride `ogrenciler` tablosuna `ad` adında olmasa bile `fakulte` adında bir sütun eklediniz. `bolumler` tablosunda da `fakulte` var. NATURAL JOIN artık **iki sütun** üzerinden eşleştirme yapar — `bolum_id` VE `fakulte` — ve sonuçlar tamamen değişir. Siz hiçbir sorguyu değiştirmediniz, ama sonuçlar yanlış çıkar.
+
+| Özellik | NATURAL JOIN | Açık JOIN (ON ile) |
+|---------|:---:|:---:|
+| `ON` koşulu gerekir mi? | ❌ Otomatik | ✅ Siz yazarsınız |
+| Okunabilirlik | ❌ Hangi sütunla eşleştiği belirsiz | ✅ Açıkça görülür |
+| Tablo değişikliğine dayanıklılık | ❌ Yeni sütun eklenmesi sonucu bozar | ✅ Etkilenmez |
+| Öğrenme amaçlı | ✅ Basit ve hızlı | — |
+| Üretim kodunda | ⚠️ Önerilmez | ✅ Her zaman tercih edin |
+
+> **Kural:** NATURAL JOIN'i **bilmek** önemli — sınavda çıkabilir. Ama gerçek projelerde **her zaman** `ON` koşulunu açıkça yazın. "Açık olmak, akıllı olmaktan iyidir."
+
+---
+
+## SELF JOIN — "Tablo Kendisiyle Buluşuyor"
+
+Şimdiye kadar hep **iki farklı tabloyu** birleştirdik. Peki bir tabloyu **kendisiyle** birleştirmek ne işe yarar? Kulağa tuhaf geliyor, ama gerçek dünyada çok yaygın bir ihtiyaç.
+
+Şöyle düşünün: Bir şirkette her çalışanın bir yöneticisi var. Ama yönetici de aynı tabloda bir çalışan. "Ahmet'in yöneticisi kim?" sorusunu cevaplamak için çalışanlar tablosunu **kendisiyle** birleştirmek gerekir.
+
+### Senaryo: Çalışan-Yönetici İlişkisi
+
+```sql
+CREATE TABLE calisanlar (
+    calisan_id INT PRIMARY KEY,
+    ad VARCHAR(50),
+    soyad VARCHAR(50),
+    pozisyon VARCHAR(50),
+    yonetici_id INT
+);
+
+INSERT INTO calisanlar VALUES
+(1, 'Kemal', 'Özkan', 'Genel Müdür', NULL),
+(2, 'Selin', 'Aydın', 'Yazılım Müdürü', 1),
+(3, 'Burak', 'Tekin', 'Kıdemli Geliştirici', 2),
+(4, 'Deniz', 'Çetin', 'Junior Geliştirici', 2),
+(5, 'Aylin', 'Koç', 'İK Müdürü', 1),
+(6, 'Emre', 'Sarı', 'İK Uzmanı', 5),
+(7, 'Canan', 'Bal', 'Stajyer', 3);
+```
+
+| calisan_id | ad | soyad | pozisyon | yonetici_id |
+|:---:|------|-------|----------|:---:|
+| 1 | Kemal | Özkan | Genel Müdür | NULL |
+| 2 | Selin | Aydın | Yazılım Müdürü | 1 |
+| 3 | Burak | Tekin | Kıdemli Geliştirici | 2 |
+| 4 | Deniz | Çetin | Junior Geliştirici | 2 |
+| 5 | Aylin | Koç | İK Müdürü | 1 |
+| 6 | Emre | Sarı | İK Uzmanı | 5 |
+| 7 | Canan | Bal | Stajyer | 3 |
+
+Dikkat: `yonetici_id` sütunu, **aynı tablodaki** başka bir `calisan_id`'ye işaret ediyor. Kemal'in yöneticisi yok (`NULL`) — çünkü o en tepedeki kişi.
+
+### Örnek 1: Her Çalışanın Yöneticisini Gösterme
+
+```sql
+SELECT 
+    c.ad AS calisan_adi,
+    c.pozisyon AS calisan_pozisyon,
+    y.ad AS yonetici_adi,
+    y.pozisyon AS yonetici_pozisyon
+FROM calisanlar c
+LEFT JOIN calisanlar y ON c.yonetici_id = y.calisan_id;
+```
+
+**Sonuç:**
+
+| calisan_adi | calisan_pozisyon | yonetici_adi | yonetici_pozisyon |
+|-------------|-----------------|--------------|-------------------|
+| Kemal | Genel Müdür | **NULL** | **NULL** |
+| Selin | Yazılım Müdürü | Kemal | Genel Müdür |
+| Burak | Kıdemli Geliştirici | Selin | Yazılım Müdürü |
+| Deniz | Junior Geliştirici | Selin | Yazılım Müdürü |
+| Aylin | İK Müdürü | Kemal | Genel Müdür |
+| Emre | İK Uzmanı | Aylin | İK Müdürü |
+| Canan | Stajyer | Burak | Kıdemli Geliştirici |
+
+**Aynı tabloyu iki kez kullanıyoruz** — biri `c` (çalışan olarak), diğeri `y` (yönetici olarak). SQL bunu iki farklı tablo gibi görür. `LEFT JOIN` kullandık çünkü Kemal'in yöneticisi yok — `INNER JOIN` kullansaydık Kemal listede olmazdı.
+
+> **Self Join'in sırrı alias'larda gizli:** Aynı tabloyu farklı takma isimlerle (`c` ve `y`) çağırmak, SQL'e "bu tabloyu iki farklı perspektiften oku" demektir.
+
+### Örnek 2: Belirli Bir Yöneticinin Ekibini Bulmak
+
+Selin'e bağlı çalışanlar kimler?
+
+```sql
+SELECT 
+    c.ad AS calisan,
+    c.pozisyon
+FROM calisanlar c
+INNER JOIN calisanlar y ON c.yonetici_id = y.calisan_id
+WHERE y.ad = 'Selin';
+```
+
+**Sonuç:**
+
+| calisan | pozisyon |
+|---------|----------|
+| Burak | Kıdemli Geliştirici |
+| Deniz | Junior Geliştirici |
+
+### Örnek 3: Kaç Kişi Yönetiyorsun?
+
+Her yöneticinin altında kaç çalışan var?
+
+```sql
+SELECT 
+    y.ad AS yonetici,
+    y.pozisyon,
+    COUNT(c.calisan_id) AS ekip_buyuklugu
+FROM calisanlar c
+INNER JOIN calisanlar y ON c.yonetici_id = y.calisan_id
+GROUP BY y.calisan_id, y.ad, y.pozisyon
+ORDER BY ekip_buyuklugu DESC;
+```
+
+**Sonuç:**
+
+| yonetici | pozisyon | ekip_buyuklugu |
+|----------|----------|:-:|
+| Kemal | Genel Müdür | 2 |
+| Selin | Yazılım Müdürü | 2 |
+| Burak | Kıdemli Geliştirici | 1 |
+| Aylin | İK Müdürü | 1 |
+
+### Örnek 4: Aynı Yöneticiye Bağlı Çalışma Arkadaşları
+
+Deniz'in aynı yöneticiye bağlı meslektaşları kimler?
+
+```sql
+SELECT 
+    arkadaslar.ad AS meslek_dasi,
+    arkadaslar.pozisyon
+FROM calisanlar ben
+INNER JOIN calisanlar arkadaslar 
+    ON ben.yonetici_id = arkadaslar.yonetici_id
+    AND ben.calisan_id != arkadaslar.calisan_id
+WHERE ben.ad = 'Deniz';
+```
+
+**Sonuç:**
+
+| meslek_dasi | pozisyon |
+|-------------|----------|
+| Burak | Kıdemli Geliştirici |
+
+`AND ben.calisan_id != arkadaslar.calisan_id` koşulu önemli — yoksa Deniz kendini de "arkadaş" olarak bulur!
+
+### SELF JOIN Nerelerde Kullanılır?
+
+| Senaryo | İlişki |
+|---------|--------|
+| Çalışan → Yönetici | `yonetici_id → calisan_id` |
+| Kategori → Üst Kategori | `ust_kategori_id → kategori_id` |
+| Arkadaşlık ilişkisi | `kullanici1_id, kullanici2_id` |
+| Ürün karşılaştırma | Aynı kategorideki farklı ürünler |
+| Uçuş rotası | Kalkış şehri → Varış şehri (aynı şehirler tablosu) |
+
+> **Özet:** SELF JOIN, bir tablonun kendisiyle **hiyerarşik** (ağaç yapısı) veya **ilişkisel** (eşleştirme) bir bağ kurması gerektiğinde kullanılır. Farklı alias'lar vererek aynı tabloyu iki farklı rolde kullanırsınız.
 
 ---
 
@@ -631,4 +829,6 @@ Bu, her öğrenciyi her bölümle eşleştirir: 8 öğrenci × 5 bölüm = **40 
 - **RIGHT JOIN**: LEFT JOIN'in ayna görüntüsü. Pratikte tablo sırasını değiştirip LEFT JOIN yazmak daha yaygın.
 - **FULL OUTER JOIN**: Her iki tablonun tamamını getirir. MySQL'de `UNION` ile simüle edilir.
 - **ON vs WHERE farkı**: INNER JOIN'de fark etmez; LEFT JOIN'de **hayati** fark yaratır — filtreyi yanlış yere koymak LEFT JOIN'i INNER JOIN'e dönüştürür.
+- **NATURAL JOIN**: Aynı isimdeki sütunları otomatik eşleştirir — pratik ama kırılgan, üretim kodunda önerilmez.
+- **SELF JOIN**: Tabloyu kendisiyle birleştirir — çalışan-yönetici, kategori-üst kategori gibi hiyerarşik yapılarda kullanılır.
 - Üç veya daha fazla tablo birleştirmek için JOIN'ler **zincirlenir**: `FROM a JOIN b ON ... JOIN c ON ...`
