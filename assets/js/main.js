@@ -176,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var isInteractive = postContent && (
     postContent.querySelector('.quiz-container') ||
     postContent.querySelector('.cv-app') ||
+    postContent.querySelector('.exam-container') ||
     postContent.querySelector('[id*="quiz"]')
   );
 
