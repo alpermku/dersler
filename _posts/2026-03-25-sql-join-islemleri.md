@@ -822,6 +822,211 @@ WHERE ben.ad = 'Deniz';
 
 ---
 
+## Ortak Sütunu Olmayan Tabloları Birleştirme — Non-Equi JOIN
+
+Şimdiye kadar tüm JOIN'lerde eşleştirme koşulu hep **eşitlik** (`=`) üzerindeydi: `ON o.bolum_id = b.bolum_id`. Peki ya iki tablo arasında ortak bir sütun yoksa? Eşleştirme eşitlikle değil, bir **aralık kontrolü** ile yapılacaksa?
+
+İşte gerçek dünyadan mükemmel bir örnek: **Öğrenci notlarını harf notuna çevirmek.**
+
+### Senaryo: Not Tabloları
+
+Elimizde iki tablo var — ve aralarında **hiçbir ortak sütun** yok:
+
+**`ogr_notlar` Tablosu** — Öğrencilerin sayısal notları:
+
+```sql
+CREATE TABLE ogr_notlar (
+    ogr_no VARCHAR(10),
+    ders VARCHAR(30),
+    notu INT
+);
+
+INSERT INTO ogr_notlar VALUES
+('09001', 'Matematik', 75),
+('09002', 'Matematik', 53),
+('09003', 'Matematik', 46),
+('09004', 'Matematik', 77),
+('09005', 'Matematik', 65),
+('09006', 'Matematik', 56),
+('09007', 'Matematik', 90),
+('09008', 'Matematik', 25),
+('09009', 'Matematik', 72),
+('09010', 'Matematik', 64),
+('09011', 'Matematik', 82);
+```
+
+| ogr_no | ders | notu |
+|:------:|------|:----:|
+| 09001 | Matematik | 75 |
+| 09002 | Matematik | 53 |
+| 09003 | Matematik | 46 |
+| 09004 | Matematik | 77 |
+| 09005 | Matematik | 65 |
+| 09006 | Matematik | 56 |
+| 09007 | Matematik | 90 |
+| 09008 | Matematik | 25 |
+| 09009 | Matematik | 72 |
+| 09010 | Matematik | 64 |
+| 09011 | Matematik | 82 |
+
+**`notlar` Tablosu** — Harf notu aralıkları:
+
+```sql
+CREATE TABLE notlar (
+    h_kar VARCHAR(5),
+    ilk INT,
+    son INT
+);
+
+INSERT INTO notlar VALUES
+('AA', 84, 100),
+('AB', 77, 83),
+('BA', 71, 76),
+('BB', 66, 70),
+('BC', 61, 65),
+('CB', 56, 60),
+('CC', 50, 55),
+('CD', 46, 49),
+('DC', 40, 45),
+('DD', 33, 39),
+('FF', 0, 32);
+```
+
+| h_kar | ilk | son |
+|:-----:|:---:|:---:|
+| AA | 84 | 100 |
+| AB | 77 | 83 |
+| BA | 71 | 76 |
+| BB | 66 | 70 |
+| BC | 61 | 65 |
+| CB | 56 | 60 |
+| CC | 50 | 55 |
+| CD | 46 | 49 |
+| DC | 40 | 45 |
+| DD | 33 | 39 |
+| FF | 0 | 32 |
+
+Şimdi soruyu soralım: `ogr_notlar` tablosunda `notu` var, `notlar` tablosunda `ilk` ve `son` var. Aralarında **eşitlik ilişkisi yok** — ama bir sayısal notun hangi **aralığa düştüğünü** bulmamız gerekiyor.
+
+### Çözüm: BETWEEN ile JOIN
+
+```sql
+SELECT onot.ogr_no, onot.ders, dn.h_kar
+FROM ogr_notlar onot, notlar dn
+WHERE onot.notu BETWEEN dn.ilk AND dn.son;
+```
+
+Bu sorgu, `ogr_notlar` tablosundaki her öğrencinin `notu` değerini alır ve `notlar` tablosundaki hangi `ilk`-`son` aralığına düştüğünü kontrol eder. **Eşitlik yerine aralık** kontrolü yapılır — buna **Non-Equi JOIN** denir.
+
+**Sonuç:**
+
+| ogr_no | ders | h_kar |
+|:------:|------|:-----:|
+| 09001 | Matematik | BA |
+| 09002 | Matematik | CC |
+| 09003 | Matematik | CD |
+| 09004 | Matematik | AB |
+| 09005 | Matematik | BC |
+| 09006 | Matematik | CB |
+| 09007 | Matematik | AA |
+| 09008 | Matematik | FF |
+| 09009 | Matematik | BA |
+| 09010 | Matematik | BC |
+| 09011 | Matematik | AB |
+
+75 puan alan 09001 → BA (71-76 aralığı), 25 puan alan 09008 → FF (0-32 aralığı). Her not, doğru harf karşılığını buldu.
+
+### Aynı Sorguyu Modern JOIN Sözdizimi ile Yazmak
+
+Yukarıdaki sorgu **eski sözdizimi** kullanıyor (FROM'da virgülle iki tablo, WHERE'de koşul). Aynı işi modern `JOIN ... ON` ile yapmak daha okunabilir:
+
+```sql
+SELECT onot.ogr_no, onot.ders, dn.h_kar
+FROM ogr_notlar onot
+JOIN notlar dn ON onot.notu BETWEEN dn.ilk AND dn.son;
+```
+
+İkisi de aynı sonucu verir. Ama `JOIN ... ON` sözdizimi, **birleştirme koşulunu filtreleme koşulundan ayırdığı için** daha net ve bakımı kolaydır.
+
+### Örnek 2: Notu ve Harf Karşılığını Birlikte Gösterme
+
+```sql
+SELECT 
+    onot.ogr_no,
+    onot.ders,
+    onot.notu,
+    dn.h_kar,
+    CASE 
+        WHEN dn.h_kar IN ('AA', 'AB', 'BA', 'BB') THEN 'Geçti (İyi)'
+        WHEN dn.h_kar IN ('BC', 'CB', 'CC') THEN 'Geçti'
+        WHEN dn.h_kar IN ('CD', 'DC') THEN 'Koşullu Geçti'
+        ELSE 'Kaldı'
+    END AS durum
+FROM ogr_notlar onot
+JOIN notlar dn ON onot.notu BETWEEN dn.ilk AND dn.son
+ORDER BY onot.notu DESC;
+```
+
+**Sonuç:**
+
+| ogr_no | ders | notu | h_kar | durum |
+|:------:|------|:----:|:-----:|-------|
+| 09007 | Matematik | 90 | AA | Geçti (İyi) |
+| 09011 | Matematik | 82 | AB | Geçti (İyi) |
+| 09004 | Matematik | 77 | AB | Geçti (İyi) |
+| 09001 | Matematik | 75 | BA | Geçti (İyi) |
+| 09009 | Matematik | 72 | BA | Geçti (İyi) |
+| 09005 | Matematik | 65 | BC | Geçti |
+| 09010 | Matematik | 64 | BC | Geçti |
+| 09006 | Matematik | 56 | CB | Geçti |
+| 09002 | Matematik | 53 | CC | Geçti |
+| 09003 | Matematik | 46 | CD | Koşullu Geçti |
+| 09008 | Matematik | 25 | FF | Kaldı |
+
+### Örnek 3: Sınıfın Harf Notu Dağılımı
+
+```sql
+SELECT 
+    dn.h_kar,
+    COUNT(onot.ogr_no) AS ogrenci_sayisi
+FROM notlar dn
+LEFT JOIN ogr_notlar onot ON onot.notu BETWEEN dn.ilk AND dn.son
+GROUP BY dn.h_kar
+ORDER BY dn.ilk DESC;
+```
+
+**Sonuç:**
+
+| h_kar | ogrenci_sayisi |
+|:-----:|:-:|
+| AA | 1 |
+| AB | 2 |
+| BA | 2 |
+| BB | 0 |
+| BC | 2 |
+| CB | 1 |
+| CC | 1 |
+| CD | 1 |
+| DC | 0 |
+| DD | 0 |
+| FF | 1 |
+
+LEFT JOIN kullandık — hiç öğrenci düşmeyen harf notları da (BB, DC, DD) listede **0** olarak görünüyor. INNER JOIN kullansaydık bu satırlar kaybolurdu.
+
+### Non-Equi JOIN Ne Zaman Kullanılır?
+
+| Senaryo | Koşul |
+|---------|-------|
+| Not → Harf notu çevirme | `BETWEEN ilk AND son` |
+| Maaş → Vergi dilimi bulma | `BETWEEN alt_sinir AND ust_sinir` |
+| Yaş → Yaş grubu eşleme | `BETWEEN min_yas AND max_yas` |
+| Tarih → Dönem belirleme | `BETWEEN baslangic AND bitis` |
+| Fiyat → İndirim oranı bulma | `BETWEEN min_tutar AND max_tutar` |
+
+> **Anahtar kavram:** `ON` koşulunda sadece `=` kullanmak zorunda değilsiniz. `BETWEEN`, `<`, `>`, `<=`, `>=` ve hatta `<>` (eşit değil) de kullanılabilir. Eşitlik dışı koşullarla yapılan JOIN'lere **Non-Equi JOIN** denir ve ortak sütunu olmayan tabloları birleştirmenin en yaygın yoludur.
+
+---
+
 ## Özet
 
 - **INNER JOIN**: İki tabloda eşleşen kayıtları birleştirir. Eşleşmeyenler atılır.
@@ -831,4 +1036,5 @@ WHERE ben.ad = 'Deniz';
 - **ON vs WHERE farkı**: INNER JOIN'de fark etmez; LEFT JOIN'de **hayati** fark yaratır — filtreyi yanlış yere koymak LEFT JOIN'i INNER JOIN'e dönüştürür.
 - **NATURAL JOIN**: Aynı isimdeki sütunları otomatik eşleştirir — pratik ama kırılgan, üretim kodunda önerilmez.
 - **SELF JOIN**: Tabloyu kendisiyle birleştirir — çalışan-yönetici, kategori-üst kategori gibi hiyerarşik yapılarda kullanılır.
+- **Non-Equi JOIN**: Ortak sütunu olmayan tabloları `BETWEEN`, `<`, `>` gibi koşullarla birleştirir — not-harf dönüşümü, vergi dilimi gibi aralık eşleştirmelerinde kullanılır.
 - Üç veya daha fazla tablo birleştirmek için JOIN'ler **zincirlenir**: `FROM a JOIN b ON ... JOIN c ON ...`
