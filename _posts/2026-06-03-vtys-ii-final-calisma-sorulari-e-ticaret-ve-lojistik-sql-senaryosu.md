@@ -1,0 +1,738 @@
+
+---
+layout: post
+title: "VTYS II Final Çalışma Soruları: E-Ticaret ve Lojistik SQL Senaryosu"
+date: 2026-06-03 14:20:00 +0300
+categories: veri-tabani-yonetim-sistemleri-ii
+course_id: veri-tabani-yonetim-sistemleri-ii
+tags: [sql, final, vtys-ii, ybs, açık-uçlu, view, join]
+---
+
+Yönetim Bilişim Sistemleri öğrencileri için veritabanı dersi iki ayrı kası aynı anda çalıştırır: biri **iş mantığını anlamak**, diğeri **SQL ile bunu çalıştırmak**. Eğer sadece sorgu ezberlenirse konu kırılgan kalır. Ama tabloyu, ilişkiyi, neden-sonuç bağını ve sorgunun iş tarafındaki anlamını kavrarsanız, mesele bir anda oturur.
+
+Bu çalışma tam olarak bunun için hazırlandı.
+
+Burada tek tek dağınık sorular yok. Bunun yerine kurumsal bir **E-Ticaret ve Lojistik Yönetim Sistemi** senaryosu var. Aynı senaryo üzerinde:
+
+- aritmetiksel hesaplamalar,
+- join yapıları,
+- çoklu tablo sorguları,
+- gruplama işlemleri,
+- alt sorgular,
+- ve view tasarımı
+
+adım adım işleniyor.
+
+Üstelik her sorunun altında yalnızca cevap değil, **neden o cevap olduğu** da detaylı biçimde açıklanıyor. Amaç sadece doğru sorguyu görmek değil; öğrencinin sorgunun zihinsel iskeletini de kurabilmesi.
+
+---
+
+## Bu Derste Neler Öğreneceksiniz?
+
+Bu çalışmanın sonunda şunları daha net görebilmeniz beklenir:
+
+- SQL hesaplamalarını iş mantığıyla ilişkilendirebilmek
+- `INNER JOIN` ve `LEFT JOIN` farkını gerçek senaryoda ayırt edebilmek
+- çoklu join yapılarında tablo zincirini doğru kurabilmek
+- `GROUP BY`, `COUNT`, `SUM`, `AVG`, `HAVING` kullanımını yorumlayabilmek
+- alt sorguların ne zaman ve neden gerekli olduğunu anlayabilmek
+- `VIEW` yapılarının tekrar kullanım gücünü kavrayabilmek
+
+---
+
+{% raw %}
+
+<style>
+.sql-lesson{max-width:920px;margin:0 auto;font-family:inherit}
+.hero-box{background:linear-gradient(135deg,color-mix(in srgb,var(--primary,#1B2A4A) 92%,#fff),color-mix(in srgb,var(--gold,#C9A84C) 20%,var(--primary,#1B2A4A)));color:#fff;border-radius:18px;padding:28px 24px;margin:0 0 26px 0;box-shadow:0 12px 28px rgba(0,0,0,.12)}
+.hero-box h3{margin:0 0 12px 0;font-size:1.25em}
+.hero-box p{margin:0;line-height:1.75;color:rgba(255,255,255,.92)}
+.lesson-panel{background:var(--bg-alt,#f8f9fa);border:1px solid var(--border,#dee2e6);border-radius:14px;padding:22px;margin-bottom:24px}
+.lesson-panel h3{margin-top:0;color:var(--text,#1f2d3d);display:flex;align-items:center;gap:8px}
+.lesson-panel p,.lesson-panel li{line-height:1.75;color:var(--text,#333)}
+.lesson-panel pre{background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:10px;overflow-x:auto;font-size:.86em;line-height:1.6}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+.info-card{background:var(--card-bg,#fff);border:1px solid var(--border,#dee2e6);border-radius:12px;padding:16px}
+.info-card strong{display:block;margin-bottom:6px;color:var(--text,#1B2A4A)}
+.section-title{margin:36px 0 14px 0;padding:10px 16px;border-left:5px solid var(--gold,#C9A84C);background:color-mix(in srgb,var(--gold,#C9A84C) 10%,var(--bg,#fff));border-radius:0 12px 12px 0;color:var(--text,#1f2d3d)}
+.question-card{background:var(--card-bg,#fff);border:1px solid var(--border,#dee2e6);border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+.question-card h4{margin:0 0 10px 0;color:var(--text,#243447);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--gold,#C9A84C) 16%,var(--bg,#fff));font-size:.78em;font-weight:700;color:#7b5c00}
+.question-card p{line-height:1.75;color:var(--text,#333)}
+.toggle-btn{margin-top:12px;background:var(--primary,#1B2A4A);color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;font-size:.9em;font-weight:600;transition:all .2s}
+.toggle-btn:hover{background:var(--primary-mid,#2C4470);transform:translateY(-1px)}
+.toggle-btn.open{background:var(--text-muted,#6b7590)}
+.solution-box{display:none;margin-top:16px;padding:18px;background:color-mix(in srgb,var(--gold,#C9A84C) 7%,var(--bg,#fff));border-left:4px solid var(--gold,#C9A84C);border-radius:0 12px 12px 0}
+.solution-box.show{display:block}
+.solution-box p{margin:10px 0;line-height:1.75}
+.solution-box pre{background:#1e1e2e;color:#cdd6f4;padding:16px;border-radius:10px;overflow-x:auto;font-size:.86em;line-height:1.6}
+.tip-box{background:color-mix(in srgb,#00b894 10%,var(--bg,#fff));border:1px solid #00b894;border-radius:10px;padding:12px 14px;margin-top:12px;color:var(--text,#264653)}
+.progress-box{text-align:center;padding:12px;border-radius:10px;background:var(--bg-alt,#f8f9fa);border:1px solid var(--border,#dee2e6);margin:0 0 22px 0;color:var(--text-muted,#5f6b7a)}
+</style>
+
+<div class="sql-lesson">
+<div class="hero-box">
+<h3>🧠 Senaryo Tabanlı Final Hazırlığı</h3>
+<p>Bu gönderi, YBS öğrencilerinin sadece SQL yazmasını değil, SQL'in iş dünyasında neyi çözdüğünü görmesini hedefler. Aşağıdaki şema gerçek bir e-ticaret ve lojistik sisteminin sadeleştirilmiş modelidir. Soruları çözerken sadece tablo isimlerine değil, tablonun temsil ettiği iş akışına da bakın.</p>
+</div>
+
+<div class="lesson-panel">
+<h3>🗂️ Veri Tabanı Şeması</h3>
+<p>Soruların tamamı aşağıdaki veritabanı yapısı üzerinde çalışır. Önce tabloların birbirine nasıl bağlandığını anlamanız gerekir; çünkü doğru SQL çoğu zaman doğru ilişkiyi görmekle başlar.</p>
+<pre><code>CREATE TABLE Musteriler (
+  musteri_id INT PRIMARY KEY AUTO_INCREMENT,
+  ad VARCHAR(50) NOT NULL,
+  soyad VARCHAR(50) NOT NULL,
+  sehir VARCHAR(30),
+  uyelik_tarihi DATE,
+  premium_mu BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE Kategoriler (
+  kategori_id INT PRIMARY KEY AUTO_INCREMENT,
+  kategori_ad VARCHAR(50) NOT NULL,
+  kdv_orani DECIMAL(4,2)
+);
+
+CREATE TABLE Urunler (
+  urun_id INT PRIMARY KEY AUTO_INCREMENT,
+  urun_ad VARCHAR(100) NOT NULL,
+  kategori_id INT,
+  stok_miktari INT,
+  alis_fiyati DECIMAL(10,2),
+  satis_fiyati DECIMAL(10,2),
+  FOREIGN KEY (kategori_id) REFERENCES Kategoriler(kategori_id)
+);
+
+CREATE TABLE Siparisler (
+  siparis_id INT PRIMARY KEY AUTO_INCREMENT,
+  musteri_id INT,
+  siparis_tarihi DATETIME,
+  toplam_tutar DECIMAL(10,2) DEFAULT 0.00,
+  kargo_sirketi VARCHAR(50),
+  FOREIGN KEY (musteri_id) REFERENCES Musteriler(musteri_id)
+);
+
+CREATE TABLE SiparisDetaylari (
+  detay_id INT PRIMARY KEY AUTO_INCREMENT,
+  siparis_id INT,
+  urun_id INT,
+  adet INT,
+  birim_fiyat DECIMAL(10,2),
+  indirim_orani DECIMAL(4,2) DEFAULT 0.00,
+  FOREIGN KEY (siparis_id) REFERENCES Siparisler(siparis_id),
+  FOREIGN KEY (urun_id) REFERENCES Urunler(urun_id)
+);</code></pre>
+
+<div class="lesson-grid">
+<div class="info-card"><strong>Musteriler</strong>Müşterinin kim olduğunu, hangi şehirde yaşadığını ve premium olup olmadığını tutar.</div>
+<div class="info-card"><strong>Kategoriler</strong>Ürünün sınıfını ve uygulanacak KDV oranını belirler.</div>
+<div class="info-card"><strong>Urunler</strong>Depodaki fiziksel veya dijital satış kalemlerini temsil eder.</div>
+<div class="info-card"><strong>Siparisler</strong>Siparişin üst bilgisini, yani tarih, müşteri ve kargo şirketini saklar.</div>
+<div class="info-card"><strong>SiparisDetaylari</strong>Bir siparişin içinde hangi üründen kaç adet olduğunu tutar; yani satır bazlı fatura mantığıdır.</div>
+</div>
+</div>
+
+<div class="lesson-panel">
+<h3>📌 Örnek Kayıtlar</h3>
+<p>Bu kayıtlar, sorguların mantığını zihinde canlandırmak için eklenmiştir. Yani yalnızca teknik veri değil, aynı zamanda iş akışının küçük bir simülasyonudur.</p>
+<pre><code>INSERT INTO Musteriler VALUES
+(1, 'Ahmet', 'Yılmaz', 'İstanbul', '2023-01-15', TRUE),
+(2, 'Ayşe', 'Kaya', 'Ankara', '2023-05-20', FALSE),
+(3, 'Mehmet', 'Demir', 'İzmir', '2024-02-10', FALSE),
+(4, 'Can', 'Deniz', 'İstanbul', '2024-03-01', TRUE);
+
+INSERT INTO Kategoriler VALUES
+(1, 'Teknoloji', 0.20),
+(2, 'Kitap', 0.10),
+(3, 'Giyim', 0.10);
+
+INSERT INTO Urunler VALUES
+(1, 'Laptop', 1, 15, 15000.00, 22000.00),
+(2, 'Akıllı Telefon', 1, 30, 8000.00, 12000.00),
+(3, 'SQL Öğreniyorum', 2, 120, 150.00, 250.00),
+(4, 'Kışlık Mont', 3, 45, 800.00, 1500.00);
+
+INSERT INTO Siparisler VALUES
+(101, 1, '2024-05-01 14:30:00', 34000.00, 'Yurtiçi Kargo'),
+(102, 2, '2024-05-02 10:15:00', 250.00, 'Aras Kargo'),
+(103, 1, '2024-05-03 18:00:00', 1500.00, 'MNG Kargo'),
+(104, 3, '2024-05-04 09:00:00', 12000.00, 'Yurtiçi Kargo');
+
+INSERT INTO SiparisDetaylari VALUES
+(1, 101, 1, 1, 22000.00, 0.00),
+(2, 101, 2, 1, 12000.00, 0.00),
+(3, 102, 3, 1, 250.00, 0.00),
+(4, 103, 4, 1, 1500.00, 0.10),
+(5, 104, 2, 1, 12000.00, 0.00);</code></pre>
+<div class="tip-box"><strong>İnce nokta:</strong> Siparisler tablosu siparişin üst bilgisidir; SiparisDetaylari ise o siparişin kalemleridir. Bu ayrımı anlamayan öğrenci, çoklu join sorularında kolayca dağılıyor.</div>
+</div>
+
+<div class="progress-box">Toplam: 30 açık uçlu çalışma sorusu • Zorluk: Orta • Odak: İş mantığı + SQL becerisi</div>
+
+<h3 class="section-title">Bölüm 1 — Aritmetiksel Operatörler ve Hesaplamalı Sorgular</h3>
+
+<div class="question-card" id="q1">
+<h4>📝 Soru 1: Ürün Başına Ham Kâr ve Kârlılık Oranı <span class="badge">10 puan</span></h4>
+<p>Urunler tablosundaki her ürün için satış fiyatı ile alış fiyatı arasındaki farkı hesaplayarak ham kârı bulunuz. Ayrıca bu kârın alış fiyatına oranını yüzde cinsinden hesaplayınız. Sonuçta ürün adıyla birlikte Ham_Kar ve Karlilik_Orani sütunları görünmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    urun_ad,
+    satis_fiyati - alis_fiyati AS Ham_Kar,
+    ROUND(((satis_fiyati - alis_fiyati) / alis_fiyati) * 100, 2) AS Karlilik_Orani
+FROM Urunler;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorguda önce satış fiyatı ile alış fiyatı arasındaki fark alınır; bu fark firmanın ürün başına ham kazancıdır. Daha sonra aynı fark alış fiyatına bölünür ve 100 ile çarpılarak yüzdesel kârlılık elde edilir. ROUND fonksiyonu sonucu daha okunur hale getirir. Buradaki asıl fikir şudur: mutlak kâr ile oransal kârlılık aynı şey değildir. Örneğin 4000 TL kâr yüksek görünebilir ama alış fiyatı çok yüksekse kârlılık oranı daha düşük olabilir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q2">
+<h4>📝 Soru 2: KDV Dahil Satış Fiyatı Hesabı <span class="badge">10 puan</span></h4>
+<p>Her ürünün ait olduğu kategorideki kdv_orani değerini kullanarak KDV dahil satış fiyatını hesaplayınız. Sonuçta ürün adı, ham satış fiyatı ve KDV_Dahil_Fiyat alanı birlikte listelenmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    u.urun_ad,
+    u.satis_fiyati,
+    ROUND(u.satis_fiyati * (1 + k.kdv_orani), 2) AS KDV_Dahil_Fiyat
+FROM Urunler u
+INNER JOIN Kategoriler k ON u.kategori_id = k.kategori_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Burada ürün fiyatı tek başına yeterli değildir; ürüne hangi KDV oranının uygulanacağı kategoriye bağlıdır. Bu yüzden Urunler ile Kategoriler tablosu birleştirilir. Formül olarak satis_fiyati * (1 + kdv_orani) kullanılır. Eğer kdv_orani 0.20 ise ürün fiyatı 1.20 ile çarpılır. Öğrencinin burada anlaması gereken nokta, bazı hesaplamaların tek tablodan değil ilişkili tablolardan beslendiğidir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q3">
+<h4>📝 Soru 3: İndirim Sonrası Sipariş Satırı Tutarı <span class="badge">10 puan</span></h4>
+<p>SiparisDetaylari tablosundaki her satır için adet, birim_fiyat ve indirim_orani bilgilerini kullanarak müşterinin gerçekten ödediği nihai tutarı hesaplayınız. Sonuçta sipariş satırı bazında indirim uygulanmış toplam tutar görünmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    detay_id,
+    siparis_id,
+    urun_id,
+    adet,
+    birim_fiyat,
+    indirim_orani,
+    ROUND(adet * birim_fiyat * (1 - indirim_orani), 2) AS Nihai_Tutar
+FROM SiparisDetaylari;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Sipariş satırındaki toplam tutar önce adet * birim_fiyat ile bulunur. İndirim oranı varsa toplam tutarın tamamı değil, 1 - indirim_orani kadar kısmı tahsil edilir. Örneğin indirim_orani 0.10 ise müşteri toplam bedelin %90'ını öder. Bu tarz sorularda öğrenciler bazen indirimi toplamdan çıkarmak yerine orana yanlış uygular. En güvenli düşünce, önce ham tutarı bulmak sonra çarpanla indirimi uygulamaktır.</p>
+</div>
+</div>
+
+<div class="question-card" id="q4">
+<h4>📝 Soru 4: Toplam Maliyet ve Potansiyel Gelir <span class="badge">10 puan</span></h4>
+<p>Her ürün için stok miktarı ile alış fiyatını çarparak toplam maliyet değerini, stok miktarı ile satış fiyatını çarparak da potansiyel toplam satış gelirini hesaplayınız. Sonuçta ürün adı, Toplam_Maliyet ve Potansiyel_Gelir sütunları yer almalıdır.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    urun_ad,
+    stok_miktari * alis_fiyati AS Toplam_Maliyet,
+    stok_miktari * satis_fiyati AS Potansiyel_Gelir
+FROM Urunler;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorgu, bir ürünün yalnızca birim fiyatıyla değil, mevcut stok hacmiyle birlikte değerlendirilmesini sağlar. Şirket açısından stokta duran her ürün hem bir maliyet hem de potansiyel gelir kaynağıdır. Stok miktarını alış fiyatıyla çarptığımızda depoya bağlanan sermayeyi, satış fiyatıyla çarptığımızda teorik satış gelirini görürüz. Bu iş mantığı özellikle depo ve finans analizlerinde çok önemlidir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q5">
+<h4>📝 Soru 5: Üyelik Süresini Yıl Bazında Hesaplama <span class="badge">10 puan</span></h4>
+<p>Musteriler tablosundaki her müşterinin sistemde kaç yıldır kayıtlı olduğunu hesaplayınız. Bunun için uyelik_tarihi alanı ile güncel tarih arasında yıl farkını bulup sonucu Uyelik_Yili adıyla listeleyiniz.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    ad,
+    soyad,
+    TIMESTAMPDIFF(YEAR, uyelik_tarihi, CURDATE()) AS Uyelik_Yili
+FROM Musteriler;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Burada tarih farkını elle gün, ay ve yıl hesabına bölmek yerine MySQL'in tarih fonksiyonundan yararlanmak en doğru yoldur. TIMESTAMPDIFF(YEAR, baslangic, bitis) ifadesi doğrudan yıl farkını verir. CURDATE() sistemin bugünkü tarihini temsil eder. Böylece sorgu zamana bağlı olarak dinamik çalışır; yani bugün çalıştırıldığında başka, gelecek yıl çalıştırıldığında başka bir üyelik yılı sonucu verebilir.</p>
+</div>
+</div>
+
+<h3 class="section-title">Bölüm 2 — Joinler (Bağlantılar)</h3>
+
+<div class="question-card" id="q6">
+<h4>📝 Soru 6: Siparişi Olsun ya da Olmasın Tüm Müşterileri Listeleme <span class="badge">10 puan</span></h4>
+<p>Hiç sipariş vermemiş müşteriler de sonuçta kaybolmadan, tüm müşterilerin adını, soyadını, siparis_id bilgisini ve sipariş tarihini birlikte listeleyiniz. Siparişi olmayan kişiler için sipariş alanları NULL görünmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    m.ad,
+    m.soyad,
+    s.siparis_id,
+    s.siparis_tarihi
+FROM Musteriler m
+LEFT JOIN Siparisler s ON m.musteri_id = s.musteri_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorunun kilit noktası LEFT JOIN seçimidir. INNER JOIN kullanılsaydı sadece siparişi olan müşteriler görünürdü. Oysa soru özellikle sipariş vermemiş müşterilerin de listede olmasını istiyor. LEFT JOIN sol taraftaki Musteriler tablosunu korur; sağ tarafta eşleşme yoksa sipariş sütunları NULL olur. Bu, ilişki eksikliğini veri kaybı yaşamadan göstermenizi sağlar.</p>
+</div>
+</div>
+
+<div class="question-card" id="q7">
+<h4>📝 Soru 7: Ürünleri Kategorileriyle Birlikte Görme <span class="badge">10 puan</span></h4>
+<p>Urunler tablosundaki tüm ürünleri, ait oldukları kategorilerle birlikte listeleyiniz. Eğer bir ürünün kategori kaydı eksikse ürün yine sonuçta görünmeli ancak kategori adı NULL kalmalıdır.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    u.urun_ad,
+    k.kategori_ad
+FROM Urunler u
+LEFT JOIN Kategoriler k ON u.kategori_id = k.kategori_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorgu da veri kaybını önlemek için LEFT JOIN kullanır. Çünkü soru, kategori bilgisi eksik olsa bile ürünün sonuçtan düşmemesini istiyor. Eğer INNER JOIN kullansaydık kategori eşleşmesi olmayan ürünler tamamen kaybolurdu. Bu tip sorular öğrenciye ilişki güvenilirliğinin her zaman mükemmel olmadığını ve raporlarda eksik eşleşmelerin de görünür olması gerektiğini öğretir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q8">
+<h4>📝 Soru 8: Sipariş, Kargo ve Müşteri Bilgisini Birleştirme <span class="badge">10 puan</span></h4>
+<p>Her siparişin hangi müşteri tarafından verildiğini ve hangi kargo şirketiyle gönderildiğini gösterecek bir Inner Join sorgusu yazınız. Sonuçta siparis_id, kargo_sirketi, müşteri adı ve soyadı birlikte yer almalıdır.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    s.siparis_id,
+    s.kargo_sirketi,
+    m.ad,
+    m.soyad
+FROM Siparisler s
+INNER JOIN Musteriler m ON s.musteri_id = m.musteri_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Burada INNER JOIN doğru tercihtir çünkü yalnızca gerçekten var olan sipariş kayıtlarını ve onların sahiplerini görmek istiyoruz. Siparisler tablosundaki her sipariş, musteri_id üzerinden Musteriler tablosuna bağlanır. Böylece tek bir satırda hem lojistik hem müşteri bilgisi görünür hale gelir. Öğrenci burada yabancı anahtar ilişkisini pratikte nasıl kullandığını net biçimde görür.</p>
+</div>
+</div>
+
+<div class="question-card" id="q9">
+<h4>📝 Soru 9: Sipariş Satırında Hangi Ürünün Satıldığını Gösterme <span class="badge">10 puan</span></h4>
+<p>SiparisDetaylari tablosundaki her sipariş satırı için hangi ürünün satıldığını ve kaç adet satıldığını görmek istiyoruz. Bunun için siparis_id, urun_ad ve adet sütunlarını getiren uygun bağlantı sorgusunu yazınız.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    sd.siparis_id,
+    u.urun_ad,
+    sd.adet
+FROM SiparisDetaylari sd
+INNER JOIN Urunler u ON sd.urun_id = u.urun_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> SiparisDetaylari tablosu hangi ürünün hangi siparişte kaç adet geçtiğini tutar; fakat ürün adı burada yoktur. Ürün adını almak için Urunler tablosuna bağlanmak gerekir. Join işlemi urun_id üzerinden yapılır. Böylece teknik olarak sadece kimlik numaralarıyla duran veri, iş açısından okunabilir hale gelir. Veritabanı sorgulamanın en önemli amacı da çoğu zaman budur: kimlikleri anlamlı bilgiye dönüştürmek.</p>
+</div>
+</div>
+
+<div class="question-card" id="q10">
+<h4>📝 Soru 10: Hiç Ürünü Olmayan Kategorileri Bulma <span class="badge">10 puan</span></h4>
+<p>Kategoriler tablosunda yer alan ancak henüz hiçbir ürüne bağlanmamış kategorileri tespit ediniz. Sonuçta sadece ürünü olmayan kategori adları listelenmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    k.kategori_ad
+FROM Kategoriler k
+LEFT JOIN Urunler u ON k.kategori_id = u.kategori_id
+WHERE u.urun_id IS NULL;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorgunun püf noktası, önce tüm kategorileri LEFT JOIN ile ürünlere bağlamak, sonra eşleşme gelmeyenleri ayıklamaktır. Eğer bir kategoriye bağlı ürün yoksa sağ tablodan gelen urun_id NULL olur. WHERE koşulunda bu NULL değerler seçilerek boşta kalan kategoriler bulunur. Bu desen, “ilişkisi olmayan kayıtları bulma” sorularında en sık kullanılan ve en sağlam yöntemlerden biridir.</p>
+</div>
+</div>
+
+<h3 class="section-title">Bölüm 3 — Çoklu Join Yapıları</h3>
+
+<div class="question-card" id="q11">
+<h4>📝 Soru 11: Bir Siparişin Fatura Satırlarını Çıkarma <span class="badge">10 puan</span></h4>
+<p>Musteriler, Siparisler, SiparisDetaylari ve Urunler tablolarını bir araya getirerek her sipariş satırında siparişi veren müşterinin adı soyadı, siparis_id, alınan ürün adı ve adet bilgisini listeleyiniz.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    m.ad,
+    m.soyad,
+    s.siparis_id,
+    u.urun_ad,
+    sd.adet
+FROM Musteriler m
+INNER JOIN Siparisler s ON m.musteri_id = s.musteri_id
+INNER JOIN SiparisDetaylari sd ON s.siparis_id = sd.siparis_id
+INNER JOIN Urunler u ON sd.urun_id = u.urun_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu artık klasik tek join sorusu değil, tam anlamıyla çoklu join sorusudur. Akış mantığı şöyledir: önce müşteri siparişe bağlanır, sonra sipariş detay satırlarına, en son da detaydaki ürün kimliği gerçek ürün adına çevrilir. Böylece tek bir sonuç kümesinde hem müşteri hem sipariş hem ürün hem miktar bir araya gelir. Bu yapı gerçek dünyadaki fatura ekranlarının veritabanı karşılığıdır.</p>
+</div>
+</div>
+
+<div class="question-card" id="q12">
+<h4>📝 Soru 12: İstanbul Müşterilerinin Satın Aldığı Ürün ve Kategoriler <span class="badge">10 puan</span></h4>
+<p>Sadece İstanbul şehrinde yaşayan müşterilerin satın aldığı ürünlerin adını ve bu ürünlerin ait olduğu kategori adlarını, tekrar eden kayıtları göstermeden listeleyiniz.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT DISTINCT
+    u.urun_ad,
+    k.kategori_ad
+FROM Musteriler m
+INNER JOIN Siparisler s ON m.musteri_id = s.musteri_id
+INNER JOIN SiparisDetaylari sd ON s.siparis_id = sd.siparis_id
+INNER JOIN Urunler u ON sd.urun_id = u.urun_id
+INNER JOIN Kategoriler k ON u.kategori_id = k.kategori_id
+WHERE m.sehir = 'İstanbul';</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Burada önce müşteri filtresi uygulanır; fakat ürün bilgisi doğrudan Musteriler tablosunda olmadığı için sipariş zinciri üzerinden ilerlenir. DISTINCT kullanımı çok önemlidir çünkü aynı müşteri aynı ürünü birden fazla siparişte almış olabilir. Soru ürünleri ve kategorileri mükerrer olmadan istediği için sonuç kümesindeki tekrarları temizlemek gerekir. Bu, raporlamada sıkça karşılaşılan bir ihtiyaçtır.</p>
+</div>
+</div>
+
+<div class="question-card" id="q13">
+<h4>📝 Soru 13: Premium Üyelerin Satın Aldığı Ürünler ve Kargo Bilgisi <span class="badge">10 puan</span></h4>
+<p>Sadece premium üyelerin satın aldığı ürünleri listeleyiniz. Sonuçta müşteri adı, soyadı, satın alınan ürün adı ve siparişin gönderildiği kargo şirketi birlikte görünmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    m.ad,
+    m.soyad,
+    u.urun_ad,
+    s.kargo_sirketi
+FROM Musteriler m
+INNER JOIN Siparisler s ON m.musteri_id = s.musteri_id
+INNER JOIN SiparisDetaylari sd ON s.siparis_id = sd.siparis_id
+INNER JOIN Urunler u ON sd.urun_id = u.urun_id
+WHERE m.premium_mu = TRUE;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorguda iş mantığı filtresi Musteriler tablosundadır: premium_mu = TRUE. Ancak premium müşterinin ne aldığını ve hangi kargo ile gönderildiğini görmek için sipariş ve sipariş detayı zinciri gerekir. Burada dikkat edilmesi gereken şey, filtreyi müşteride uygulayıp bilgi toplamak için diğer tablolardan yararlanmaktır. Bu, çok tablolu raporların temel düşünme biçimidir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q14">
+<h4>📝 Soru 14: Siparişteki Ürünün KDV Oranını Gösterme <span class="badge">10 puan</span></h4>
+<p>Her sipariş satırı için siparis_id, sipariş edilen ürünün adı ve o ürünün ait olduğu kategorinin kdv_orani bilgisini aynı sonuçta gösteren bir sorgu yazınız.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    s.siparis_id,
+    u.urun_ad,
+    k.kdv_orani
+FROM Siparisler s
+INNER JOIN SiparisDetaylari sd ON s.siparis_id = sd.siparis_id
+INNER JOIN Urunler u ON sd.urun_id = u.urun_id
+INNER JOIN Kategoriler k ON u.kategori_id = k.kategori_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> KDV oranı ürün tablosunda değil, kategori tablosunda tutulduğu için ürün üzerinden kategoriye ulaşmak gerekir. Böylece sipariş satırındaki malın hangi vergi oranına tabi olduğu görünür. Bu tarz sorgular faturalaştırma ve mali raporlar için kritik önemdedir; çünkü çoğu zaman ürün fiyatı kadar, o ürünün hangi vergi sınıfında olduğu da önem taşır.</p>
+</div>
+</div>
+
+<div class="question-card" id="q15">
+<h4>📝 Soru 15: Aras Kargo ile Giden Siparişlerde Satılan Kategori ve Adet <span class="badge">10 puan</span></h4>
+<p>Sadece Aras Kargo ile gönderilen siparişleri dikkate alarak, bu siparişlerde hangi kategorideki ürünlerden kaçar adet satıldığını listeleyiniz. Sonuçta siparis_id, kargo_sirketi, kategori_ad ve adet sütunları görünmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    s.siparis_id,
+    s.kargo_sirketi,
+    k.kategori_ad,
+    sd.adet
+FROM Siparisler s
+INNER JOIN SiparisDetaylari sd ON s.siparis_id = sd.siparis_id
+INNER JOIN Urunler u ON sd.urun_id = u.urun_id
+INNER JOIN Kategoriler k ON u.kategori_id = k.kategori_id
+WHERE s.kargo_sirketi = 'Aras Kargo';</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Burada kargo şirketi filtresi sipariş tablosunda yer alır. Ancak kategori bilgisi ürün ve kategori zincirinden gelir. Yani tek bir soru içinde hem lojistik hem ürün sınıflandırması bir araya gelir. Bu öğrenciye şunu gösterir: gerçek raporlar çoğu zaman farklı iş alanlarından gelen alanları tek sonuçta birleştirir.</p>
+</div>
+</div>
+
+<h3 class="section-title">Bölüm 4 — Gruplandırma, Toplama ve Analiz</h3>
+
+<div class="question-card" id="q16">
+<h4>📝 Soru 16: Şehre Göre Müşteri Sayısı <span class="badge">10 puan</span></h4>
+<p>Musteriler tablosundaki kayıtları şehir alanına göre gruplayarak her şehirde kaç müşteri bulunduğunu hesaplayınız. Sonuçlar müşteri sayısına göre azalan sırada listelenmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    sehir,
+    COUNT(*) AS Musteri_Sayisi
+FROM Musteriler
+GROUP BY sehir
+ORDER BY Musteri_Sayisi DESC;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> GROUP BY burada aynı şehirde yaşayan müşterileri tek grup altında toplar. COUNT(*) her grubun satır sayısını verir, yani müşteri adedini hesaplar. ORDER BY ile de en yoğun şehirler üstte gösterilir. Bu, veri analizinde en temel ama en güçlü desenlerden biridir: gruplandır, say, sırala.</p>
+</div>
+</div>
+
+<div class="question-card" id="q17">
+<h4>📝 Soru 17: Kategori Bazında Ürün Sayısı ve Ortalama Satış Fiyatı <span class="badge">10 puan</span></h4>
+<p>Her kategori için o kategori altında kaç ürün olduğunu ve bu ürünlerin ortalama satış fiyatını hesaplayınız. Sonuçta kategori_ad, Urun_Sayisi ve Ortalama_Satis_Fiyati sütunları yer almalıdır.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    k.kategori_ad,
+    COUNT(u.urun_id) AS Urun_Sayisi,
+    ROUND(AVG(u.satis_fiyati), 2) AS Ortalama_Satis_Fiyati
+FROM Kategoriler k
+LEFT JOIN Urunler u ON k.kategori_id = u.kategori_id
+GROUP BY k.kategori_id, k.kategori_ad;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorguda kategoriler temel alınmıştır; bu yüzden LEFT JOIN tercih edilmiştir. Böylece ürün sayısı sıfır olan kategoriler bile istersek rapora dahil edilebilir. COUNT ve AVG aynı grup içinde farklı analitik bakışlar sunar: biri nicelik, diğeri fiyat politikası hakkında fikir verir. GROUP BY içinde kategori kimliği ve adı birlikte kullanmak raporu daha güvenilir hale getirir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q18">
+<h4>📝 Soru 18: Ürün Bazında Toplam Satılan Adet <span class="badge">10 puan</span></h4>
+<p>SiparisDetaylari tablosunu kullanarak her ürünün toplamda kaç adet satıldığını hesaplayınız. Sonuçta ürün kimliği, ürün adı ve Toplam_Satilan_Adet bilgisi yer almalıdır.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    u.urun_id,
+    u.urun_ad,
+    COALESCE(SUM(sd.adet), 0) AS Toplam_Satilan_Adet
+FROM Urunler u
+LEFT JOIN SiparisDetaylari sd ON u.urun_id = sd.urun_id
+GROUP BY u.urun_id, u.urun_ad;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Burada Urunler tablosundan başlanması çok değerlidir; çünkü hiç satılmamış ürünleri de görmek isteyebiliriz. LEFT JOIN sayesinde sipariş detayı olmayan ürünler kaybolmaz. SUM(adet) toplam satışı verir, COALESCE ise eşleşme yoksa NULL yerine 0 göstermeyi sağlar. Bu küçük detay, raporun insan tarafından daha doğru yorumlanmasını sağlar.</p>
+</div>
+</div>
+
+<div class="question-card" id="q19">
+<h4>📝 Soru 19: Müşteri Bazında Toplam Harcama <span class="badge">10 puan</span></h4>
+<p>Her müşterinin şirkete kazandırdığı toplam ciroyu görmek için Musteriler ve Siparisler tablolarını kullanarak müşteri bazında toplam harcamayı hesaplayınız. Sonuçta müşteri kimliği, adı, soyadı ve Toplam_Harcama değeri görünmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    m.musteri_id,
+    m.ad,
+    m.soyad,
+    COALESCE(SUM(s.toplam_tutar), 0) AS Toplam_Harcama
+FROM Musteriler m
+LEFT JOIN Siparisler s ON m.musteri_id = s.musteri_id
+GROUP BY m.musteri_id, m.ad, m.soyad;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Toplam harcama hesaplanırken siparişlerin parasal değeri toplanır. LEFT JOIN kullanmak önemlidir çünkü hiç sipariş vermemiş müşteri varsa onu da 0 harcamayla görmek isteyebiliriz. SUM toplam ciroyu, COALESCE ise boş toplamları 0'a dönüştürür. Böylece rapor sadece aktif müşterileri değil, pasif müşterileri de analize dahil eder.</p>
+</div>
+</div>
+
+<div class="question-card" id="q20">
+<h4>📝 Soru 20: Birden Fazla Sipariş Taşıyan Kargo Şirketleri <span class="badge">10 puan</span></h4>
+<p>Kargo şirketlerinin taşıdığı toplam sipariş sayısını ve bu siparişlerin ortalama tutarını hesaplayınız. Ancak yalnızca toplamda 1'den fazla sipariş taşımış şirketleri listeleyiniz.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    kargo_sirketi,
+    COUNT(*) AS Toplam_Siparis,
+    ROUND(AVG(toplam_tutar), 2) AS Ortalama_Fatura_Tutari
+FROM Siparisler
+GROUP BY kargo_sirketi
+HAVING COUNT(*) > 1;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> WHERE ile HAVING arasındaki farkı öğretmek için güzel bir sorudur. Önce siparişler kargo şirketine göre gruplanır, sonra her grubun kaç sipariş taşıdığı ve ortalama fatura tutarı hesaplanır. En kritik kısım HAVING COUNT(*) > 1 ifadesidir; çünkü bu koşul tek tek satırlara değil, oluşmuş gruplara uygulanır. Grup sonrası filtrelemenin adı HAVING'dir.</p>
+</div>
+</div>
+
+<h3 class="section-title">Bölüm 5 — Alt Sorgular (Subqueries)</h3>
+
+<div class="question-card" id="q21">
+<h4>📝 Soru 21: Ortalamanın Üzerindeki Fiyatlı Ürünler <span class="badge">10 puan</span></h4>
+<p>Urunler tablosundaki tüm ürünlerin ortalama satış fiyatını bir alt sorgu ile bulup, bu ortalamanın üzerinde fiyatlanan ürünlerin adını ve satış fiyatını listeleyiniz.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    urun_ad,
+    satis_fiyati
+FROM Urunler
+WHERE satis_fiyati > (
+    SELECT AVG(satis_fiyati)
+    FROM Urunler
+);</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Alt sorgu burada tek bir eşik değer üretir: tüm ürünlerin ortalama satış fiyatı. Dış sorgu ise her ürünün fiyatını bu eşikle karşılaştırır. Böylece ortalamanın üstündeki ürünler çekilir. Bu yapı çok önemlidir çünkü bazı kararlar tek satıra değil, tüm tablonun genel davranışına göre verilir. Alt sorgu tam olarak bu genel bağlamı üretir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q22">
+<h4>📝 Soru 22: En Az Bir Kez Sipariş Vermiş Müşteriler <span class="badge">10 puan</span></h4>
+<p>Siparisler tablosunda yer alan müşteri kimliklerini alt sorgu ile çıkarınız ve bu listede bulunan müşterilerin adını, soyadını ve şehir bilgisini ana sorguda listeleyiniz. IN operatörünü kullanınız.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    ad,
+    soyad,
+    sehir
+FROM Musteriler
+WHERE musteri_id IN (
+    SELECT DISTINCT musteri_id
+    FROM Siparisler
+);</code></pre>
+<p><strong>Detaylı Açıklama:</strong> İç sorgu, sipariş geçmişi olan müşteri kimliklerini benzersiz biçimde üretir. Dış sorgu ise Musteriler tablosunda bu kimliklere sahip olan kayıtları bulur. IN operatörü burada “bu listedeki kimliklerden biri mi?” diye sorar. Öğrencinin anlaması gereken nokta, alt sorgunun çoğu zaman dış sorgu için bir filtre listesi ürettiğidir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q23">
+<h4>📝 Soru 23: En Yüksek Tutarlı Siparişi Bulma <span class="badge">10 puan</span></h4>
+<p>Siparisler tablosundaki en yüksek toplam_tutar değerine sahip sipariş veya siparişleri bulunuz. Sonuçta musteri_id, siparis_tarihi ve toplam_tutar bilgileri yer almalıdır. En yüksek tutarı belirlemek için alt sorgu kullanınız.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    musteri_id,
+    siparis_tarihi,
+    toplam_tutar
+FROM Siparisler
+WHERE toplam_tutar = (
+    SELECT MAX(toplam_tutar)
+    FROM Siparisler
+);</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorguda alt sorgu tek bir maksimum tutar döndürür. Dış sorgu da toplam_tutar alanı bu maksimum değere eşit olan tüm siparişleri getirir. Eşitlik kullanılması önemlidir; çünkü aynı en yüksek tutara sahip birden fazla sipariş olabilir. Böylece tek bir kayıt değil, tüm zirve siparişler doğru biçimde yakalanmış olur.</p>
+</div>
+</div>
+
+<div class="question-card" id="q24">
+<h4>📝 Soru 24: Hiç Sipariş Vermemiş Müşteriler <span class="badge">10 puan</span></h4>
+<p>Siparisler tablosunu kontrol ederek hiç sipariş oluşturmamış müşterileri bulunuz. Sonuçta bu kişilerin adı ve soyadı listelenmelidir. Çözümde NOT EXISTS yaklaşımını kullanınız.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    m.ad,
+    m.soyad
+FROM Musteriler m
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Siparisler s
+    WHERE s.musteri_id = m.musteri_id
+);</code></pre>
+<p><strong>Detaylı Açıklama:</strong> NOT EXISTS çok güvenli bir desendir çünkü ilgili müşteri için eşleşen sipariş var mı yok mu sorusunu doğrudan cevaplar. Eğer alt sorgu satır üretmiyorsa müşteri hiç sipariş vermemiş demektir. NOT IN bazı durumlarda NULL değerler yüzünden kafa karıştırabilir; bu yüzden öğretici ve sağlam çözüm olarak NOT EXISTS genellikle daha iyi bir tercihtir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q25">
+<h4>📝 Soru 25: Kendi Kategorisinin Ortalamasından Pahalı Ürünler <span class="badge">10 puan</span></h4>
+<p>Her ürünün, kendi kategorisindeki ortalama satış fiyatından pahalı olup olmadığını kontrol eden ilişkili alt sorgulu bir ifade yazınız. Sonuçta urun_ad, satis_fiyati ve kategori_id bilgileri listelenmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT
+    u1.urun_ad,
+    u1.satis_fiyati,
+    u1.kategori_id
+FROM Urunler u1
+WHERE u1.satis_fiyati > (
+    SELECT AVG(u2.satis_fiyati)
+    FROM Urunler u2
+    WHERE u2.kategori_id = u1.kategori_id
+);</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu bir correlated subquery örneğidir. İç sorgu dış sorgudaki her ürün için yeniden çalışır ve yalnızca o ürünün kategorisindeki ortalama fiyatı hesaplar. Sonra dış sorgudaki ürün bu kategori ortalamasıyla karşılaştırılır. Yani burada tek genel ortalama değil, kategoriye göre değişen yerel ortalamalar kullanılır. Bu yüzden soru daha ileri düzeydedir.</p>
+</div>
+</div>
+
+<h3 class="section-title">Bölüm 6 — View (Görünüm) Yapıları</h3>
+
+<div class="question-card" id="q26">
+<h4>📝 Soru 26: Ürün Karlılık View Oluşturma <span class="badge">10 puan</span></h4>
+<p>Ürünlerin alış fiyatı, satış fiyatı, kategori bilgisi ve net kârını sürekli izlemek için vw_UrunKarlilikDurumu adlı bir görünüm oluşturunuz. Bu görünüm ürün id, ürün adı, kategori adı, alış fiyatı, satış fiyatı ve net kâr alanlarını içermelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>CREATE VIEW vw_UrunKarlilikDurumu AS
+SELECT
+    u.urun_id,
+    u.urun_ad,
+    k.kategori_ad,
+    u.alis_fiyati,
+    u.satis_fiyati,
+    (u.satis_fiyati - u.alis_fiyati) AS Net_Kar
+FROM Urunler u
+INNER JOIN Kategoriler k ON u.kategori_id = k.kategori_id;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> View, bir sorguyu isimlendirilmiş sanal tablo haline getirir. Burada muhasebe açısından sürekli bakılacak bir kârlılık görünümü hazırlanmıştır. Böylece aynı join ve hesaplamayı tekrar tekrar yazmak gerekmez. Net_Kar alanı satış ve alış fiyatı farkından gelir. View kullanımı özellikle raporlarda okunabilirlik ve tekrar kullanım sağlar.</p>
+</div>
+</div>
+
+<div class="question-card" id="q27">
+<h4>📝 Soru 27: Müşteri Özet Raporu View Oluşturma <span class="badge">10 puan</span></h4>
+<p>Her müşteri için şehir, toplam sipariş sayısı ve toplam harcama tutarını özetleyen vw_MusteriOzetRaporu adlı bir görünüm oluşturunuz. Hiç siparişi olmayan müşteriler de görünümde yer almalı ve harcama alanı 0 olarak gösterilmelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>CREATE VIEW vw_MusteriOzetRaporu AS
+SELECT
+    m.musteri_id,
+    m.ad,
+    m.soyad,
+    m.sehir,
+    COUNT(s.siparis_id) AS Toplam_Siparis_Sayisi,
+    COALESCE(SUM(s.toplam_tutar), 0) AS Toplam_Harcama
+FROM Musteriler m
+LEFT JOIN Siparisler s ON m.musteri_id = s.musteri_id
+GROUP BY m.musteri_id, m.ad, m.soyad, m.sehir;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu görünüm pazarlama ve müşteri ilişkileri açısından çok değerlidir çünkü tek satırda müşteri davranış özeti sunar. LEFT JOIN sayesinde siparişi olmayan müşteriler de rapordan düşmez. COUNT sipariş sayısını, SUM toplam harcamayı verir. COALESCE ile boş harcamalar 0'a çevrilir. Böylece görünüm, analiz için hazır bir müşteri pano verisi haline gelir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q28">
+<h4>📝 Soru 28: Kritik Stok Takip View Oluşturma <span class="badge">10 puan</span></h4>
+<p>Stok miktarı 20 adetten az olan ürünleri sürekli takip edebilmek için vw_KritikStokTakip adlı bir görünüm oluşturunuz. Bu görünüm ürün id, ürün adı ve mevcut stok miktarını içermelidir.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>CREATE VIEW vw_KritikStokTakip AS
+SELECT
+    urun_id,
+    urun_ad,
+    stok_miktari
+FROM Urunler
+WHERE stok_miktari < 20;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu view, depo yönetiminde kritik eşik altındaki ürünleri sürekli hazır bir listede tutar. View kullanmanın avantajı burada çok net görülür: her defasında aynı WHERE koşulunu yazmak yerine, kritik stok listesi tek isimle çağrılabilir. Böylece operasyon ekibi düşük stoklu ürünleri daha hızlı izler.</p>
+</div>
+</div>
+
+<div class="question-card" id="q29">
+<h4>📝 Soru 29: View Üzerinden Kârlı Ürünleri Filtreleme <span class="badge">10 puan</span></h4>
+<p>Daha önce oluşturulmuş olan vw_UrunKarlilikDurumu görünümünü kullanarak net kârı 5000 TL ve üzerinde olan ürünleri listeleyen bir SELECT sorgusu yazınız.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>SELECT *
+FROM vw_UrunKarlilikDurumu
+WHERE Net_Kar >= 5000;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> Bu sorgunun amacı yeni bir join yazmak değil, var olan view'ı tablo gibi kullanmayı göstermektir. View tanımı arka planda çalışır; kullanıcı ise yalnızca sanal tabloyu sorgular. Net_Kar zaten görünüm içinde hesaplanmış olduğu için burada tekrar formül yazmaya gerek kalmaz. Bu, view'ların tekrar kullanımı nasıl kolaylaştırdığını çok güzel gösterir.</p>
+</div>
+</div>
+
+<div class="question-card" id="q30">
+<h4>📝 Soru 30: Kritik Stok View Yapısını Güncelleme <span class="badge">10 puan</span></h4>
+<p>vw_KritikStokTakip görünümündeki kritik eşik değerini 20'den 50'ye yükseltiniz. Bunu görünümü silmeden, yapısını güncelleyecek bir komutla gerçekleştiriniz.</p>
+<button class="toggle-btn" onclick="toggleSqlSolution(this)">💡 Çözümü ve Açıklamayı Göster</button>
+<div class="solution-box">
+<p><strong>SQL Çözümü:</strong></p>
+<pre><code>CREATE OR REPLACE VIEW vw_KritikStokTakip AS
+SELECT
+    urun_id,
+    urun_ad,
+    stok_miktari
+FROM Urunler
+WHERE stok_miktari < 50;</code></pre>
+<p><strong>Detaylı Açıklama:</strong> CREATE OR REPLACE VIEW yaklaşımı mevcut görünümü silmeden yeni tanımla günceller. Böylece bağımlı sorgular ya da uygulamalar için süreç daha güvenli ilerler. Burada yapılan tek iş, eşik değerini 20'den 50'ye çıkarmaktır; ama mantıksal etkisi büyüktür çünkü artık daha fazla ürün kritik stok listesine girecektir. View'larda bakım yapmanın en pratik yollarından biri budur.</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+function toggleSqlSolution(btn){
+  const box = btn.nextElementSibling;
+  const open = box.classList.contains('show');
+  box.classList.toggle('show');
+  btn.classList.toggle('open');
+  btn.textContent = open ? '💡 Çözümü ve Açıklamayı Göster' : '🔽 Çözümü ve Açıklamayı Gizle';
+}
+</script>
+
+{% endraw %}
+
+---
+
+## Son Söz
+
+Bu gönderi sadece final öncesi soru bankası değil; aynı zamanda bir **düşünme antrenmanı**dır.
+
+Eğer gerçekten güçlenmek istiyorsanız şu sırayı izleyin:
+
+1. Önce soruyu okuyun.
+2. Çözümü açmadan kendi sorgunuzu kurmaya çalışın.
+3. Sonra cevabı inceleyin.
+4. En önemlisi de açıklamadaki iş mantığını okuyun.
+
+Çünkü SQL'de asıl ustalık, komutu ezberlemekten değil; verinin ne anlattığını görmekten gelir.
