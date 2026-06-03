@@ -36,7 +36,7 @@ Bu yüzden bu rehberi sadece açıklama metni olarak bırakmadım. Her sorunun a
 ## Soru 1: Dizi İstatistikleri
 
 ### Problem
-Kullanıcıdan `N` adet tam sayı alınız. Diziyi doldurunuz, maksimumu, minimumu ve ortalamayı ayrı fonksiyonlarla bulunuz.
+Kullanıcıdan önce kaç adet tam sayı gireceği bilgisini (`N`) alınız. Daha sonra bu sayıları bir dizi içinde saklayınız ve programınızı parçalara ayırarak çözünüz. `main()` fonksiyonunu gereksiz kalabalığa boğmadan; diziyi dolduran, dizideki en büyük değeri bulan, dizideki en küçük değeri bulan ve dizinin aritmetik ortalamasını hesaplayan ayrı fonksiyonlar yazınız. Program sonunda girilen sayıların genel özetini kullanıcıya düzenli biçimde gösteriniz.
 
 ### Mantık
 Bu soru tek sorumluluklu fonksiyon yazmayı ölçer. Maksimum ve minimum başlangıçta ilk elemana eşit alınmalıdır. Ortalama hesabında tür dönüşümü unutulmamalıdır.
@@ -175,7 +175,7 @@ Yani bu sadece “maksimum bulma” sorusu değil; küçük ölçekli ama düzg�
 ## Soru 2: Çift ve Tek Sayıların Toplamı
 
 ### Problem
-Bir dizideki tek sayıların ve çift sayıların toplamını aynı fonksiyon içinde hesaplayınız.
+Kullanıcıdan alınan tam sayıların bulunduğu bir dizi üzerinde çalışarak, dizideki tek sayıların toplamı ile çift sayıların toplamını ayrı ayrı hesaplayan bir program yazınız. Ancak burada önemli kısıt şudur: her iki sonucu da aynı fonksiyon içinde üretmeniz istenmektedir. Bu nedenle fonksiyondan dışarıya birden fazla sonuç aktarabilmek için pointer parametreleri kullanınız ve hem tek sayı toplamını hem de çift sayı toplamını ekrana açık ve anlaşılır biçimde yazdırınız.
 
 ### Mantık
 Tek bir fonksiyon iki farklı sonucu döndüremeyeceği için pointer parametreleri kullanılmalıdır.
@@ -295,7 +295,7 @@ Bu yüzden bu soru, pointer konusunun temel taşlarından biridir.
 ## Soru 3: Tekrar Eden Elemanları Bulma
 
 ### Problem
-Bir dizi içindeki tekrar eden elemanları yalnızca bir kez ekrana yazdırınız.
+Kullanıcıdan alınan bir tam sayı dizisi içerisinde hangi sayıların birden fazla kez geçtiğini tespit eden bir program yazınız. Program, tekrar eden değerleri bulmalı; ancak aynı sayıyı kaç kez tekrar ederse etsin ekrana yalnızca bir kez yazdırmalıdır. Eğer dizide tekrar eden hiçbir eleman yoksa bunu da kullanıcıya açık bir mesajla belirtiniz. Çözümünüzde dizi tarama mantığını dikkatli kurarak gereksiz tekrarları önleyiniz.
 
 ### Mantık
 Aynı değeri iki kez yazdırmamak için “daha önce görülmüş mü” kontrolü gerekir.
@@ -426,7 +426,7 @@ Bu program öğrenciye yalnızca karşılaştırma yaptırmaz. Aynı zamanda ver
 ## Soru 4: Diziyi Tersine Çevirme
 
 ### Problem
-Ek dizi kullanmadan bir diziyi kendi üzerinde ters çeviriniz.
+Kullanıcıdan alınan bir dizinin elemanlarını, ikinci bir dizi tanımlamadan ve ek bir depolama alanı kullanmadan kendi belleği üzerinde ters çeviren bir program yazınız. Yani ilk eleman son elemanla, ikinci eleman sondan bir önceki elemanla yer değiştirmelidir. İşlem tamamlandıktan sonra ters çevrilmiş diziyi ekrana yazdırınız. Bu soruda özellikle indeks mantığını doğru kurmanız beklenmektedir.
 
 ### Mantık
 İlk ile son, ikinci ile sondan bir önceki eleman yer değiştirir. Döngü yarıya kadar gider.
@@ -526,7 +526,7 @@ Bu soru öğrenciye indekslerle düşünmeyi öğretir. Dizi işlemlerinin büy�
 ## Soru 5: Swap Fonksiyonu
 
 ### Problem
-İki tamsayının değerlerini yer değiştiriniz.
+Kullanıcıdan alınan iki farklı tam sayının değerlerini, bir fonksiyon yardımıyla kendi aralarında değiştiren bir program yazınız. Bu işlem yalnızca `main()` içinde yapılmamalı; mutlaka pointer parametreleri kullanan ayrı bir `swap` fonksiyonu ile gerçekleştirilmelidir. Program, sayıların yer değiştirmeden önceki ve sonraki hâllerini mantıksal olarak gösterecek biçimde çalışmalıdır.
 
 ### Mantık
 Fonksiyon dışarıdaki gerçek değerleri değiştireceği için pointer gerekir.
@@ -603,7 +603,7 @@ Swap sorusu basit değil; pointer düşüncesinin en berrak örneklerinden birid
 ## Soru 6: İşaretçi Aritmetiği ile Dizi Toplamı
 
 ### Problem
-`[]` kullanmadan, sadece işaretçi aritmetiği ile dizi toplamını hesaplayınız.
+Bir tam sayı dizisinin bütün elemanlarının toplamını hesaplayan bir program yazınız. Ancak bu soruda klasik dizi indeksleme yöntemi olan `[]` operatörünü kullanmanız yasaktır. Bunun yerine tüm erişimleri yalnızca işaretçi aritmetiği ile gerçekleştiriniz. Yani dizi üzerinde dolaşırken ve elemanları toplarken pointer mantığını kullanmalı, böylece diziler ile işaretçiler arasındaki ilişkiyi açıkça göstermelisiniz.
 
 ### Tam Çalışır C Kodu
 
@@ -674,7 +674,7 @@ Bu fark bir kez oturunca pointer soruları çok daha az korkutucu olur.
 ## Soru 7: İşaretçi ile Maksimum Değeri Bulma
 
 ### Problem
-Bir dizideki en büyük elemanın adresini döndüren fonksiyon yazınız.
+Kullanıcıdan alınan tam sayılarla oluşturulan bir dizi içinde yer alan en büyük elemanı bulan; fakat yalnızca değeri döndürmekle yetinmeyip, bu elemanın bellekteki adresini döndüren bir fonksiyon yazınız. Daha sonra bu adres bilgisini kullanarak hem en büyük değeri hem de istenirse bellekteki konumunu ekrana yazdırınız. Böylece öğrencinin pointer kullanımını yalnızca teorik değil, doğrudan uygulamalı biçimde kavraması amaçlanmaktadır.
 
 ### Tam Çalışır C Kodu
 
@@ -766,7 +766,7 @@ Pointer konusunun derinliği tam burada başlar.
 ## Soru 8: Dinamik Bellek Yönetimi
 
 ### Problem
-Kullanıcıdan `N` alınız, `malloc` ile dinamik dizi oluşturunuz, toplam ve ortalamayı hesaplayınız, sonra belleği serbest bırakınız.
+Program çalışırken kullanıcıdan kaç adet sayı gireceği bilgisini alınız ve bu bilgiye göre `malloc` kullanarak dinamik bellekte uygun büyüklükte bir tam sayı dizisi oluşturunuz. Daha sonra kullanıcıdan alınan sayıları bu dinamik diziye yerleştiriniz, tüm elemanların toplamını ve aritmetik ortalamasını hesaplayınız. İşlemler tamamlandığında belleği `free()` ile mutlaka geri veriniz. Bu soruda hem dinamik bellek tahsisi hem de bellek yönetimi mantığının doğru kurulması beklenmektedir.
 
 ### Tam Çalışır C Kodu
 
@@ -866,7 +866,7 @@ Bu soru öğrencinin belleği yalnızca kullanmayı değil, **yönetmeyi** öğr
 ## Soru 9: Metin Analizörü
 
 ### Problem
-Bir cümledeki harf, rakam ve boşluk sayısını bulunuz.
+Kullanıcıdan klavyeden tam bir cümle alınız ve bu metni karakter karakter inceleyen bir program yazınız. Program; cümlenin içinde kaç adet harf, kaç adet rakam ve kaç adet boşluk karakteri bulunduğunu ayrı ayrı saymalıdır. Burada önemli olan nokta, metni yalnızca ilk kelimeye kadar değil, tamamını okuyabilmektir. Sonuçlar kullanıcıya düzenli ve anlaşılır bir biçimde sunulmalıdır.
 
 ### Mantık
 Tam cümle alınacağı için `scanf("%s")` yerine `fgets()` tercih edilmelidir.
@@ -948,7 +948,7 @@ Bu fark oturunca string soruları çok daha anlaşılır olur.
 ## Soru 10: Palindrom Kontrolü
 
 ### Problem
-Bir kelimenin palindrom olup olmadığını test ediniz.
+Kullanıcıdan alınan tek bir kelimenin tersten okunduğunda yine kendisiyle aynı olup olmadığını kontrol eden bir program yazınız. Eğer kelime baştan ve sondan okunduğunda aynı karakter dizisini veriyorsa ekrana palindrom olduğunu, aksi durumda palindrom olmadığını yazdırınız. Çözümünüzde string’in iki ucundan merkeze doğru ilerleyen mantıklı bir karşılaştırma yapısı kurmanız beklenmektedir.
 
 ### Tam Çalışır C Kodu
 
@@ -1023,7 +1023,7 @@ Bu soru yalnızca string karşılaştırması öğretmez. Aynı zamanda iki yön
 ## Soru 11: Kendi `strlen` Fonksiyonunu Yazma
 
 ### Problem
-Hazır `strlen()` kullanmadan string uzunluğunu pointer ile hesaplayınız.
+Standart kütüphanedeki `strlen()` fonksiyonunu kullanmadan, kullanıcıdan alınan bir string’in uzunluğunu kendi yazdığınız bir fonksiyonla hesaplayınız. Bu işlemi yaparken dizi indeksleme yerine pointer kullanmanız istenmektedir. Fonksiyon, string’in başından başlayarak ` ` karakterine kadar ilerlemeli ve gerçek uzunluğu doğru biçimde döndürmelidir.
 
 ### Tam Çalışır C Kodu
 
@@ -1098,7 +1098,7 @@ Bu soru öğrencinin şunu anlamasını sağlar:
 ## Soru 12: Karakter Frekansı
 
 ### Problem
-Bir string içinde belirli bir karakterin kaç kez geçtiğini bulunuz.
+Kullanıcıdan bir metin ve ayrıca aranacak tek bir karakter alınız. Ardından metin içinde bu karakterin toplam kaç kez geçtiğini sayan bir program yazınız. Program, metnin başından sonuna kadar ilerleyerek her eşleşmede sayacı artırmalı ve sonucu kullanıcıya açık biçimde göstermelidir. Böylece karakter tarama ve koşullu sayma mantığı somutlaşacaktır.
 
 ### Tam Çalışır C Kodu
 
@@ -1177,7 +1177,7 @@ Bu soru küçük ama çok değerlidir. Çünkü string üzerinde doğrusal taram
 ## Soru 13: Kendi `strcat` Fonksiyonunu Yazma
 
 ### Problem
-Hazır `strcat()` kullanmadan iki string’i birleştiriniz.
+Kullanıcıdan iki ayrı metin alınız ve standart kütüphanedeki `strcat()` fonksiyonunu kullanmadan bu iki string’i tek bir string hâline getiren bir program yazınız. Bunun için önce hedef string’in sonunu bulmalı, ardından ikinci string’in karakterlerini sırayla bu konumdan itibaren eklemelisiniz. Sonuçta oluşan birleşik metni ekrana yazdırınız. Bu soruda string sonlandırma karakteri olan ` ` mantığını doğru kurmanız beklenmektedir.
 
 ### Tam Çalışır C Kodu
 
@@ -1291,7 +1291,7 @@ Bu kavrayış, string işlemlerini çok daha somut hâle getirir.
 ## Soru 14: Temel `Ogrenci` Yapısı
 
 ### Problem
-5 öğrencinin `no`, `ad`, `ortalama` bilgilerini struct ile alıp tablo halinde yazdırınız.
+`no`, `ad` ve `ortalama` alanlarından oluşan bir `Ogrenci` yapısı tanımlayınız. Daha sonra bu yapıdan oluşan 5 elemanlı bir dizi kurarak her öğrenci için numara, ad ve not ortalaması bilgilerini kullanıcıdan alınız. Tüm veriler alındıktan sonra öğrencileri düzenli bir tablo görünümünde ekrana yazdırınız. Böylece struct yapılarının birden fazla kayıt üzerinde nasıl kullanıldığı açık biçimde görülmelidir.
 
 ### Tam Çalışır C Kodu
 
@@ -1373,7 +1373,7 @@ Bu, veri modelleme düşüncesinin ilk adımlarından biridir.
 ## Soru 15: En Yüksek ve En Düşük Ortalamalı Öğrenci
 
 ### Problem
-10 öğrencilik struct dizisinde en yüksek ve en düşük ortalamalı öğrenciyi bulunuz.
+10 öğrenciden oluşan bir `Ogrenci` yapı dizisi oluşturunuz ve her öğrenci için gerekli bilgileri kullanıcıdan alınız. Ardından ayrı fonksiyonlar yardımıyla not ortalaması en yüksek olan öğrenciyi ve not ortalaması en düşük olan öğrenciyi tespit ediniz. Program sadece ortalama değerlerini değil, ilgili öğrencilerin tüm bilgilerini anlaşılır biçimde göstermelidir. Bu soruda yapı dizileri üzerinde karşılaştırma mantığının doğru kurulması beklenmektedir.
 
 ### Tam Çalışır C Kodu
 
@@ -1467,7 +1467,7 @@ Yani algoritma mantığı aynı kalır, ama veri yapısı zenginleşir.
 ## Soru 16: Personel Filtreleme Sistemi
 
 ### Problem
-Maaşı 5000 TL üzerinde olan personelleri listeleyiniz.
+Bir şirkette çalışan personeller için personel numarası, ad soyad ve maaş bilgilerini tutan uygun bir `struct` tanımlayınız. Daha sonra birden fazla personelin bilgisini kullanıcıdan alınız ve yalnızca maaşı 5000 TL’nin üzerinde olan personelleri filtreleyerek ekrana yazdırınız. Programın amacı tüm kayıtları göstermek değil, belirli bir koşulu sağlayanları ayıklayarak listelemektir.
 
 ### Tam Çalışır C Kodu
 
@@ -1543,7 +1543,7 @@ Bu çözüm struct dizileri üzerinde koşullu tarama mantığını yerleştirir
 ## Soru 17: Ürün Takip Sistemi
 
 ### Problem
-Ürün ekleme, listeleme ve toplam envanter değerini hesaplayan struct tabanlı program yazınız.
+Ürün kodu, ürün adı, stok miktarı ve fiyat alanlarını içeren bir `Urun` yapısı tanımlayınız. Bu yapı dizisi üzerinde çalışan ve yeni ürünleri sisteme ekleyen, mevcut tüm ürünleri listeleyen ve depodaki toplam envanter değerini hesaplayan modüler bir program yazınız. Toplam envanter değeri hesaplanırken her ürün için `stok × fiyat` işlemi yapılmalı ve tüm ürünler için bu değerler toplanmalıdır.
 
 ### Tam Çalışır C Kodu
 
@@ -1647,7 +1647,7 @@ Struct yalnızca veri toplamak için değil, o veriyi anlamlı iş süreçlerine
 ## Soru 18: Ardışık Erişimli Metin Dosyası
 
 ### Problem
-20 sayıyı `sayilar.txt` dosyasına yazınız, sonra dosyadan okuyup toplam ve ortalama hesaplayınız.
+Kullanıcıdan alınan 20 adet tam sayıyı `sayilar.txt` adlı bir metin dosyasına yazan bir program geliştiriniz. Yazma işlemi tamamlandıktan sonra aynı dosyayı yeniden okuma modunda açınız, dosyadaki sayıları tekrar çekiniz ve bu sayıların toplamı ile aritmetik ortalamasını hesaplayınız. Sonuçları ekrana açık biçimde yazdırınız. Bu soruda ardışık erişimli metin dosyası mantığının doğru uygulanması beklenmektedir.
 
 ### Tam Çalışır C Kodu
 
@@ -1740,7 +1740,7 @@ Dosya mantığının iskeleti budur.
 ## Soru 19: Binary Dosyada Öğrenci Kaydı
 
 ### Problem
-Öğrenci kayıtlarını `ogrenciler.dat` dosyasına binary olarak yazınız ve tekrar okuyup listeleyiniz.
+Numara, ad ve ortalama bilgilerini içeren öğrenci kayıtlarını bir `struct` yardımıyla oluşturunuz ve bu kayıtları `ogrenciler.dat` adlı bir ikili dosyaya (binary file) yazınız. Daha sonra aynı dosyayı okuma modunda açarak kaydedilen kayıtları tekrar belleğe alınız ve ekrana düzenli şekilde yazdırınız. Bu soruda amaç, struct verilerini `fwrite()` ve `fread()` kullanarak binary dosya mantığıyla saklamayı ve geri okumayı öğrenmektir.
 
 ### Tam Çalışır C Kodu
 
@@ -1839,7 +1839,7 @@ Bu soru öğrenciye şunu öğretir:
 ## Soru 20: Rastgele Erişimli Dosya Envanteri
 
 ### Problem
-`fseek`, `fread`, `fwrite` kullanarak rastgele erişimli bir ürün kayıt sistemi yazınız.
+Sabit uzunluklu kayıt mantığıyla çalışan, ürün kayıt numarası, ürün adı, miktar ve fiyat bilgilerini tutan bir envanter sistemi geliştiriniz. Program menü tabanlı olmalı; kullanıcı yeni kayıt ekleyebilmeli, belirli bir kayıt numarasına doğrudan giderek mevcut kaydı güncelleyebilmeli, bir kaydı silebilmeli ve tüm aktif kayıtları listeleyebilmelidir. Çözümde mutlaka `fseek()`, `fread()` ve `fwrite()` fonksiyonları kullanılmalı; böylece rastgele erişimli dosya mantığı somut biçimde gösterilmelidir.
 
 ### Mantık
 Bu soru finalin en kuvvetli dosya sorusudur. Sabit boyutlu kayıt mantığı kurulmadan doğru çözüm çıkmaz.
@@ -2064,7 +2064,7 @@ Rastgele erişim denen şey tam olarak budur.
 ## Bonus Soru 21: Kütüphane Otomasyon Sistemi
 
 ### Problem
-Struct, pointer, dosya ve menü mantığını bir araya getiren küçük bir otomasyon yazınız.
+Kitap numarası, kitap adı, yazar adı ve stok miktarı bilgilerini tutan bir `Kitap` yapısı tanımlayarak küçük ölçekli bir kütüphane otomasyon sistemi yazınız. Program menü tabanlı çalışmalı; kullanıcı yeni kitap ekleyebilmeli, mevcut kitapları listeleyebilmeli, kitap bilgilerini güncelleyebilmeli ve kayıt silebilmelidir. Ayrıca veriler yalnızca bellekte kalmamalı; dosyaya yazılarak program kapansa bile korunmalıdır. Bu soru, dönem boyunca öğrenilen struct, pointer, dizi, dosya ve menü tasarımı bilgilerini tek çatı altında toplar.
 
 ### Mantık
 Bu soru artık tek konu sorusu değil; mini proje sorusudur.
