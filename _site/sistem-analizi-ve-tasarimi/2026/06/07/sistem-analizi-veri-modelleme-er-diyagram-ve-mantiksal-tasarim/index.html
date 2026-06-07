@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veri Modelleme, ER Diyagram ve Mantıksal Tasarım: Sistemin Hafızasını Kurmak | Ders Takip Portali</title>
+  <meta name="description" content="Sistem Analizi ve Tasarımı dersi için veri modelleme, ER diyagram, normalizasyon ve mantıksal tasarım konularını detaylı anlatan ders gönderisi.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<header class="site-header" id="siteHeader"><div class="container header-inner"><a href="/" class="logo"><svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="logo-text">Ders Takip Portali</span></a><nav class="main-nav" id="mainNav"><a href="/">Ana Sayfa</a><a href="/#courses">Dersler</a></nav><button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button></div></header>
+<main>
+<article class="post-page">
+  <div class="post-page-header" style="--accent: #E17055; --gradient: linear-gradient(135deg, #E17055, #fab1a0)">
+    <div class="post-page-header-bg"></div>
+    <div class="container post-page-header-content">
+      <nav class="breadcrumbs">
+        <a href="/">Ana Sayfa</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <a href="/courses/sistem-analizi-ve-tasarimi">Sistem Analizi ve Tasarimi</a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span>Veri Modelleme, ER Diyagram ve Mantıksal Tasarım: Sistemin Hafızasını Kurmak</span>
+      </nav>
+      <h1 class="post-page-title">Veri Modelleme, ER Diyagram ve Mantıksal Tasarım: Sistemin Hafızasını Kurmak</h1>
+      <div class="post-page-meta"><time datetime="2026-06-07T12:05:00+03:00"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>07 June 2026</time><span class="meta-divider"></span><span class="meta-course" style="--accent: #E17055">Sistem Analizi ve Tasarimi</span></div>
+    </div>
+  </div>
+  <div class="post-page-body"><div class="container container-narrow"><div class="post-content prose"><p>Bir yazılımı ayakta tutan şey ekranlar değildir. Butonlar da değildir. Hatta çoğu zaman kodun kendisi bile değildir. Asıl omurga, <strong>verinin nasıl düşünüldüğüdür</strong>. Çünkü kötü modellenmiş veri, başta masum görünür; sonra sistemi içten içe çürütür. Aynı bilgi üç yerde tutulur, güncellemeler çakışır, raporlar tutarsızlaşır, geliştirici her yeni özellikte duvara çarpar.</p>
+<p>İşte <strong>veri modelleme</strong> tam burada devreye girer. Veri modelleme, sadece tablo çizmek değildir. Gerçek dünyanın dağınık, belirsiz ve bol istisnalı yapısını; düzenli, tutarlı ve sürdürülebilir bir sisteme dönüştürme sanatıdır.</p>
+<p>Bu derste, verdiğiniz dökümandaki çerçeveyi temel alarak veri modellemenin özünü adım adım kuracağız:</p>
+<ul>
+<li>Veri neden bu kadar kritiktir?</li>
+<li>**Varlık, nitelik, ilişki ve kardinalite** tam olarak ne demektir?</li>
+<li>**ER diyagram** nasıl okunur ve nasıl çizilir?</li>
+<li>**Normalizasyon** neden gereklidir?</li>
+<li>Kavramsal model, nasıl **ilişkisel şemaya** dönüştürülür?</li>
+</ul>
+<p>Kısacası bugün bir veritabanına tablo eklemeyi değil, <strong>bir sistemin hafızasını inşa etmeyi</strong> öğreneceğiz.</p>
+<blockquote><p>“Entity-Relationship Model, gerçek dünya verilerini birleşik, tutarlı ve anlaşılabilir biçimde temsil etmenin yolunu sağlar.” &gt; **Peter Chen**, *The Entity-Relationship Model* (1976)</p></blockquote>
+<hr>
+<h2 id="bu-derste-neler-reneceksiniz">Bu Derste Neler Öğreneceksiniz?</h2>
+<p>Bu bölümün sonunda şunları yapabilir hale gelmeniz hedeflenmektedir:</p>
+<ul>
+<li>Veri modellemenin neden analiz ve tasarımın merkezinde olduğunu açıklayabilmek</li>
+<li>**Varlık (entity), nitelik (attribute), ilişki (relationship), kardinalite (cardinality)** kavramlarını ayırt edebilmek</li>
+<li>Bir problemi ER diyagram mantığıyla parçalayabilmek</li>
+<li>**Chen notasyonu** ile **Crow’s Foot notasyonu** arasındaki farkı anlayabilmek</li>
+<li>**1NF, 2NF, 3NF** düzeyinde normalizasyon mantığını yorumlayabilmek</li>
+<li>ER diyagramını **ilişkisel tablo tasarımına** dönüştürebilmek</li>
+<li>Dönem projeniz için anlamlı bir veritabanı taslağı oluşturabilmek</li>
+</ul>
+<p>Bu konu, yalnızca veritabanı dersi için değil; yazılım analizi, backend geliştirme, raporlama ve sürdürülebilir sistem tasarımı için de temel yapı taşıdır.</p>
+<hr>
+<h2 id="1-verinin-de-eri-sistemin-sessiz-merkezi">1. Verinin Değeri: Sistemin Sessiz Merkezi</h2>
+<p>Günümüzde sık duyulan bir ifade var: <strong>“Veri yeni petroldür.”</strong> Ama bu cümle eksik. Ham petrol doğrudan işe yaramadığı gibi, ham veri de tek başına değer üretmez. Veri ancak işlendiğinde, ilişkilendirildiğinde ve anlamlandırıldığında <strong>bilgiye</strong> dönüşür.</p>
+<p>Bir yazılım sistemini düşünün:</p>
+<ul>
+<li>E-ticaret sitesi müşteri, ürün ve sipariş verisiyle yaşar.</li>
+<li>Hastane sistemi hasta, doktor ve randevu verisiyle çalışır.</li>
+<li>Üniversite sistemi öğrenci, ders ve not verisiyle ayakta durur.</li>
+</ul>
+<p>Arayüz değişebilir. Teknoloji değişebilir. Framework değişebilir. Ama veri bozuksa sistemin tamamı bozulur.</p>
+<h3 id="veri-modelleme-neden-nemlidir">Veri Modelleme Neden Önemlidir?</h3>
+<p>Çünkü iyi bir veri modeli:</p>
+<ul>
+<li>Veri tekrarını azaltır</li>
+<li>Tutarsızlığı önler</li>
+<li>Güncellemeyi güvenli hale getirir</li>
+<li>Sorguları anlamlı hale getirir</li>
+<li>Yeni özellik eklemeyi kolaylaştırır</li>
+<li>Sistemin uzun ömürlü olmasını sağlar</li>
+</ul>
+<p>Kötü bir veri modeli ise başlangıçta hızlı görünür, sonra pahalıya patlar.</p>
+<blockquote><p>Veri modelleme, gelecekte çıkacak sorunları bugünden görme disiplinidir.</p></blockquote>
+<hr>
+<h2 id="2-veri-modelleme-nedir">2. Veri Modelleme Nedir?</h2>
+<p>Veri modelleme, gerçek dünyadaki nesneleri, olayları ve bunlar arasındaki ilişkileri sistematik biçimde tanımlama sürecidir.</p>
+<p>Başka bir ifadeyle:</p>
+<blockquote><p>“Gerçek dünyada ne var, bunlar hakkında ne biliyoruz ve bunlar birbirleriyle nasıl bağlı?”</p></blockquote>
+<p>sorusuna verilen düzenli yanıttır.</p>
+<p>Örneğin bir kampüs ikinci el satış platformu tasarlıyorsak şu soruları sormamız gerekir:</p>
+<ul>
+<li>Sistemde hangi temel nesneler var?</li>
+<li>Kullanıcı hakkında hangi bilgileri tutacağız?</li>
+<li>Bir ürün birden fazla kategoriye ait olabilir mi?</li>
+<li>Bir kullanıcının kaç mesajı olabilir?</li>
+<li>Değerlendirme, kullanıcıyla nasıl ilişkilenecek?</li>
+</ul>
+<p>Bu soruların cevabı kod değil; önce <strong>model</strong> üretir.</p>
+<hr>
+<h2 id="3-er-diyagram-n-temel-bile-enleri">3. ER Diyagramın Temel Bileşenleri</h2>
+<p>ER diyagramın omurgası dört temel kavram üzerine kurulur:</p>
+<p>1. <strong>Varlık (Entity)</strong>
+2. <strong>Nitelik (Attribute)</strong>
+3. <strong>İlişki (Relationship)</strong>
+4. <strong>Kardinalite (Cardinality)</strong></p>
+<p>Bu dördünü gerçekten kavramadan sağlıklı veritabanı tasarımı yapmak zordur.</p>
+<hr>
+<h2 id="4-varl-k-entity-sistem-i-indeki-ey">4. Varlık (Entity): Sistem İçindeki “Şey”</h2>
+<p>Varlık, gerçek dünyada birbirinden ayırt edilebilen ve hakkında veri saklanan nesnedir.</p>
+<h3 id="rnekler">Örnekler</h3>
+<ul>
+<li>**KULLANICI**</li>
+<li>**ÜRÜN**</li>
+<li>**KATEGORİ**</li>
+<li>**SİPARİŞ**</li>
+<li>**MESAJ**</li>
+</ul>
+<p>Bu isimlerin ortak noktası şudur: Her biri sistemde ayrı kayıtlar halinde tutulabilir.</p>
+<h3 id="varl-k-k-mesi-entity-set">Varlık Kümesi (Entity Set)</h3>
+<p>Tek tek bir kullanıcı değil, sistemdeki tüm kullanıcılar birlikte bir <strong>varlık kümesi</strong> oluşturur. Aynı mantık ürünler, siparişler, mesajlar için de geçerlidir.</p>
+<h3 id="g-l-varl-k-ve-zay-f-varl-k">Güçlü Varlık ve Zayıf Varlık</h3>
+<p>#### Güçlü Varlık
+Kendi anahtarıyla tek başına tanımlanabilen varlıktır.</p>
+<p><strong>Örnek:</strong>
+- KULLANICI
+- ÜRÜN
+- KATEGORİ</p>
+<p>#### Zayıf Varlık
+Tek başına tam anlamlı olmayan, başka bir varlığa bağımlı yaşayan varlıktır.</p>
+<p><strong>Örnek:</strong>
+- <strong>SİPARİŞ_KALEMİ</strong>
+- <strong>ÜRÜN_RESMİ</strong> (bazen ayrı ele alınabilir)</p>
+<p>Örneğin bir sipariş kalemi, tek başına anlamsızdır. Hangi siparişe ait olduğu bilinmeden o kayıt eksiktir.</p>
+<blockquote><p>Güçlü varlık kendi kimliğiyle yaşar. Zayıf varlık başkasının bağlamında anlam kazanır.</p></blockquote>
+<hr>
+<h2 id="5-nitelik-attribute-varl-n-zellikleri">5. Nitelik (Attribute): Varlığın Özellikleri</h2>
+<p>Nitelik, varlığı tanımlayan bilgi alanıdır.</p>
+<p>Örneğin <strong>KULLANICI</strong> varlığının nitelikleri şunlar olabilir:</p>
+<ul>
+<li>kullanici_id</li>
+<li>ad</li>
+<li>soyad</li>
+<li>email</li>
+<li>sifre_hash</li>
+<li>kayit_tarihi</li>
+<li>durum</li>
+</ul>
+<h3 id="nitelik-t-rleri">Nitelik Türleri</h3>
+<p>#### 5.1 Basit (Atomik) Nitelik
+Daha küçük mantıklı parçalara ayrılamayan niteliktir.</p>
+<p><strong>Örnek:</strong>
+- fiyat
+- puan
+- kullanici_id</p>
+<p>#### 5.2 Bileşik (Composite) Nitelik
+Daha küçük anlamlı alt parçalara ayrılabilir.</p>
+<p><strong>Örnek:</strong>
+- adres = sokak + ilçe + şehir
+- ad_soyad = ad + soyad</p>
+<p>Burada kritik soru şudur: Bu parçaları sistemde ayrı ayrı kullanacak mıyız?
+Eğer kullanacaksak, bileşik yapıyı çoğu zaman alt alanlara bölmek daha doğrudur.</p>
+<p>#### 5.3 Çok Değerli (Multi-valued) Nitelik
+Bir kayıt için birden fazla değer alabilen niteliktir.</p>
+<p><strong>Örnek:</strong>
+- telefon numaraları
+- ürün etiketleri
+- kullanıcının ilgi alanları</p>
+<p>Bunlar çoğu zaman doğrudan tek sütunda tutulmamalıdır. Çünkü bu yapı normalizasyon sorunları üretir.</p>
+<p>#### 5.4 Türetilmiş (Derived) Nitelik
+Başka bir nitelikten hesaplanabilir.</p>
+<p><strong>Örnek:</strong>
+- yaş → doğum tarihinden hesaplanır
+- toplam_tutar → birim_fiyat × miktar</p>
+<p>Bu tür alanlar her zaman fiziksel olarak saklanmak zorunda değildir.</p>
+<p>#### 5.5 Anahtar Nitelik (Key Attribute)
+Her kaydı benzersiz biçimde tanımlar.</p>
+<p><strong>Örnek:</strong>
+- kullanici_id
+- urun_id
+- siparis_id</p>
+<p>Bu alan, tabloda birincil anahtar (primary key) olur.</p>
+<p>#### 5.6 Null Olabilen Nitelik
+Her kayıt için zorunlu olmayan niteliktir.</p>
+<p><strong>Örnek:</strong>
+- ikinci_telefon
+- profil_foto
+- aciklama</p>
+<p>Ama dikkat: “Null bırakılabilir” demek, “anlamsız tasarla” demek değildir. İş kuralları iyi düşünülmelidir.</p>
+<hr>
+<h2 id="6-i-li-ki-relationship-varl-klar-neden-yaln-z-de-ildir">6. İlişki (Relationship): Varlıklar Neden Yalnız Değildir?</h2>
+<p>Sistemdeki asıl anlam, çoğu zaman tek tek varlıklarda değil, <strong>varlıkların birbirine bağlanma biçiminde</strong> oluşur.</p>
+<p>İlişki, iki veya daha fazla varlık kümesi arasındaki anlamlı bağlantıdır.</p>
+<h3 id="rnekler">Örnekler</h3>
+<ul>
+<li>KULLANICI **oluşturur** ÜRÜN</li>
+<li>ÜRÜN **aittir** KATEGORİ</li>
+<li>KULLANICI **gönderir** MESAJ</li>
+<li>KULLANICI **verir** DEĞERLENDİRME</li>
+</ul>
+<p>Bu ilişkiler olmadan sistem yalnızca dağınık tablolar yığınına döner.</p>
+<h3 id="i-li-kinin-de-niteli-i-olabilir">İlişkinin de Niteliği Olabilir</h3>
+<p>İlişkiler bazen yalnızca bağ kurmaz; kendileri de bilgi taşır.</p>
+<p>Örnek:</p>
+<ul>
+<li>KULLANICI **oluşturur** ÜRÜN</li>
+<li>Bu ilişkinin niteliği: **olusturma_tarihi** olabilir</li>
+</ul>
+<p>Ya da bir öğrenci-ders ilişkisinde:</p>
+<ul>
+<li>ÖĞRENCİ **alır** DERS</li>
+<li>Bu ilişkinin nitelikleri: **vize_notu, final_notu, devamsizlik** olabilir</li>
+</ul>
+<p>Bu durumda ilişki, sıradan bir çizgi olmaktan çıkar; veri taşıyan yapıya dönüşür.</p>
+<hr>
+<h2 id="7-kardinalite-cardinality-ka-tane">7. Kardinalite (Cardinality): Kaç Tane?</h2>
+<p>Kardinalite, bir varlığın başka bir varlıkla <strong>kaç kez</strong> ilişkilenebileceğini tanımlar.</p>
+<p>Bu, ER diyagramın en kritik noktalarından biridir. Çünkü iş kurallarının büyük bölümü burada saklıdır.</p>
+<h3 id="7-1-bire-bir-1-1-bir-kay-t-kar-tarafta-en-fazla-bir-kay-tla-ili-kilidir">7.1 Bire-Bir (1:1)
+Bir kayıt, karşı tarafta en fazla bir kayıtla ilişkilidir.</h3>
+<p><strong>Örnek:</strong>
+- KİŞİ — PASAPORT</p>
+<p>Her kişinin bir pasaportu vardır, her pasaport da tek bir kişiye aittir.</p>
+<h3 id="7-2-bire-ok-1-n-bir-kay-t-kar-tarafta-bir-ok-kay-tla-ili-kilidir">7.2 Bire-Çok (1:N)
+Bir kayıt, karşı tarafta birçok kayıtla ilişkilidir.</h3>
+<p><strong>Örnek:</strong>
+- KULLANICI — ÜRÜN</p>
+<p>Bir kullanıcı çok ürün ilanı verebilir. Ama her ürünün tek bir satıcısı vardır.</p>
+<h3 id="7-3-oka-ok-m-n-her-iki-taraf-da-kar-tarafta-birden-fazla-kay-tla-ili-kilidir">7.3 Çoka-Çok (M:N)
+Her iki taraf da karşı tarafta birden fazla kayıtla ilişkilidir.</h3>
+<p><strong>Örnek:</strong>
+- ÖĞRENCİ — DERS
+- ÜRÜN — ETİKET</p>
+<p>Bir öğrenci çok ders alabilir, bir ders çok öğrenci tarafından alınabilir.</p>
+<p>Bu yapı doğrudan tabloya çevrildiğinde ara tablo gerektirir.</p>
+<hr>
+<h2 id="8-kat-l-m-k-s-t-zorunlu-mu-opsiyonel-mi">8. Katılım Kısıtı: Zorunlu mu, Opsiyonel mi?</h2>
+<p>Kardinalite tek başına yetmez. Şu soru da önemlidir:</p>
+<blockquote><p>Her kayıt bu ilişkiye katılmak zorunda mı?</p></blockquote>
+<h3 id="toplam-kat-l-m-total-participation-varl-n-her-rne-i-ili-kiye-dahil-olmak-zorundad-r">Toplam Katılım (Total Participation)
+Varlığın her örneği ilişkiye dahil olmak zorundadır.</h3>
+<p><strong>Örnek:</strong>
+Her siparişin en az bir müşteriyle ilişkili olması gerekir.</p>
+<h3 id="k-smi-kat-l-m-partial-participation-i-li-ki-zorunlu-de-ildir">Kısmi Katılım (Partial Participation)
+İlişki zorunlu değildir.</h3>
+<p><strong>Örnek:</strong>
+Her kullanıcı henüz ürün ilanı vermemiş olabilir.</p>
+<p>Bu ayrım, iş kurallarını doğru yansıtmak için çok önemlidir.</p>
+<hr>
+<h2 id="9-chen-ve-crow-s-foot-notasyonu">9. Chen ve Crow’s Foot Notasyonu</h2>
+<p>ER diyagramlarda iki yaygın yaklaşım vardır:</p>
+<h3 id="9-1-chen-notasyonu-daha-kavramsald-r">9.1 Chen Notasyonu
+Daha kavramsaldır.</h3>
+<ul>
+<li>Varlık → dikdörtgen</li>
+<li>Nitelik → elips</li>
+<li>İlişki → baklava</li>
+</ul>
+<p>Bu notasyon, özellikle eğitsel ve teorik anlatımda çok güçlüdür. Çünkü yapıyı çok açık gösterir.</p>
+<h3 id="9-2-crow-s-foot-notasyonu-daha-pratik-ve-end-stri-odakl-d-r">9.2 Crow’s Foot Notasyonu
+Daha pratik ve endüstri odaklıdır.</h3>
+<ul>
+<li>Varlıklar tablo gibi kutularda gösterilir</li>
+<li>Nitelikler kutu içinde listelenir</li>
+<li>Kardinalite, çizgi uçlarındaki sembollerle gösterilir</li>
+</ul>
+<p>Draw.io, MySQL Workbench, Lucidchart gibi araçlarda bununla daha sık karşılaşılır.</p>
+<h3 id="kar-la-t-rma">Karşılaştırma</h3>
+<table>
+<thead><tr><th>Öğe</th><th>Chen</th><th>Crow’s Foot</th></tr></thead>
+<tbody>
+<tr><td>Odak</td><td>Kavramsal model</td><td>Mantıksal/fiziksel model</td></tr>
+<tr><td>Nitelik gösterimi</td><td>Elips</td><td>Sütun listesi</td></tr>
+<tr><td>İlişki gösterimi</td><td>Baklava</td><td>Çizgi ve karga ayağı</td></tr>
+<tr><td>Eğitimde kullanımı</td><td>Çok uygun</td><td>Uygulamada daha yaygın</td></tr>
+</tbody>
+</table>
+<h3 id="hangisini-kullanmal-y-z">Hangisini Kullanmalıyız?</h3>
+<ul>
+<li>Konuyu ilk öğrenirken **Chen** çok açıklayıcıdır.</li>
+<li>Gerçek veritabanı şemasına yaklaşırken **Crow’s Foot** daha pratiktir.</li>
+</ul>
+<p>Doğrusu biri “iyi”, diğeri “kötü” değildir. Bağlama göre ikisi de değerlidir.</p>
+<hr>
+<h2 id="10-rnek-problem-kamp-s-i-kinci-el-platformu">10. Örnek Problem: Kampüs İkinci El Platformu</h2>
+<p>Şimdi bu teoriyi gerçek bir sistem üstünde düşünelim.</p>
+<p>Bir <strong>kampüs ikinci el satış platformu</strong> tasarladığımızı varsayalım.</p>
+<h3 id="olas-varl-klar">Olası Varlıklar</h3>
+<ul>
+<li>**KULLANICI**</li>
+<li>**URUN**</li>
+<li>**KATEGORI**</li>
+<li>**RESIM**</li>
+<li>**MESAJ**</li>
+<li>**DEGERLENDIRME**</li>
+<li>**SIKAYET**</li>
+</ul>
+<h3 id="kullanici-rnek-nitelikler">KULLANICI
+Örnek nitelikler:</h3>
+<ul>
+<li>kullanici_id</li>
+<li>ad</li>
+<li>soyad</li>
+<li>email</li>
+<li>sifre_hash</li>
+<li>profil_foto</li>
+<li>kayit_tarihi</li>
+<li>durum</li>
+</ul>
+<h3 id="urun-rnek-nitelikler">URUN
+Örnek nitelikler:</h3>
+<ul>
+<li>urun_id</li>
+<li>baslik</li>
+<li>aciklama</li>
+<li>fiyat</li>
+<li>durum</li>
+<li>olusturma_tarihi</li>
+<li>kategori_id</li>
+<li>satici_id</li>
+</ul>
+<h3 id="kategori-rnek-nitelikler">KATEGORI
+Örnek nitelikler:</h3>
+<ul>
+<li>kategori_id</li>
+<li>ad</li>
+<li>ust_kategori_id</li>
+</ul>
+<h3 id="temel-i-li-kiler">Temel İlişkiler</h3>
+<table>
+<thead><tr><th>İlişki</th><th>Tür</th><th>Açıklama</th></tr></thead>
+<tbody>
+<tr><td>KULLANICI oluşturur URUN</td><td>1:N</td><td>Bir kullanıcı çok ürün ekleyebilir</td></tr>
+<tr><td>URUN aittir KATEGORI</td><td>N:1</td><td>Her ürün bir kategoriye bağlıdır</td></tr>
+<tr><td>URUN içerir RESIM</td><td>1:N</td><td>Bir ürünün birden çok resmi olabilir</td></tr>
+<tr><td>KULLANICI gönderir MESAJ</td><td>1:N</td><td>Kullanıcı çok mesaj gönderebilir</td></tr>
+<tr><td>KULLANICI verir DEGERLENDIRME</td><td>1:N</td><td>Bir kullanıcı çok değerlendirme yapabilir</td></tr>
+<tr><td>KATEGORI içerir alt KATEGORI</td><td>1:N</td><td>Öz-ilişki ile hiyerarşi kurulabilir</td></tr>
+</tbody>
+</table>
+<p>Burada tasarımcı gibi düşünmek gerekir.</p>
+<p>Örneğin şu sorular kritiktir:</p>
+<ul>
+<li>Bir ürün birden fazla kategoriye ait olabilir mi?</li>
+<li>Bir mesaj mutlaka bir ürüne bağlı mı, yoksa genel sohbet de olabilir mi?</li>
+<li>Değerlendirme kullanıcıya mı verilir, ürüne mi verilir, yoksa her ikisine de mi?</li>
+</ul>
+<p>İyi veri modeli, bu soruları ertelemez. Daha en başta yüzeye çıkarır.</p>
+<hr>
+<h2 id="11-normalizasyon-veriyi-i-mekten-ve-bozulmaktan-kurtarmak">11. Normalizasyon: Veriyi Şişmekten ve Bozulmaktan Kurtarmak</h2>
+<p>Normalizasyon, veri tekrarını azaltmak ve güncelleme anomalilerini önlemek için tabloları daha sağlıklı yapıya kavuşturma sürecidir.</p>
+<p>Bu iş bazen öğrenciler için fazla teorik görünür. Ama aslında çok pratik bir derdi çözer:</p>
+<blockquote><p>Aynı bilgiyi tekrar tekrar tutarsan, bir gün mutlaka çelişki üretirsin.</p></blockquote>
+<h3 id="neden-normalizasyon-gereklidir">Neden Normalizasyon Gereklidir?</h3>
+<p>Çünkü kötü tablo tasarımı şunlara yol açar:</p>
+<ul>
+<li>Aynı veri birden fazla yerde tekrar eder</li>
+<li>Bir güncelleme yapılır, diğeri unutulur</li>
+<li>Veri silinince istemeden başka anlamlar da yok olur</li>
+<li>Kayıt eklemek için ilgisiz alanları doldurmak gerekir</li>
+</ul>
+<p>Bunlara genel olarak <strong>güncelleme anomalileri</strong> denir.</p>
+<hr>
+<h2 id="12-birinci-normal-form-1nf">12. Birinci Normal Form (1NF)</h2>
+<h3 id="kural-her-s-tun-atomik-de-er-i-ermelidir-her-h-crede-tek-de-er-bulunmal-d-r-her-sat-r-benzersiz-olmal-d-r">Kural
+- Her sütun **atomik** değer içermelidir
+- Her hücrede tek değer bulunmalıdır
+- Her satır benzersiz olmalıdır</h3>
+<h3 id="hatal-rnek">Hatalı Örnek</h3>
+<table>
+<thead><tr><th>urun_id</th><th>baslik</th><th>kategoriler</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Python Kitabı</td><td>Kitap, Eğitim, Akademik</td></tr>
+<tr><td>2</td><td>Laptop</td><td>Elektronik, Bilgisayar</td></tr>
+</tbody>
+</table>
+<p>Buradaki sorun açık:</p>
+<ul>
+<li>`kategoriler` alanı tek bir değer değil, liste tutuyor</li>
+</ul>
+<p>Bu yapı 1NF’yi ihlal eder.</p>
+<h3 id="z-m">Çözüm</h3>
+<ul>
+<li>Ya ürün tek kategoriye bağlanır</li>
+<li>Ya da **URUN_KATEGORI** adında ara tablo oluşturulur</li>
+</ul>
+<p>Yani veriyi virgülle doldurup geçmek çözüm değil; çoğu zaman ileride patlayan bir tembelliktir.</p>
+<hr>
+<h2 id="13-i-kinci-normal-form-2nf">13. İkinci Normal Form (2NF)</h2>
+<h3 id="kural-nce-1nf-sa-lanmal-d-r-anahtar-olmayan-her-alan-birincil-anahtar-n-tamam-na-ba-l-olmal-d-r">Kural
+- Önce 1NF sağlanmalıdır
+- Anahtar olmayan her alan, birincil anahtarın **tamamına** bağlı olmalıdır</h3>
+<p>Bu sorun özellikle <strong>bileşik anahtar</strong> kullanılan tablolarda çıkar.</p>
+<h3 id="rnek">Örnek</h3>
+<p><code>SIPARIS_URUN(siparis_id, urun_id, urun_adi, miktar)</code></p>
+<p>Burada birincil anahtar bileşik olabilir: <code>(siparis_id, urun_id)</code></p>
+<p>Ama <code>urun_adi</code> sadece <code>urun_id</code>&#x27;ye bağlıdır.
+Yani anahtarın tamamına değil, bir parçasına bağlıdır.</p>
+<p>Bu da <strong>kısmi bağımlılık</strong> demektir.</p>
+<h3 id="z-m">Çözüm</h3>
+<ul>
+<li>`URUN(urun_id, urun_adi, ...)` ayrı tutulur</li>
+<li>`SIPARIS_URUN(siparis_id, urun_id, miktar)` ara tablo olur</li>
+</ul>
+<blockquote><p>2NF, “alanlar gerçekten doğru tabloya mı ait?” diye sorar.</p></blockquote>
+<hr>
+<h2 id="14-nc-normal-form-3nf">14. Üçüncü Normal Form (3NF)</h2>
+<h3 id="kural-nce-2nf-sa-lanmal-d-r-anahtar-olmayan-alanlar-birbirine-ba-ml-olmamal-d-r">Kural
+- Önce 2NF sağlanmalıdır
+- Anahtar olmayan alanlar birbirine bağımlı olmamalıdır</h3>
+<p>Yani anahtar dışı bir alan, başka bir anahtar dışı alana bağlı olmamalıdır.</p>
+<h3 id="rnek">Örnek</h3>
+<p><code>CALISAN(calisan_id, ad, departman_id, departman_adi)</code></p>
+<p>Burada:</p>
+<ul>
+<li>`departman_adi`, doğrudan `calisan_id`&#x27;ye değil</li>
+<li>`departman_id`&#x27;ye bağlıdır</li>
+</ul>
+<p>Bu <strong>geçişli bağımlılık</strong> üretir.</p>
+<h3 id="z-m">Çözüm</h3>
+<ul>
+<li>`CALISAN(calisan_id, ad, departman_id)`</li>
+<li>`DEPARTMAN(departman_id, departman_adi)`</li>
+</ul>
+<p>Böylece veri hem daha tutarlı hale gelir hem gereksiz tekrar azalır.</p>
+<hr>
+<h2 id="15-normal-formlar-n-k-sa-zeti">15. Normal Formların Kısa Özeti</h2>
+<table>
+<thead><tr><th>Normal Form</th><th>Çözdüğü Problem</th></tr></thead>
+<tbody>
+<tr><td>1NF</td><td>Tekrarlayan gruplar, çok değerli alanlar</td></tr>
+<tr><td>2NF</td><td>Kısmi bağımlılık</td></tr>
+<tr><td>3NF</td><td>Geçişli bağımlılık</td></tr>
+<tr><td>BCNF</td><td>Daha katı anahtar bağımlılığı sorunları</td></tr>
+</tbody>
+</table>
+<p>Çoğu uygulama için 3NF düzeyi güçlü bir temel sağlar. Ama performans ve kullanım senaryosuna göre bazen kontrollü denormalizasyon da yapılabilir. Yani normalizasyon kutsal dogma değil, bilinçli tasarım aracıdır.</p>
+<hr>
+<h2 id="16-er-diyagramdan-i-li-kisel-emaya-ge-i">16. ER Diyagramdan İlişkisel Şemaya Geçiş</h2>
+<p>Kavramsal model çizdik. Güzel. Peki bunu tabloya nasıl dönüştüreceğiz?</p>
+<p>İşte temel dönüşüm kuralları:</p>
+<h3 id="16-1-her-g-l-varl-k-bir-tablo">16.1 Her Güçlü Varlık → Bir Tablo</h3>
+<p>Örnek:</p>
+<ul>
+<li>KULLANICI → `kullanici`</li>
+<li>URUN → `urun`</li>
+<li>KATEGORI → `kategori`</li>
+</ul>
+<p>Ve varlığın anahtar niteliği, tablonun <strong>PRIMARY KEY</strong> alanı olur.</p>
+<h3 id="16-2-1-n-i-li-ki-n-taraf-na-yabanc-anahtar">16.2 1:N İlişki → N Tarafına Yabancı Anahtar</h3>
+<p>Örnek:</p>
+<ul>
+<li>Bir kullanıcı çok ürün oluşturabilir</li>
+</ul>
+<p>Bu durumda <code>urun</code> tablosuna:</p>
+<ul>
+<li>`satici_id` alanı eklenir</li>
+</ul>
+<p>ve bu alan <code>kullanici(kullanici_id)</code>&#x27;ye bağlanır.</p>
+<h3 id="16-3-m-n-i-li-ki-ara-tablo">16.3 M:N İlişki → Ara Tablo</h3>
+<p>Örnek:</p>
+<ul>
+<li>ÜRÜN ↔ ETİKET</li>
+</ul>
+<p>Bu durumda doğrudan bir alan ekleyemeyiz. Ara tablo gerekir:</p>
+<ul>
+<li>`urun_etiket(urun_id, etiket_id)`</li>
+</ul>
+<h3 id="16-4-1-1-i-li-ki-genellikle-bir-tarafa-fk">16.4 1:1 İlişki → Genellikle Bir Tarafa FK</h3>
+<p>Örnek:</p>
+<ul>
+<li>KULLANICI ↔ PROFIL_DETAY</li>
+</ul>
+<p>Bir tabloda diğerinin anahtarını tutmak yeterli olabilir.</p>
+<h3 id="16-5-bile-ik-nitelik-par-alara-ayr-l-r">16.5 Bileşik Nitelik → Parçalara Ayrılır</h3>
+<p>Örnek:</p>
+<ul>
+<li>adres → il, ilce, sokak, posta_kodu</li>
+</ul>
+<h3 id="16-6-ok-de-erli-nitelik-yeni-tablo">16.6 Çok Değerli Nitelik → Yeni Tablo</h3>
+<p>Örnek:</p>
+<ul>
+<li>kullanici telefonları</li>
+</ul>
+<p>Doğrudan <code>telefonlar</code> diye tek alan açmak yerine:</p>
+<ul>
+<li>`kullanici_telefon(kullanici_id, telefon_no)`</li>
+</ul>
+<p>oluşturmak daha doğrudur.</p>
+<hr>
+<h2 id="17-basit-sql-ema-rne-i">17. Basit SQL Şema Örneği</h2>
+<p>Aşağıdaki örnek, kavramsal modelin mantıksal tabloya dönüşümünü gösterir:</p>
+<div class="language-sql
+CREATE TABLE kullanici (
+    kullanici_id INT PRIMARY KEY AUTO_INCREMENT,
+    ad VARCHAR(50) NOT NULL,
+    soyad VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    sifre_hash CHAR(60) NOT NULL,
+    kayit_tarihi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    durum VARCHAR(20) NOT NULL
+);
+``` highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Bu küçük örnek bile bize birkaç önemli şeyi gösterir:
+- Her kayıt için benzersiz anahtar vardır
+- E-posta alanı tekrarsızdır
+- Zorunlu alanlar `NOT NULL` ile tanımlanmıştır
+- Tarih bilgisi sistem tarafından otomatik üretilebilir
+Yani SQL, sadece teknik sözdizimi değil; analiz aşamasında verilen kararların somutlaşmış halidir.
+---
+## 18. Veri Modelleme Yaparken Sorulması Gereken Kritik Sorular
+İyi analist, tablo çizmeden önce doğru soruları sorar.
+### Mutlaka Sorulması Gereken Sorular
+- Sistemdeki temel varlıklar gerçekten neler?
+- Bu varlıkların anahtar alanları ne olacak?
+- Hangi nitelikler zorunlu, hangileri opsiyonel?
+- Hangi ilişkiler 1:1, 1:N, M:N?
+- Çok değerli alanlar var mı?
+- Hangi bilgiler hesaplanmalı, hangileri saklanmalı?
+- Silme işlemlerinde ne olacak?
+- Alt kategori gibi öz-ilişkiler var mı?
+- Bu model gelecekte büyümeye dayanıklı mı?
+Bu sorular sorulmadan çizilen ER diyagram genelde güzel görünür ama kısa ömürlü olur.
+---
+## 19. Sık Yapılan Hatalar
+Bu konuda öğrencilerin en sık düştüğü çukurlar şunlar:
+### 1. Varlık ile niteliği karıştırmak
+Örneğin “adres” bazen tek alan olabilir, bazen ayrı modelleme gerektirir. Bağlama göre düşünmek gerekir.
+### 2. Çok değerli alanları tek sütunda tutmak
+Virgülle veri depolamak kısa yoldur ama çoğu zaman kötü tasarımdır.
+### 3. M:N ilişkiyi doğrudan tek tabloyla çözmeye çalışmak
+Bu genelde ileride sorgu ve tutarlılık sorunları doğurur.
+### 4. Gereksiz tekrar içeren tablo kurmak
+Aynı kategori adı yüzlerce kez yazılıyorsa tasarım sizi uyarmaya başlamış demektir.
+### 5. Kardinaliteyi ezbere vermek
+“Bir kullanıcının tek ilanı olur” gibi hatalı varsayımlar sistemi gereksiz kısıtlar.
+### 6. Normalizasyonu sadece sınav konusu sanmak
+Normalizasyon, gerçek projede veri bozulmasını engelleyen pratik araçtır.
+---
+## 20. Bölüm Özeti
+Bu derste şunu gördük:
+- Yazılım sistemlerinin kalbinde veri vardır.
+- Veri modelleme, gerçek dünyayı sistematik yapıya dönüştürme sürecidir.
+- ER diyagram; **varlık, nitelik, ilişki ve kardinalite** üzerinden düşünmeyi sağlar.
+- Güçlü ve zayıf varlık ayrımı, modelin bağımlılıklarını görünür kılar.
+- Kardinalite ve katılım kısıtları, iş kurallarının iskeletidir.
+- Chen ve Crow’s Foot, aynı düşüncenin farklı gösterim biçimleridir.
+- Normalizasyon; tekrar, kısmi bağımlılık ve geçişli bağımlılık sorunlarını temizler.
+- ER diyagram, doğru kurallarla ilişkisel şemaya dönüştürülebilir.
+Kısacası veri modelleme, yazılımın arka tarafındaki teknik detaylardan biri değil; sistemin **mantıksal omurgasıdır**.
+Ekranlar sonradan değişir. Kod yeniden yazılır. Teknolojiler modası geçer. Ama iyi düşünülmüş bir veri modeli, sistemi yıllarca ayakta tutar.
+---
+## 21. Mini Alıştırmalar
+### Alıştırma 1
+Bir **öğrenci bilgi sistemi** için en az 6 varlık belirleyiniz ve her biri için 3 nitelik yazınız.
+### Alıştırma 2
+Aşağıdaki ilişkilerin kardinalitesini belirleyiniz:
+- Öğrenci — Ders
+- Bölüm — Öğrenci
+- Kullanıcı — Profil
+- Ürün — Resim
+### Alıştırma 3
+Aşağıdaki tabloyu neden 1NF ihlali sayacağınızı açıklayınız:
+| ogrenci_id | ad | aldigi_dersler |
+|-----------|----|----------------|
+| 1 | Ayşe | Matematik, Fizik, Programlama |
+### Alıştırma 4
+Bir kampüs ikinci el platformu için şu yapıları tabloya dönüştürünüz:
+- KULLANICI
+- URUN
+- KATEGORI
+- MESAJ
+- DEGERLENDIRME
+Her tablo için:
+- birincil anahtar
+- gerekli yabancı anahtarlar
+- en az 4 sütun
+belirleyiniz.
+---
+## Kaynaklar
+- Chen, P. P. S. (1976). *The Entity-Relationship Model*. ACM Transactions on Database Systems, 1(1).
+- Codd, E. F. (1970). *A Relational Model of Data for Large Shared Data Banks*. Communications of the ACM, 13(6).
+- Date, C. J. (2003). *An Introduction to Database Systems* (8th ed.). Addison-Wesley.
+- Elmasri, R. &amp; Navathe, S. (2016). *Fundamentals of Database Systems* (7th ed.). Pearson.
+- Connolly, T. &amp; Begg, C. (2015). *Database Systems* (6th ed.). Pearson.
+---
+Bu konuyu gerçekten kavradığınız anda şunu fark edersiniz: Veritabanı tasarımı, tablo ezberleme işi değildir. O, bir sistemin gerçeği nasıl düşündüğünü görünür kılma işidir. Ve iyi kurulan her sistem, önce kendi verisini doğru düşünmeyi öğrenir.</div></div></div>
+  <div class="post-page-nav"><div class="container container-narrow"><div class="post-nav-grid"><a href="/sistem-analizi-ve-tasarimi/2026/02/16/yazilim-gelistirme-yasam-dongusu/" class="post-nav-item prev"><span class="post-nav-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>Onceki Gonderi</span><span class="post-nav-title">Yazilim Gelistirme Yasam Dongusu (SDLC)</span></a></div></div></div>
+</article>
+</main>
+<footer class="site-footer"><div class="container"><div class="footer-content"><div class="footer-brand"><svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span>Ders Takip Portali</span></div><p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p></div><div class="footer-bottom"><p>&copy; 2026 | Tum haklari saklidir.</p></div></div></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
