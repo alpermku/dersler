@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Mimari Tasarım ve Katmanlı Yapılar: Yazılımın Taşıyıcı Kolonları | Ders Takip Portali</title><meta name="description" content="Sistem Analizi ve Tasarımı dersi için yazılım mimarisi, katmanlı yapı, MVC, MVVM, RESTful API ve modülerlik konularını detaylı anlatan ders gönderisi."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/css/main.css"></head><body><header class="site-header" id="siteHeader"><div class="container header-inner"><a href="/" class="logo"><svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="logo-text">Ders Takip Portali</span></a><nav class="main-nav" id="mainNav"><a href="/">Ana Sayfa</a><a href="/#courses">Dersler</a></nav><button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button></div></header><main><article class="post-page"><div class="post-page-header" style="--accent: #E17055; --gradient: linear-gradient(135deg, #E17055, #fab1a0)"><div class="post-page-header-bg"></div><div class="container post-page-header-content"><nav class="breadcrumbs"><a href="/">Ana Sayfa</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><a href="/courses/sistem-analizi-ve-tasarimi">Sistem Analizi ve Tasarimi</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><span>Mimari Tasarım ve Katmanlı Yapılar: Yazılımın Taşıyıcı Kolonları</span></nav><h1 class="post-page-title">Mimari Tasarım ve Katmanlı Yapılar: Yazılımın Taşıyıcı Kolonları</h1><div class="post-page-meta"><time datetime="2026-06-07T12:38:00+03:00"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>07 June 2026</time><span class="meta-divider"></span><span class="meta-course" style="--accent: #E17055">Sistem Analizi ve Tasarimi</span></div></div></div><div class="post-page-body"><div class="container container-narrow"><div class="post-content prose"><p>Bir yazılım projesi küçükken çoğu şey kolay görünür. Dosyalar azdır. Fonksiyonlar birbirini tanır. Bir değişiklik yapılır ve sistem hâlâ nefes alır. Ama proje büyüdükçe görünmeyen bir soru giderek sertleşir:</p>
+<p><strong>Bu sistem neyin üstünde duruyor?</strong></p>
+<p>İşte bu sorunun cevabı, çoğu zaman kod satırlarında değil, <strong>mimaride</strong> gizlidir.</p>
+<p>Yazılım mimarisi; sistemin hangi parçalardan oluştuğunu, bu parçaların nasıl konuştuğunu, neyin nereye ait olduğunu ve gelecekteki değişikliklerin sistemi kırıp kırmayacağını belirleyen üst düzey yapıdır. Kısacası mimari, yazılımın sadece bugünkü halini değil, <strong>yarın değişmeye nasıl dayanacağını</strong> belirler.</p>
+<p>Bu derste verdiğiniz dökümandan yararlanarak şu omurgayı netleştireceğiz:</p>
+<ul>
+<li>Yazılım mimarisi tam olarak nedir?</li>
+<li>**Katmanlı mimari** neden bu kadar yaygındır?</li>
+<li>**MVC** ve **MVVM** neyi çözer?</li>
+<li>**RESTful API** neden modern sistemlerin ortak dili haline gelmiştir?</li>
+<li>**Modülerlik** ve **bağımlılık yönetimi** neden bakım kabusunu önler?</li>
+</ul>
+<p>Bugün tablo çizmekten ya da kod yazmaktan biraz yukarı çıkacağız. Çünkü bu derste meselemiz tek bir fonksiyon değil; <strong>bir yapının ayakta nasıl kalacağı</strong>.</p>
+<blockquote><p>“Mimari, değiştirilmesi en zor olan kararlardır. Değiştirilmesi kolaysa, zaten önemli bir karar değildir.” &gt; **Martin Fowler**, *Who Needs an Architect?* (2003)</p></blockquote>
+<hr>
+<h2 id="bu-derste-neler-reneceksiniz">Bu Derste Neler Öğreneceksiniz?</h2>
+<p>Bu bölümün sonunda şunları yapabilir hale gelmeniz hedeflenmektedir:</p>
+<ul>
+<li>Yazılım mimarisinin ne olduğunu ve neden kritik olduğunu açıklayabilmek</li>
+<li>**Katmanlı mimari** mantığını anlayabilmek</li>
+<li>**UI / Business / Data** ayrımını yerli yerine koyabilmek</li>
+<li>**MVC** ile **MVVM** arasındaki temel farkı kavrayabilmek</li>
+<li>RESTful API tasarımının temel ilkelerini yorumlayabilmek</li>
+<li>Modülerlik, bağımlılık yönetimi ve **SOLID** ilkeleri arasındaki ilişkiyi görebilmek</li>
+<li>Dönem projeniz için mantıklı bir mimari şema tasarlayabilmek</li>
+</ul>
+<hr>
+<h2 id="1-yaz-l-m-mimarisi-nedir">1. Yazılım Mimarisi Nedir?</h2>
+<p>Yazılım mimarisi, bir sistemin üst düzey yapısını tanımlar.</p>
+<p>Bu tanım kısa ama derindir. Çünkü mimari yalnızca “hangi teknoloji kullanıldı?” sorusuna cevap vermez. Daha önemli şeyleri belirler:</p>
+<ul>
+<li>Sistem hangi bileşenlerden oluşur?</li>
+<li>Bu bileşenler nasıl haberleşir?</li>
+<li>Hangi sorumluluk nereye aittir?</li>
+<li>Hangi katman neyi bilir, neyi bilmez?</li>
+<li>Değişiklik geldiğinde sistem ne kadar sarsılır?</li>
+</ul>
+<h3 id="mimari-neleri-etkiler">Mimari Neleri Etkiler?</h3>
+<p>Mimari kararlar doğrudan şunları etkiler:</p>
+<ul>
+<li>**Ölçeklenebilirlik** → Kaç kullanıcıyı kaldırabilir?</li>
+<li>**Bakım kolaylığı** → Yeni özellik eklemek ne kadar sancılı?</li>
+<li>**Performans** → Yanıt süresi nasıl?</li>
+<li>**Güvenlik** → Saldırı yüzeyi ne kadar kontrollü?</li>
+<li>**Test edilebilirlik** → Parçalar ayrı ayrı sınanabilir mi?</li>
+<li>**Geliştirici deneyimi** → Sisteme yeni giren biri yolu bulabilir mi?</li>
+</ul>
+<p>İşte bu yüzden mimari, koddan “daha soyut” görünse de çoğu zaman daha belirleyicidir.</p>
+<blockquote><p>Kod, mimarinin günlük konuşma biçimidir.</p></blockquote>
+<hr>
+<h2 id="2-mimari-neden-erken-d-n-lmelidir">2. Mimari Neden Erken Düşünülmelidir?</h2>
+<p>Bir projede her şeyi sonradan toparlayabileceğinizi sanmak cazip bir yanılgıdır.</p>
+<p>Başlangıçta insanlar genelde şunu der:</p>
+<ul>
+<li>“Önce çalışsın da sonra temizleriz.”</li>
+</ul>
+<p>Bu cümle bazen işe yarar. Ama mimari seviyede çok tekrarlandığında şu sonuca varır:</p>
+<ul>
+<li>arayüz veritabanına doğrudan bağlanır,</li>
+<li>iş kuralları controller içine dökülür,</li>
+<li>aynı mantık üç yerde tekrar eder,</li>
+<li>test yazmak işkence olur,</li>
+<li>küçük değişiklikler bile domino etkisi yaratır.</li>
+</ul>
+<p>Yani mimariyi düşünmemek de aslında bir mimari karardır. Genelde kötü olanından.</p>
+<hr>
+<h2 id="3-katmanl-mimari-kaosu-katmanlara-b-lmek">3. Katmanlı Mimari: Kaosu Katmanlara Bölmek</h2>
+<p>Katmanlı mimari, yazılım dünyasının en yaygın mimari örüntülerinden biridir. Basit ama güçlü bir fikri vardır:</p>
+<blockquote><p>Her şeyi aynı yerde toplama. Sorumlulukları ayır.</p></blockquote>
+<p>Bu yaklaşımda sistem, farklı işlevlere sahip katmanlara ayrılır. Her katman kendi işini yapar ve genellikle sadece bir alt katmanla konuşur.</p>
+<p>Bu da sistemi daha anlaşılır ve daha yönetilebilir hale getirir.</p>
+<hr>
+<h2 id="4-klasik-3-katmanl-mimari">4. Klasik 3 Katmanlı Mimari</h2>
+<p>En çok görülen yapı şudur:</p>
+<p>1. <strong>Sunum Katmanı (Presentation / UI)</strong>
+2. <strong>İş Mantığı Katmanı (Business Logic)</strong>
+3. <strong>Veri Erişim Katmanı (Data Access)</strong></p>
+<h3 id="4-1-sunum-katman-ui-bu-katman-kullan-c-yla-konu-ur">4.1 Sunum Katmanı (UI)
+Bu katman kullanıcıyla konuşur.</h3>
+<p>Görevi:
+- ekran göstermek,
+- form almak,
+- kullanıcı etkileşimini toplamak,
+- sonuçları sunmak.</p>
+<p>Örnek bileşenler:
+- HTML / CSS
+- React / Angular / Vue arayüzleri
+- mobil ekranlar
+- view şablonları</p>
+<p>Bu katman <strong>iş kuralı deposu</strong> olmamalıdır. Ekran, iş mantığını taşımaya başlarsa sistem çabuk çamurlaşır.</p>
+<h3 id="4-2-i-mant-katman-business-logic-sistemin-beyni-buras-d-r">4.2 İş Mantığı Katmanı (Business Logic)
+Sistemin beyni burasıdır.</h3>
+<p>Görevi:
+- iş kurallarını çalıştırmak,
+- süreçleri yönetmek,
+- hesap yapmak,
+- kuralları uygulamak,
+- veriye ne olacağına karar vermek.</p>
+<p>Örnek:
+- <code>ProductService</code>
+- <code>UserService</code>
+- <code>OrderService</code>
+- use case handler’ları</p>
+<p>Şu kararlar burada olur:
+- kullanıcı bu işlemi yapabilir mi?
+- ürün yayına alınabilir mi?
+- stok yeterli mi?
+- fiyat güncellemesi geçerli mi?</p>
+<h3 id="4-3-veri-eri-im-katman-data-access-bu-katman-veritaban-yla-konu-ur">4.3 Veri Erişim Katmanı (Data Access)
+Bu katman veritabanıyla konuşur.</h3>
+<p>Görevi:
+- CRUD işlemleri yapmak,
+- veriyi almak / yazmak,
+- sorgu çalıştırmak,
+- kayıtları dönüştürmek.</p>
+<p>Örnek bileşenler:
+- Repository
+- DAO
+- ORM araçları
+- Entity Framework, Hibernate, Sequelize</p>
+<p>Bu katman iş kuralı yazma yeri değildir. O iş Business katmanına aittir.</p>
+<hr>
+<h2 id="5-strict-layering-herkes-herkesle-konu-amaz">5. Strict Layering: Herkes Herkesle Konuşamaz</h2>
+<p>Katmanlı mimarinin önemli ilkelerinden biri şudur:</p>
+<blockquote><p>Üst katman, doğrudan alt alta atlamamalı.</p></blockquote>
+<p>Yani örneğin:</p>
+<ul>
+<li>UI → Business ile konuşmalı</li>
+<li>Business → Data ile konuşmalı</li>
+<li>UI → doğrudan veritabanına gitmemeli</li>
+</ul>
+<h3 id="neden">Neden?</h3>
+<p>Çünkü UI katmanını veritabanına bağlarsanız:
+- iş kuralları dağılır,
+- tekrar oluşur,
+- test zorlaşır,
+- güvenlik kontrolü gevşer,
+- bakım maliyeti patlar.</p>
+<p>Katmanlı düşünmek bazen yavaşlatıyormuş gibi görünür, ama orta vadede sistemi kurtarır.</p>
+<hr>
+<h2 id="6-n-katman-mimarisi-sistem-b-y-y-nce-derinlik-artar">6. N-Katman Mimarisi: Sistem Büyüyünce Derinlik Artar</h2>
+<p>Bazı projelerde üç katman yetmez. Sistem büyüdükçe daha ayrıntılı yapı gerekir.</p>
+<p>Özellikle kurumsal ya da domain odaklı projelerde şu yapı görülür:</p>
+<ul>
+<li>**Presentation Layer**</li>
+<li>**Application Layer**</li>
+<li>**Domain Layer**</li>
+<li>**Infrastructure Layer**</li>
+</ul>
+<h3 id="application-layer-use-case-ak-n-y-netir-ne-yap-lacak-sorusunun-orkestrasyon-taraf-d-r">Application Layer
+Use case akışını yönetir. “Ne yapılacak?” sorusunun orkestrasyon tarafıdır.</h3>
+<h3 id="domain-layer-i-kurallar-n-n-kalbidir-domain-nesneleri-burada-ya-ar">Domain Layer
+İş kurallarının kalbidir. Domain nesneleri burada yaşar.</h3>
+<h3 id="infrastructure-layer-veritaban-e-posta-dosya-sistemi-cache-d-servis-ba-lant-lar-burada-bulunur">Infrastructure Layer
+Veritabanı, e-posta, dosya sistemi, cache, dış servis bağlantıları burada bulunur.</h3>
+<p>Bu yaklaşım, özellikle <strong>DDD (Domain-Driven Design)</strong> ve <strong>Clean Architecture</strong> gibi modellerde daha anlamlı hale gelir.</p>
+<hr>
+<h2 id="7-mvc-eski-ama-h-l-g-l-bir-ayr-m">7. MVC: Eski Ama Hâlâ Güçlü Bir Ayrım</h2>
+<p><strong>MVC (Model-View-Controller)</strong>, yazılım dünyasında en çok bilinen yapısal örüntülerden biridir.</p>
+<p>Temel fikir şudur:</p>
+<ul>
+<li>veri ve iş mantığı başka yerde olsun,</li>
+<li>kullanıcı arayüzü başka yerde olsun,</li>
+<li>gelen isteği yöneten yapı başka yerde olsun.</li>
+</ul>
+<h3 id="7-1-model-veriyi-ve-i-mant-n-temsil-eder">7.1 Model
+Veriyi ve iş mantığını temsil eder.</h3>
+<p>Örnek:
+- ürün verisi
+- kullanıcı bilgisi
+- iş kuralları
+- veritabanı işlemleriyle ilişkili yapı</p>
+<h3 id="7-2-view-sunum-katman-d-r">7.2 View
+Sunum katmanıdır.</h3>
+<p>Görevi:
+- kullanıcıya sonucu göstermek,
+- ekranı oluşturmak,
+- görsel temsil sunmak</p>
+<h3 id="7-3-controller-i-ste-i-kar-lar-ve-ak-y-netir">7.3 Controller
+İsteği karşılar ve akışı yönetir.</h3>
+<p>Görevi:
+- HTTP isteğini almak,
+- ilgili işlemi tetiklemek,
+- gerekli modeli çağırmak,
+- uygun görünümü döndürmek</p>
+<h3 id="mvc-ak">MVC Akışı</h3>
+<p>Kullanıcı → Controller → Model → View → Kullanıcı</p>
+<p>Bu model hâlâ çok güçlüdür çünkü rolleri ayırır.</p>
+<h3 id="nerelerde-kullan-l-r">Nerelerde Kullanılır?</h3>
+<ul>
+<li>ASP.NET MVC</li>
+<li>Spring MVC</li>
+<li>Ruby on Rails</li>
+<li>Laravel</li>
+</ul>
+<p>Bu yapılar aynı mantığın farklı uygulamalarıdır.</p>
+<hr>
+<h2 id="8-mvvm-zellikle-modern-aray-zler-i-in-g-l-bir-yakla-m">8. MVVM: Özellikle Modern Arayüzler İçin Güçlü Bir Yaklaşım</h2>
+<p><strong>MVVM (Model-View-ViewModel)</strong>, özellikle modern front-end ve mobil dünyasında çok yaygınlaşmıştır.</p>
+<p>MVC’ye benzer ama önemli bir farkı vardır: <strong>ViewModel</strong>, View için hazırlanmış veri ve davranış katmanıdır.</p>
+<h3 id="8-1-model-veri-ve-i-kurallar-d-r">8.1 Model
+Veri ve iş kurallarıdır.</h3>
+<h3 id="8-2-view-yaln-zca-sunumdur">8.2 View
+Yalnızca sunumdur.</h3>
+<h3 id="8-3-viewmodel-view-n-ihtiyac-olan-veriyi-i-ler-haz-rlar-ve-sunar">8.3 ViewModel
+View’ın ihtiyacı olan veriyi işler, hazırlar ve sunar.</h3>
+<p>Burada fikir şudur:</p>
+<ul>
+<li>View aptal olsun,</li>
+<li>mantık doğrudan ekranda birikmesin,</li>
+<li>test edilebilir yapı ViewModel’de toplansın.</li>
+</ul>
+<h3 id="mvvm-nin-g-c">MVVM’nin Gücü</h3>
+<ul>
+<li>UI mantığı daha temiz ayrılır</li>
+<li>test yazmak kolaylaşır</li>
+<li>veri bağlama (data binding) daha anlamlı hale gelir</li>
+<li>modern framework’lerle daha rahat çalışır</li>
+</ul>
+<h3 id="nerelerde-g-r-l-r">Nerelerde Görülür?</h3>
+<ul>
+<li>Angular</li>
+<li>Vue</li>
+<li>React benzeri state odaklı yaklaşımlar</li>
+<li>Android Jetpack</li>
+<li>SwiftUI</li>
+</ul>
+<hr>
+<h2 id="9-mvc-mi-mvvm-mi">9. MVC mi, MVVM mi?</h2>
+<p>Bu sorunun tek kutsal cevabı yok. Bağlama göre karar verilir.</p>
+<h3 id="mvc-g-l-d-r-nk-basittir-uzun-y-llard-r-oturmu-tur-request-response-tabanl-yap-lar-i-in-do-ald-r">MVC güçlüdür çünkü:
+- basittir,
+- uzun yıllardır oturmuştur,
+- request-response tabanlı yapılar için doğaldır.</h3>
+<h3 id="mvvm-g-l-d-r-nk-ui-state-y-netiminde-rahatt-r-veri-ba-lama-mant-na-daha-yatk-nd-r-test-edilebilir-sunum-mant-sa-lar">MVVM güçlüdür çünkü:
+- UI state yönetiminde rahattır,
+- veri bağlama mantığına daha yatkındır,
+- test edilebilir sunum mantığı sağlar.</h3>
+<p>Önemli olan, örüntüyü ezberlemek değil; <strong>hangi problemi çözdüğünü anlamaktır</strong>.</p>
+<hr>
+<h2 id="10-restful-api-modern-sistemlerin-ortak-dili">10. RESTful API: Modern Sistemlerin Ortak Dili</h2>
+<p>Bugün web ve mobil uygulamaların çoğu, ön yüz ile arka yüz arasındaki iletişimi <strong>RESTful API</strong> üzerinden kurar.</p>
+<p>REST, Roy Fielding tarafından 2000 yılında tanımlanan bir mimari stildir.</p>
+<p>Özü şudur:</p>
+<blockquote><p>Kaynakları tutarlı bir arayüz üzerinden yönet.</p></blockquote>
+<p>Burada “kaynak” dediğimiz şey örneğin şunlar olabilir:
+- kullanıcılar
+- ürünler
+- mesajlar
+- siparişler</p>
+<hr>
+<h2 id="11-rest-in-temel-k-s-tlar">11. REST’in Temel Kısıtları</h2>
+<h3 id="stateless-durumsuz-her-istek-kendi-ba-na-anlaml-olmal-d-r">Stateless (Durumsuz)
+Her istek kendi başına anlamlı olmalıdır.</h3>
+<p>Sunucu, “bir önceki istekte ne olmuştu?” diye oturum belleğine yaslanmamalıdır.</p>
+<h3 id="client-server-i-stemci-ile-sunucu-ayr-d-r-biri-aray-zd-r-di-eri-veri-ve-i-mant-n-y-netir">Client-Server
+İstemci ile sunucu ayrıdır. Biri arayüzdür, diğeri veri ve iş mantığını yönetir.</h3>
+<h3 id="cacheable-yan-tlar-gerekti-inde-nbelle-e-al-nabilir-olmal-d-r">Cacheable
+Yanıtlar gerektiğinde önbelleğe alınabilir olmalıdır.</h3>
+<h3 id="uniform-interface-tutarl-url-yap-s-http-fiilleri-ve-veri-format-kullan-lmal-d-r">Uniform Interface
+Tutarlı URL yapısı, HTTP fiilleri ve veri formatı kullanılmalıdır.</h3>
+<h3 id="layered-system-i-stemci-arada-ka-ara-katman-oldu-unu-bilmek-zorunda-de-ildir">Layered System
+İstemci, arada kaç ara katman olduğunu bilmek zorunda değildir.</h3>
+<p>Bu yapı, büyük sistemlerde esneklik ve ölçeklenebilirlik sağlar.</p>
+<hr>
+<h2 id="12-http-y-ntemleri-ve-kaynak-mant">12. HTTP Yöntemleri ve Kaynak Mantığı</h2>
+<p>REST’te URL’ler genellikle <strong>kaynağı</strong>, HTTP metotları ise <strong>işlemi</strong> temsil eder.</p>
+<table>
+<thead><tr><th>HTTP Yöntemi</th><th>Amaç</th><th>Örnek</th></tr></thead>
+<tbody>
+<tr><td>GET</td><td>Veri okuma</td><td>`/api/products`</td></tr>
+<tr><td>GET</td><td>Tek kaynak okuma</td><td>`/api/products/42`</td></tr>
+<tr><td>POST</td><td>Yeni kaynak oluşturma</td><td>`/api/products`</td></tr>
+<tr><td>PUT</td><td>Tam güncelleme</td><td>`/api/products/42`</td></tr>
+<tr><td>PATCH</td><td>Kısmi güncelleme</td><td>`/api/products/42/status`</td></tr>
+<tr><td>DELETE</td><td>Silme</td><td>`/api/products/42`</td></tr>
+</tbody>
+</table>
+<h3 id="ok-nemli-tasar-m-i-lkesi">Çok Önemli Tasarım İlkesi</h3>
+<p>URL’de <strong>isim</strong> kullan, fiil değil.</p>
+<p><strong>Doğru:</strong>
+- <code>/api/products</code>
+- <code>/api/users</code>
+- <code>/api/messages</code></p>
+<p><strong>Yanlış:</strong>
+- <code>/api/getProducts</code>
+- <code>/api/createUser</code></p>
+<p>Çünkü işlem zaten HTTP metodunda var.</p>
+<hr>
+<h2 id="13-rest-api-tasar-m-i-pu-lar">13. REST API Tasarım İpuçları</h2>
+<p>İyi REST tasarımı için şu kurallar altın değerindedir:</p>
+<h3 id="13-1-o-ul-kaynak-adlar-kullan-products-users-messages">13.1 Çoğul kaynak adları kullan
+- `/products`
+- `/users`
+- `/messages`</h3>
+<h3 id="13-2-http-durum-kodlar-n-do-ru-kullan-200-ok-201-created-400-bad-request-401-unauthorized-404-not-found-500-internal-server-error">13.2 HTTP durum kodlarını doğru kullan
+- `200 OK`
+- `201 Created`
+- `400 Bad Request`
+- `401 Unauthorized`
+- `404 Not Found`
+- `500 Internal Server Error`</h3>
+<h3 id="13-3-s-r-mleme-d-n-api-v1-products">13.3 Sürümleme düşün
+- `/api/v1/products`</h3>
+<p>Bu, gelecekte kırmadan gelişmek için çok işe yarar.</p>
+<h3 id="13-4-json-yap-s-n-tutarl-kur-ayn-api-i-inde-alan-adlar-tutarl-olmal-hata-yan-tlar-tek-bi-imde-d-nmeli-response-yap-s-geli-i-g-zel-olmamal">13.4 JSON yapısını tutarlı kur
+Aynı API içinde:
+- alan adları tutarlı olmalı,
+- hata yanıtları tek biçimde dönmeli,
+- response yapısı gelişi güzel olmamalı.</h3>
+<p>İyi API, sadece makinenin değil geliştiricinin de rahat okuduğu API’dir.</p>
+<hr>
+<h2 id="14-mod-lerlik-b-y-k-sistemi-yutulabilir-par-alara-b-lmek">14. Modülerlik: Büyük Sistemi Yutulabilir Parçalara Bölmek</h2>
+<p>Bir sistem büyüdükçe en büyük tehlikelerden biri şudur:</p>
+<ul>
+<li>her şey birbirine girer,</li>
+<li>kod dolaşık hale gelir,</li>
+<li>değişiklik yapmak riskli olur,</li>
+<li>sistem anlaşılmazlaşır.</li>
+</ul>
+<p>Bu noktada modülerlik devreye girer.</p>
+<p>Modülerlik demek:</p>
+<ul>
+<li>sistemi anlamlı parçalara ayırmak,</li>
+<li>her parçaya net sorumluluk vermek,</li>
+<li>parçalar arası bağımlılığı sınırlamak,</li>
+<li>değişikliği kontrol altına almak</li>
+</ul>
+<p>demektir.</p>
+<h3 id="spaghetti-code-nedir">Spaghetti Code Nedir?</h3>
+<p>Dökümanda geçen bu kavram boşuna meşhur değil.</p>
+<p>Spaghetti code, şu belirtilerle kendini belli eder:
+- bir fonksiyon her şeyi yapar,
+- sınıflar her yere dokunur,
+- bağımlılıklar iz sürülemez hale gelir,
+- küçük düzeltme başka yerde bug çıkarır.</p>
+<p>Modülerlik, bunun panzehiridir.</p>
+<hr>
+<h2 id="15-solid-i-lkeleri-ba-ml-l-k-y-netiminin-omurgas">15. SOLID İlkeleri: Bağımlılık Yönetiminin Omurgası</h2>
+<p>Robert C. Martin’in derlediği <strong>SOLID</strong> ilkeleri, nesne yönelimli tasarımın en güçlü çerçevelerinden biridir.</p>
+<h3 id="s-single-responsibility-principle-bir-s-n-f-n-tek-bir-de-i-im-nedeni-olmal-d-r">S — Single Responsibility Principle
+Bir sınıfın tek bir değişim nedeni olmalıdır.</h3>
+<h3 id="o-open-closed-principle-s-n-f-geni-lemeye-a-k-de-i-ime-kapal-olmal-d-r">O — Open/Closed Principle
+Sınıf genişlemeye açık, değişime kapalı olmalıdır.</h3>
+<h3 id="l-liskov-substitution-principle-alt-s-n-f-st-s-n-f-n-yerine-ge-ebilmelidir">L — Liskov Substitution Principle
+Alt sınıf, üst sınıfın yerine geçebilmelidir.</h3>
+<h3 id="i-interface-segregation-principle-b-y-k-i-kin-aray-zler-yerine-k-k-ve-odakl-aray-zler-tercih-edilmelidir">I — Interface Segregation Principle
+Büyük, şişkin arayüzler yerine küçük ve odaklı arayüzler tercih edilmelidir.</h3>
+<h3 id="d-dependency-inversion-principle-y-ksek-seviyeli-mod-ller-d-k-seviyeli-detaylara-do-rudan-ba-ml-olmamal-d-r">D — Dependency Inversion Principle
+Yüksek seviyeli modüller, düşük seviyeli detaylara doğrudan bağımlı olmamalıdır.</h3>
+<p>Bu ilkeler teorik poster süsü değildir. Mimariyi çökerten hataların çoğu, bunların ihlaliyle başlar.</p>
+<hr>
+<h2 id="16-mikroservis-mi-monolit-mi">16. Mikroservis mi, Monolit mi?</h2>
+<p>Dökümanda buna kısa ama yerinde bir bakış vardı. Onu netleştirelim.</p>
+<h3 id="monolitik-mimari-t-m-sistem-tek-b-y-k-uygulama-olarak-al-r">Monolitik Mimari
+Tüm sistem tek büyük uygulama olarak çalışır.</h3>
+<p>#### Güçlü Yanları
+- başlamak kolaydır,
+- deployment basittir,
+- küçük ekipler için pratiktir.</p>
+<p>#### Zayıf Yanları
+- sistem büyüdükçe hantallaşabilir,
+- tek parçanın değişimi tüm sistemi etkileyebilir,
+- seçici ölçekleme zordur.</p>
+<h3 id="mikroservis-mimarisi-sistem-ba-ms-z-da-t-labilen-k-k-servislerden-olu-ur">Mikroservis Mimarisi
+Sistem, bağımsız dağıtılabilen küçük servislerden oluşur.</h3>
+<p>#### Güçlü Yanları
+- servis bazlı ölçekleme yapılabilir,
+- ekipler paralel çalışabilir,
+- teknoloji seçimi servis bazında esneyebilir.</p>
+<p>#### Zayıf Yanları
+- altyapı karmaşıktır,
+- gözlemleme, loglama, servis iletişimi zordur,
+- küçük projelerde gereksiz yük olabilir.</p>
+<h3 id="k-sa-ger-eklik-kontrol">Kısa Gerçeklik Kontrolü</h3>
+<p>Küçük/orta ölçekli öğrenci veya yeni ürün projelerinde çoğu zaman iyi tasarlanmış bir <strong>modüler monolit</strong>, kötü kurulmuş mikroservisten daha iyidir.</p>
+<p>Mikroservis havalı diye seçilmez. İhtiyaç varsa seçilir.</p>
+<hr>
+<h2 id="17-d-nem-projesi-i-in-mant-kl-bir-mimari-rnek">17. Dönem Projesi İçin Mantıklı Bir Mimari Örnek</h2>
+<p>Kampüs ikinci el platformu için dökümandaki öneri mantıklı bir temel sunuyor.</p>
+<h3 id="n-y-z-react-js-tailwind-css">Ön Yüz
+- React.js
+- Tailwind CSS</h3>
+<h3 id="api-katman-node-js-express-js-restful-api">API Katmanı
+- Node.js
+- Express.js
+- RESTful API</h3>
+<h3 id="i-mant-productservice-userservice-messageservice-notificationservice">İş Mantığı
+- `ProductService`
+- `UserService`
+- `MessageService`
+- `NotificationService`</h3>
+<h3 id="veri-eri-im-sequelize-orm-postgresql">Veri Erişim
+- Sequelize ORM
+- PostgreSQL</h3>
+<h3 id="yard-mc-servisler-aws-s3-minio-r-n-foto-raflar-jwt-kimlik-do-rulama-nodemailer-smtp-e-posta-redis-arama-cache">Yardımcı Servisler
+- AWS S3 / MinIO → ürün fotoğrafları
+- JWT → kimlik doğrulama
+- Nodemailer + SMTP → e-posta
+- Redis → arama/cache</h3>
+<h3 id="neden-g-zel-bir-rnek">Neden Güzel Bir Örnek?</h3>
+<p>Çünkü sorumlulukları ayırıyor:</p>
+<ul>
+<li>arayüz başka yerde,</li>
+<li>iş kuralı başka yerde,</li>
+<li>veri erişimi başka yerde,</li>
+<li>dış servis entegrasyonları kontrollü yerde.</li>
+</ul>
+<p>Bu, büyümeye açık ve öğrencinin mimariyi somut düşünmesini sağlayan temiz bir çerçeve.</p>
+<hr>
+<h2 id="18-mimari-ema-izerken-sorulmas-gereken-sorular">18. Mimari Şema Çizerken Sorulması Gereken Sorular</h2>
+<p>Bir sistem için mimari tasarım yaparken şu soruları sormadan geçmeyin:</p>
+<ul>
+<li>Kullanıcı arayüzü ile iş mantığı gerçekten ayrılmış mı?</li>
+<li>İş kuralları controller veya ekrana sızmış mı?</li>
+<li>Veritabanı erişimi merkezi mi, dağınık mı?</li>
+<li>Dış servis bağımlılıkları izole edilmiş mi?</li>
+<li>Test yazmak için parçalar yeterince ayrık mı?</li>
+<li>Kimlik doğrulama hangi katmanda yönetiliyor?</li>
+<li>Dosya depolama ve cache mimaride nereye oturuyor?</li>
+<li>Bu yapı 10 kullanıcıdayken de 10.000 kullanıcıdayken de nefes alabilir mi?</li>
+</ul>
+<p>Bu soruların yarısı bile doğru cevaplanırsa sistem daha doğmadan güçlenir.</p>
+<hr>
+<h2 id="19-s-k-yap-lan-hatalar">19. Sık Yapılan Hatalar</h2>
+<h3 id="1-ui-katman-na-i-mant-doldurmak-formun-i-inde-i-kural-biriktirmek-k-sa-vadede-h-zl-uzun-vadede-toksiktir">1. UI katmanına iş mantığı doldurmak
+Formun içinde iş kuralı biriktirmek, kısa vadede hızlı; uzun vadede toksiktir.</h3>
+<h3 id="2-controller-i-irmek-her-eyi-controller-a-koymak-mvc-yi-sadece-isimde-b-rak-r">2. Controller’ı şişirmek
+Her şeyi controller’a koymak, MVC’yi sadece isimde bırakır.</h3>
+<h3 id="3-veritaban-na-her-yerden-dokunmak-repository-veya-servis-katman-devre-d-kal-nca-tutarl-l-k-da-gider">3. Veritabanına her yerden dokunmak
+Repository veya servis katmanı devre dışı kalınca tutarlılık da gider.</h3>
+<h3 id="4-katmanl-mimari-deyip-katmanlar-delmek-ui-data-do-rudan-ba-lan-yorsa-katmanl-yap-tabelada-kalm-t-r">4. Katmanlı mimari deyip katmanları delmek
+UI → Data doğrudan bağlanıyorsa katmanlı yapı tabelada kalmıştır.</h3>
+<h3 id="5-mikroservisi-erken-se-mek-i-htiya-yokken-mikroservis-se-mek-problemi-zmeden-altyap-y-k-ekler">5. Mikroservisi erken seçmek
+İhtiyaç yokken mikroservis seçmek, problemi çözmeden altyapı yükü ekler.</h3>
+<h3 id="6-rest-te-url-leri-fiille-doldurmak-bu-api-yi-zamanla-da-n-k-hale-getirir">6. REST’te URL’leri fiille doldurmak
+Bu, API’yi zamanla dağınık hale getirir.</h3>
+<h3 id="7-mod-lerlik-konu-up-ba-ml-l-klar-y-netememek-par-a-par-a-g-r-nen-ama-i-eride-birbirine-yap-m-yap-sadece-organize-kaostur">7. Modülerlik konuşup bağımlılıkları yönetememek
+Parça parça görünen ama içeride birbirine yapışmış yapı, sadece organize kaostur.</h3>
+<hr>
+<h2 id="20-b-l-m-zeti">20. Bölüm Özeti</h2>
+<p>Bu derste şunu netleştirdik:</p>
+<ul>
+<li>Yazılım mimarisi, sistemin üst düzey yapısını ve temel kararlarını belirler.</li>
+<li>Mimari; ölçeklenebilirlikten güvenliğe, bakımdan geliştirici deneyimine kadar her şeyi etkiler.</li>
+<li>**Katmanlı mimari**, sorumlulukları ayırarak sistemi yönetilebilir kılar.</li>
+<li>**MVC** ve **MVVM**, arayüz ile mantık arasındaki yükü doğru dağıtmak için kullanılır.</li>
+<li>**RESTful API**, modern istemci-sunucu iletişiminin en yaygın dilidir.</li>
+<li>**Modülerlik** ve **SOLID**, sistemin büyürken çamura dönüşmesini engeller.</li>
+<li>Mikroservis güçlüdür ama herkes için varsayılan doğru değildir.</li>
+</ul>
+<p>Kısacası mimari, sistemin süslü diyagramı değil; <strong>gelecekte kırılmadan yaşayabilme planıdır</strong>.</p>
+<p>Kod yazmak binayı dikmektir. Mimari ise kolonların nereye oturacağını belirlemektir.</p>
+<hr>
+<h2 id="21-mini-al-t-rmalar">21. Mini Alıştırmalar</h2>
+<h3 id="al-t-rma-1-bir-e-ticaret-sistemi-i-in-u-katmanlar-ay-r-n-ui-business-logic-data-access">Alıştırma 1
+Bir e-ticaret sistemi için şu katmanları ayırın:
+- UI
+- Business Logic
+- Data Access</h3>
+<p>Her katmanda en az 3 sorumluluk yazın.</p>
+<h3 id="al-t-rma-2-a-a-daki-i-lemleri-hangi-http-metoduyla-tasarlayaca-n-z-yaz-n-t-m-r-nleri-listeleme-tek-r-n-g-r-nt-leme-yeni-r-n-ekleme-r-n-durumunu-g-ncelleme-r-n-silme">Alıştırma 2
+Aşağıdaki işlemleri hangi HTTP metoduyla tasarlayacağınızı yazın:
+- tüm ürünleri listeleme
+- tek ürün görüntüleme
+- yeni ürün ekleme
+- ürün durumunu güncelleme
+- ürün silme</h3>
+<h3 id="al-t-rma-3-a-a-daki-yap-da-hangi-mimari-hata-vard-r">Alıştırma 3
+Aşağıdaki yapıda hangi mimari hata vardır?</h3>
+<blockquote><p>React bileşeni doğrudan SQL sorgusu yazıyor, kullanıcı doğrulamasını kendi içinde yapıyor, veriyi doğrudan veritabanından çekiyor.</p></blockquote>
+<h3 id="al-t-rma-4-kamp-s-ikinci-el-platformu-i-in-u-bile-enleri-i-eren-basit-mimari-ema-kurun-front-end-api-auth-productservice-messageservice-postgresql-file-storage-cache">Alıştırma 4
+Kampüs ikinci el platformu için şu bileşenleri içeren basit mimari şema kurun:
+- Front-End
+- API
+- Auth
+- ProductService
+- MessageService
+- PostgreSQL
+- File Storage
+- Cache</h3>
+<p>Her bileşenin hangi katmanda olduğunu ve kimlerle konuştuğunu belirtin.</p>
+<hr>
+<h2 id="kaynaklar">Kaynaklar</h2>
+<ul>
+<li>Fowler, M. (2002). *Patterns of Enterprise Application Architecture*. Addison-Wesley.</li>
+<li>Fielding, R. (2000). *Architectural Styles and the Design of Network-based Software Architectures*. Doctoral Dissertation, UC Irvine.</li>
+<li>Martin, R. C. (2017). *Clean Architecture*. Prentice Hall.</li>
+<li>Richardson, C. (2018). *Microservices Patterns*. Manning.</li>
+<li>Newman, S. (2021). *Building Microservices* (2nd ed.). O’Reilly.</li>
+</ul>
+<hr>
+<p>İyi mimari, göz boyayan karmaşıklık değildir. Aksine, karmaşıklığın içinden gereksiz olanı söküp atan disiplindir. Sisteme baktığınızda neyin nerede durduğunu, neden orada durduğunu ve bir şey değiştiğinde neyin etkileneceğini görebiliyorsanız, mimari işini yapıyordur.</p></div></div></div><div class="post-page-nav"><div class="container container-narrow"><div class="post-nav-grid"><a href="/sistem-analizi-ve-tasarimi/2026/06/07/sistem-analizi-sinif-diyagrami-ve-nesne-yonelimli-analiz/" class="post-nav-item prev"><span class="post-nav-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>Onceki Gonderi</span><span class="post-nav-title">Sinif Diyagrami ve Nesne Yonelimli Analiz: Sistemin Iskeletini Gormek</span></a></div></div></div></article></main><footer class="site-footer"><div class="container"><div class="footer-content"><div class="footer-brand"><svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span>Ders Takip Portali</span></div><p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p></div><div class="footer-bottom"><p>&copy; 2026 | Tum haklari saklidir.</p></div></div></footer><script src="/assets/js/main.js"></script></body></html>
