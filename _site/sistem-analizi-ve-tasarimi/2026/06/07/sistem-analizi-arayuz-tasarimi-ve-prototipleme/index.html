@@ -1,0 +1,453 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Arayüz Tasarımı ve Prototipleme: Kullanıcının Sisteme Dokunduğu Yer | Ders Takip Portali</title><meta name="description" content="Sistem Analizi ve Tasarımı dersi için UI/UX, wireframe, mockup, prototip, form tasarımı ve erişilebilirlik konularını detaylı anlatan ders gönderisi."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/css/main.css"></head><body><header class="site-header" id="siteHeader"><div class="container header-inner"><a href="/" class="logo"><svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="logo-text">Ders Takip Portali</span></a><nav class="main-nav" id="mainNav"><a href="/">Ana Sayfa</a><a href="/#courses">Dersler</a></nav><button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button></div></header><main><article class="post-page"><div class="post-page-header" style="--accent: #E17055; --gradient: linear-gradient(135deg, #E17055, #fab1a0)"><div class="post-page-header-bg"></div><div class="container post-page-header-content"><nav class="breadcrumbs"><a href="/">Ana Sayfa</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><a href="/courses/sistem-analizi-ve-tasarimi">Sistem Analizi ve Tasarimi</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><span>Arayüz Tasarımı ve Prototipleme: Kullanıcının Sisteme Dokunduğu Yer</span></nav><h1 class="post-page-title">Arayüz Tasarımı ve Prototipleme: Kullanıcının Sisteme Dokunduğu Yer</h1><div class="post-page-meta"><time datetime="2026-06-07T12:52:00+03:00"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>07 June 2026</time><span class="meta-divider"></span><span class="meta-course" style="--accent: #E17055">Sistem Analizi ve Tasarimi</span></div></div></div><div class="post-page-body"><div class="container container-narrow"><div class="post-content prose"><p>Bir yazılım sistemi teknik olarak kusursuz olabilir. Veritabanı sağlam olabilir. Mimari temiz olabilir. API hızlı olabilir. Ama kullanıcı ekrana baktığında ne yapacağını anlamıyorsa, bütün o teknik başarı sessizce duvara çarpar.</p>
+<p>Çünkü yazılımın kullanıcıyla gerçek karşılaşma noktası <strong>arayüzdür</strong>.</p>
+<p>Arayüz, sadece butonların dizildiği yer değildir. O, sistemin karakteridir. Kullanıcıya neyin önemli olduğunu, neyin mümkün olduğunu, neyin tehlikeli olduğunu ve bir sonraki adımda ne yapması gerektiğini fısıldayan katmandır. İyi tasarlanmış bir arayüz, kullanıcıyı zorlamaz; yönlendirir. Kötü tasarlanmış bir arayüz ise her tıklamada küçük bir sürtünme üretir.</p>
+<p>Bu derste verdiğiniz dökümandan yararlanarak şu hattı kuracağız:</p>
+<ul>
+<li>**UI** ile **UX** arasındaki fark nedir?</li>
+<li>İyi bir arayüzü iyi yapan temel ilkeler nelerdir?</li>
+<li>**Wireframe, mockup ve prototip** neden aynı şey değildir?</li>
+<li>Form tasarımında yapılan temel hatalar nelerdir?</li>
+<li>**Validation** nasıl kullanıcıyı cezalandırmadan yardımcı olur?</li>
+<li>**Erişilebilirlik**, neden “ekstra özellik” değil doğrudan tasarımın parçasıdır?</li>
+</ul>
+<p>Bugün piksel boyamayı değil, kullanıcının sistemle kurduğu ilişkinin nasıl tasarlandığını konuşacağız.</p>
+<blockquote><p>“Tasarım salt nasıl göründüğü değildir. Tasarım, nasıl çalıştığıdır.” &gt; **Steve Jobs** (2003)</p></blockquote>
+<hr>
+<h2 id="bu-derste-neler-reneceksiniz">Bu Derste Neler Öğreneceksiniz?</h2>
+<p>Bu bölümün sonunda şunları yapabilir hale gelmeniz hedeflenmektedir:</p>
+<ul>
+<li>**UI** ve **UX** kavramlarını karıştırmadan açıklayabilmek</li>
+<li>Nielsen’ın kullanılabilirlik sezgilerini arayüz üzerinde yorumlayabilmek</li>
+<li>Gestalt ilkelerinin görsel düzen üzerindeki etkisini anlayabilmek</li>
+<li>**Wireframe, mockup, prototip** farkını doğru kurabilmek</li>
+<li>Form tasarımında doğru alan sırası, etiket kullanımı ve validation stratejisi belirleyebilmek</li>
+<li>Erişilebilirlik (a11y) konusunda temel kararları fark edebilmek</li>
+<li>2–3 ekranlık işlevsel bir prototip düşüncesi kurabilmek</li>
+</ul>
+<hr>
+<h2 id="1-ui-ve-ux-ayn-ey-de-il-ayn-tak-m">1. UI ve UX: Aynı Şey Değil, Aynı Takım</h2>
+<p>Bu iki kavram sürekli birbirine karıştırılır. Karıştırılması normal; çünkü aynı ürünün içinde birlikte çalışırlar. Ama aynı şey değillerdir.</p>
+<h3 id="ui-user-interface-kullan-c-n-n-g-rd-ve-dokundu-u-y-zd-r">UI (User Interface)
+Kullanıcının gördüğü ve dokunduğu yüzdür.</h3>
+<p>Şunlarla ilgilenir:
+- renkler
+- tipografi
+- butonlar
+- spacing
+- ikonlar
+- hizalama
+- görsel hiyerarşi</p>
+<p>Yani kabaca şu soruya odaklanır:</p>
+<blockquote><p>“Nasıl görünüyor?”</p></blockquote>
+<h3 id="ux-user-experience-kullan-c-n-n-sistemle-kurdu-u-deneyimdir">UX (User Experience)
+Kullanıcının sistemle kurduğu deneyimdir.</h3>
+<p>Şunlarla ilgilenir:
+- akış
+- görev tamamlama kolaylığı
+- zihinsel yük
+- hata anları
+- güven hissi
+- öğrenilebilirlik
+- sürtünme noktaları</p>
+<p>Yani şu soruya odaklanır:</p>
+<blockquote><p>“Nasıl hissettiriyor? Nasıl deneyimleniyor?”</p></blockquote>
+<h3 id="k-sa-ayr-m">Kısa Ayrım</h3>
+<table>
+<thead><tr><th>UI</th><th>UX</th></tr></thead>
+<tbody>
+<tr><td>Görsel yüz</td><td>Deneyim akışı</td></tr>
+<tr><td>Piksel kararı</td><td>Kullanıcı hissi</td></tr>
+<tr><td>Butonun şekli</td><td>Butonun mantıklı yerde olup olmaması</td></tr>
+<tr><td>Görsel estetik</td><td>Kullanım kolaylığı</td></tr>
+</tbody>
+</table>
+<p>Ama bunları birbirinden tamamen koparmak da hatadır.</p>
+<p>Güzel görünen ama karıştıran arayüz iyi değildir.
+Kullanışlı ama darmadağın görünen arayüz de çoğu zaman güven vermez.</p>
+<p>İyi ürünlerde UI ve UX kavga etmez; birlikte çalışır.</p>
+<hr>
+<h2 id="2-i-yi-aray-z-neden-nemlidir">2. İyi Arayüz Neden Önemlidir?</h2>
+<p>Çünkü kullanıcı sistemin mimarisini görmez. ORM’yi bilmez. Servis katmanını umursamaz. O, şunu yaşar:</p>
+<ul>
+<li>Aradığımı bulabiliyor muyum?</li>
+<li>Nereden başlayacağımı anlıyor muyum?</li>
+<li>Hata yaptığımda sistem beni tokatlıyor mu, yardım mı ediyor?</li>
+<li>Bu ürün bana güven veriyor mu?</li>
+</ul>
+<p>Yani kullanıcı yazılımla teknik değil, davranışsal ilişki kurar.</p>
+<p>İyi arayüz şu faydaları sağlar:</p>
+<ul>
+<li>öğrenme süresini düşürür</li>
+<li>hata oranını azaltır</li>
+<li>görev tamamlama süresini kısaltır</li>
+<li>güven hissini artırır</li>
+<li>terk oranını düşürür</li>
+<li>memnuniyeti yükseltir</li>
+</ul>
+<p>Kötü arayüz ise şunu yapar: Kullanıcıyı problem çözmek yerine arayüz çözmeye zorlar.</p>
+<hr>
+<h2 id="3-nielsen-n-10-kullan-labilirlik-sezgisi">3. Nielsen’ın 10 Kullanılabilirlik Sezgisi</h2>
+<p>Jakob Nielsen’in 1994’te formüle ettiği kullanılabilirlik sezgileri, bugün hâlâ taş gibi ayakta. Çünkü teknoloji değişse de insan zihninin sınırları çok değişmiyor.</p>
+<p>Şimdi bunları “ezber listesi” gibi değil, gerçek ürün kararı gibi düşünelim.</p>
+<h3 id="3-1-sistemin-durumunun-g-r-n-rl-kullan-c-sistemde-ne-oldu-unu-anlamal-d-r">3.1 Sistemin Durumunun Görünürlüğü
+Kullanıcı, sistemde ne olduğunu anlamalıdır.</h3>
+<p>Örnek:
+- yükleniyor göstergesi
+- başarı mesajı
+- işlem tamamlandı bildirimi
+- adım adım ilerleme çubuğu</p>
+<p>Sessiz sistem, kullanıcıyı huzursuz eder.</p>
+<h3 id="3-2-sistem-ile-ger-ek-d-nya-aras-ndaki-uyum-sistem-kullan-c-n-n-dilini-konu-mal-d-r">3.2 Sistem ile Gerçek Dünya Arasındaki Uyum
+Sistem kullanıcının dilini konuşmalıdır.</h3>
+<p>“İşlem başarısız oldu” yerine:
+- “E-posta adresi geçersiz”
+- “Fotoğraf yüklenemedi, dosya çok büyük”</p>
+<p>İnsan, makine dilini çözmek zorunda kalmamalı.</p>
+<h3 id="3-3-kullan-c-kontrol-ve-zg-rl-yanl-t-klama-hayat-n-ger-e-idir">3.3 Kullanıcı Kontrolü ve Özgürlüğü
+Yanlış tıklama hayatın gerçeğidir.</h3>
+<p>Bu yüzden:
+- geri al,
+- iptal,
+- çıkış,
+- düzenleme,
+- silmeden önce onay</p>
+<p>gibi kaçış yolları olmalıdır.</p>
+<h3 id="3-4-tutarl-l-k-ve-standartlar-ayn-ey-ayn-ekilde-davranmal-d-r">3.4 Tutarlılık ve Standartlar
+Aynı şey, aynı şekilde davranmalıdır.</h3>
+<p>Bir ekranda mavi buton kaydetmeyi, başka ekranda silmeyi yapıyorsa kullanıcıyı ters köşe atıyorsunuz demektir.</p>
+<h3 id="3-5-hatalar-nleme-i-yi-sistem-hata-olduktan-sonra-a-lamaz-hata-olmadan-nce-nler">3.5 Hataları Önleme
+İyi sistem, hata olduktan sonra ağlamaz; hata olmadan önce önler.</h3>
+<p>Örnek:
+- geçersiz tarih seçimini engellemek
+- boş zorunlu alanı erkenden belirtmek
+- yanlış format girişini sınırlamak</p>
+<h3 id="3-6-tan-ma-hat-rlamaktan-ye-dir-kullan-c-se-enekleri-ekranda-g-rmelidir-haf-zas-ndan-a-rmak-zorunda-kalmamal-d-r">3.6 Tanıma, Hatırlamaktan Yeğdir
+Kullanıcı seçenekleri ekranda görmelidir; hafızasından çağırmak zorunda kalmamalıdır.</h3>
+<p>Menüler, görünen filtreler, açık etiketler bu yüzden değerlidir.</p>
+<h3 id="3-7-esneklik-ve-verimlilik-yeni-kullan-c-y-ezmeden-deneyimli-kullan-c-y-yava-latmadan-tasarlamak-gerekir">3.7 Esneklik ve Verimlilik
+Yeni kullanıcıyı ezmeden, deneyimli kullanıcıyı yavaşlatmadan tasarlamak gerekir.</h3>
+<h3 id="3-8-estetik-ve-minimalist-tasar-m-gereksiz-bilgi-estetik-kusurdan-te-bili-sel-g-r-lt-d-r">3.8 Estetik ve Minimalist Tasarım
+Gereksiz bilgi, estetik kusurdan öte; bilişsel gürültüdür.</h3>
+<h3 id="3-9-hatalar-tan-ma-te-his-etme-ve-kurtarma-hata-mesaj-kullan-c-y-utand-rmamal-yol-g-stermelidir">3.9 Hataları Tanıma, Teşhis Etme ve Kurtarma
+Hata mesajı kullanıcıyı utandırmamalı; yol göstermelidir.</h3>
+<h3 id="3-10-yard-m-ve-dok-mantasyon-m-kemmel-sistemde-bile-bazen-a-klama-gerekir">3.10 Yardım ve Dokümantasyon
+Mükemmel sistemde bile bazen açıklama gerekir.</h3>
+<hr>
+<h2 id="4-gestalt-i-lkeleri-g-z-n-nas-l-gruplad-n-anlamak">4. Gestalt İlkeleri: Gözün Nasıl Grupladığını Anlamak</h2>
+<p>Gestalt ilkeleri, insanların görsel ögeleri nasıl algıladığını açıklar. Bu teori eski olabilir, ama tasarım pratiğinde hâlâ çok canlıdır.</p>
+<h3 id="4-1-yak-nl-k-proximity-birbirine-yak-n-olan-geler-ili-kili-gibi-alg-lan-r">4.1 Yakınlık (Proximity)
+Birbirine yakın olan ögeler, ilişkili gibi algılanır.</h3>
+<p>Bu yüzden form etiketini kendi alanından uzağa koyarsanız kullanıcıyı zorlarsınız.</p>
+<h3 id="4-2-benzerlik-similarity-benzer-g-r-nen-geler-ayn-gruba-ait-san-l-r">4.2 Benzerlik (Similarity)
+Benzer görünen ögeler aynı gruba ait sanılır.</h3>
+<p>Butonlarınız farklı ekranlarda farklı tavırlar sergiliyorsa beynin kurduğu örüntü kırılır.</p>
+<h3 id="4-3-s-reklilik-continuity-g-z-ak-c-hizalanm-yap-lar-izlemeyi-sever">4.3 Süreklilik (Continuity)
+Göz, akıcı hizalanmış yapıları izlemeyi sever.</h3>
+<p>Dağınık grid, kullanıcıyı fark ettirmeden yorar.</p>
+<h3 id="4-4-tamamlama-closure-i-nsan-zihni-eksik-yap-lar-tamamlamaya-al-r">4.4 Tamamlama (Closure)
+İnsan zihni eksik yapıları tamamlamaya çalışır.</h3>
+<p>Bu yüzden tasarımda bazen her şeyi bağırarak anlatmak yerine düzenli bir yapı kurmak yeterlidir.</p>
+<h3 id="4-5-ekil-zemin-figure-ground-ana-ge-ile-arka-plan-net-ayr-mal-d-r">4.5 Şekil-Zemin (Figure-Ground)
+Ana öge ile arka plan net ayrışmalıdır.</h3>
+<p>CTA butonu arka plana gömülüyorsa, tasarım estetik olabilir ama işlevsel olarak zayıftır.</p>
+<hr>
+<h2 id="5-wireframe-mockup-prototip-ayn-yolun-farkl-duraklar">5. Wireframe, Mockup, Prototip: Aynı Yolun Farklı Durakları</h2>
+<p>Bu üç kavram sık sık birbirine karıştırılır. Oysa her biri farklı bir soruya cevap verir.</p>
+<h3 id="wireframe-d-k-do-ruluklu-low-fidelity-iskelet-al-mas-d-r">Wireframe
+Düşük doğruluklu (low fidelity) iskelet çalışmasıdır.</h3>
+<p>Sorusu:</p>
+<blockquote><p>“Bu ekranda ne nereye yerleşecek?”</p></blockquote>
+<p>Özellikleri:
+- çoğunlukla gri tonlar
+- görsel detay yok
+- düzen ve hiyerarşi odaklı
+- hızlı üretilir</p>
+<h3 id="mockup-g-rsel-a-dan-daha-ger-ek-i-sunumdur">Mockup
+Görsel açıdan daha gerçekçi sunumdur.</h3>
+<p>Sorusu:</p>
+<blockquote><p>“Bu ekran yaklaşık nasıl görünecek?”</p></blockquote>
+<p>Özellikleri:
+- renkler vardır
+- fontlar vardır
+- spacing daha nettir
+- görsel onay için iyidir</p>
+<h3 id="prototip-etkile-imli-modeldir">Prototip
+Etkileşimli modeldir.</h3>
+<p>Sorusu:</p>
+<blockquote><p>“Bu ürün nasıl çalışacak?”</p></blockquote>
+<p>Özellikleri:
+- tıklanabilir akışlar
+- ekranlar arası geçiş
+- kullanıcı testi için uygun yapı</p>
+<h3 id="k-sa-zet">Kısa Özet</h3>
+<table>
+<thead><tr><th>Aşama</th><th>Asıl Soru</th></tr></thead>
+<tbody>
+<tr><td>Wireframe</td><td>Nerede ne var?</td></tr>
+<tr><td>Mockup</td><td>Nasıl görünüyor?</td></tr>
+<tr><td>Prototip</td><td>Nasıl çalışıyor?</td></tr>
+</tbody>
+</table>
+<p>Bu sıralamayı atlayıp direkt parlak mockup’a atlamak sık yapılan bir hatadır. Çünkü daha düzen sorusu çözülmeden boya işine girilmiş olur.</p>
+<hr>
+<h2 id="6-wireframe-best-practices">6. Wireframe Best Practices</h2>
+<p>İyi bir wireframe, sıkıcı görünse bile çok değerlidir. Çünkü tartışmayı doğru yerde yapar.</p>
+<h3 id="i-yi-wireframe-i-in-kurallar">İyi Wireframe İçin Kurallar</h3>
+<ul>
+<li>Renk yerine yapı düşün</li>
+<li>İçerik hiyerarşisine odaklan</li>
+<li>Grid sistemi kullan</li>
+<li>Her ekranın kullanıcı hedefini bil</li>
+<li>Gerekirse anotasyon ekle</li>
+<li>Fazla görsel detayla dikkati dağıtma</li>
+</ul>
+<p>Wireframe’in işi güzel görünmek değil; <strong>düşünceyi netleştirmektir</strong>.</p>
+<hr>
+<h2 id="7-kamp-s-platformu-i-in-kritik-ekranlar">7. Kampüs Platformu İçin Kritik Ekranlar</h2>
+<p>Dökümandaki örnek çok yerinde: Bir sistemin en kritik ekranlarını seçmek, tasarım düşüncesini gereksiz dağılmaktan kurtarır.</p>
+<h3 id="7-1-ana-sayfa-ke-fet-ama-kullan-c-ya-i-erik-g-stermek-aramay-ba-latmak-kategori-ke-fini-kolayla-t-rmak">7.1 Ana Sayfa / Keşfet
+Amaç:
+- kullanıcıya içerik göstermek,
+- aramayı başlatmak,
+- kategori keşfini kolaylaştırmak.</h3>
+<p>Temel bileşenler:
+- arama çubuğu
+- kategori filtreleri
+- öne çıkan ilanlar
+- ilan kartları</p>
+<h3 id="7-2-i-lan-olu-turma-formu-ama-kullan-c-n-n-h-zl-ve-g-venli-bi-imde-ilan-olu-turmas-n-sa-lamak">7.2 İlan Oluşturma Formu
+Amaç:
+- kullanıcının hızlı ve güvenli biçimde ilan oluşturmasını sağlamak.</h3>
+<p>Temel alanlar:
+- başlık
+- açıklama
+- kategori
+- fiyat
+- fotoğraf yükleme
+- yayınla butonu</p>
+<h3 id="7-3-i-lan-detay-sayfas-ama-r-n-n-g-venilir-ve-ikna-edici-bi-imde-sunulmas-kullan-c-y-mesaj-g-nderme-gibi-aksiyona-y-nlendirmek">7.3 İlan Detay Sayfası
+Amaç:
+- ürünün güvenilir ve ikna edici biçimde sunulması,
+- kullanıcıyı mesaj gönderme gibi aksiyona yönlendirmek.</h3>
+<p>Temel bileşenler:
+- fotoğraf galerisi
+- ürün bilgisi
+- satıcı bilgisi
+- CTA: Mesaj Gönder</p>
+<p>Bu üç ekran genelde sistemin omurgasını oluşturur. Doğru tasarlarsanız geri kalan yapı da daha tutarlı akar.</p>
+<hr>
+<h2 id="8-form-tasar-m-kullan-c-n-n-en-ok-yoruldu-u-yer">8. Form Tasarımı: Kullanıcının En Çok Yorulduğu Yer</h2>
+<p>Formlar, kullanıcıyla sistemin en yoğun sürtüştüğü noktadır.</p>
+<p>Kötü form tasarımı şunlara yol açar:
+- kullanıcı bırakır,
+- hata yapar,
+- güvensizlik hisseder,
+- sistemi terk eder.</p>
+<h3 id="8-1-etiketleri-do-ru-konumland-r-en-g-venli-yakla-m-o-u-zaman-etiketleri-alan-n-st-ne-koymakt-r">8.1 Etiketleri Doğru Konumlandır
+En güvenli yaklaşım çoğu zaman etiketleri alanın üstüne koymaktır.</h3>
+<p>Çünkü:
+- tarama daha kolaydır,
+- mobil uyumluluk daha iyidir,
+- hizalama daha doğal olur.</p>
+<h3 id="8-2-alan-s-ras-mant-kl-olsun-i-nsanlar-n-kafas-nda-do-al-bir-ak-vard-r">8.2 Alan Sırası Mantıklı Olsun
+İnsanların kafasında doğal bir akış vardır.</h3>
+<p>Örneğin:
+- ad
+- e-posta
+- şifre</p>
+<p>veya ilan formunda:
+- başlık
+- açıklama
+- kategori
+- fiyat
+- görseller</p>
+<p>Bu akış bozulursa kullanıcı her alanda yeniden düşünmek zorunda kalır.</p>
+<h3 id="8-3-placeholder-etiket-de-ildir-placeholder-kaybolur-etiket-kal-c-d-r">8.3 Placeholder Etiket Değildir
+Placeholder kaybolur. Etiket kalıcıdır.</h3>
+<p>Bu yüzden placeholder’ı açıklayıcı ipucu gibi kullanın; etiketin yerine değil.</p>
+<h3 id="8-4-submit-butonu-a-klay-c-olsun-g-nder-zay-f-bir-metindir">8.4 Submit Butonu Açıklayıcı Olsun
+“Gönder” zayıf bir metindir.</h3>
+<p>Daha iyi:
+- “İlanı Yayınla”
+- “Kaydı Tamamla”
+- “Mesajı Gönder”</p>
+<p>Kullanıcı butona basınca ne olacağını açıkça bilmelidir.</p>
+<hr>
+<h2 id="9-validation-kullan-c-y-cezaland-rmadan-d-zeltmek">9. Validation: Kullanıcıyı Cezalandırmadan Düzeltmek</h2>
+<p>Validation sadece hata yakalama değildir; aynı zamanda kullanıcıya rehberlik etme işidir.</p>
+<h3 id="9-1-ger-ek-zamanl-inline-validation-kullan-c-alandan-k-nca-geri-bildirim-verilir">9.1 Gerçek Zamanlı (Inline) Validation
+Kullanıcı alandan çıkınca geri bildirim verilir.</h3>
+<p>Avantajı:
+- anlık düzeltme sağlar</p>
+<p>Dezavantajı:
+- fazla agresif kullanılırsa stres yaratır</p>
+<h3 id="9-2-submit-sonras-validation-kullan-c-formu-bitirir-sonra-sistem-t-m-hatalar-g-sterir">9.2 Submit Sonrası Validation
+Kullanıcı formu bitirir, sonra sistem tüm hataları gösterir.</h3>
+<p>Avantajı:
+- daha geleneksel ve toplu düzeltme sağlar</p>
+<p>Dezavantajı:
+- kullanıcı formu bitirip sonra bir sürü hata görünce yorulabilir</p>
+<h3 id="9-3-hibrit-yakla-m-genellikle-en-mant-kl-yoldur">9.3 Hibrit Yaklaşım
+Genellikle en mantıklı yoldur.</h3>
+<ul>
+<li>kritik alanlar anlık kontrol edilir</li>
+<li>diğerleri submit aşamasında toparlanır</li>
+</ul>
+<p>Bu yaklaşım hem erken yardım eder hem aşırı baskı yaratmaz.</p>
+<hr>
+<h2 id="10-i-yi-hata-mesaj-nas-l-yaz-l-r">10. İyi Hata Mesajı Nasıl Yazılır?</h2>
+<p>Kötü hata mesajı:
+- “Hata oluştu”
+- “Geçersiz giriş”
+- “İşlem başarısız”</p>
+<p>Bunlar neredeyse hiçbir şey söylemez.</p>
+<p>İyi hata mesajı:
+- “E-posta adresi @ karakteri içermelidir.”
+- “Şifre en az 8 karakter olmalıdır.”
+- “Fotoğraf boyutu 5 MB sınırını aşıyor.”</p>
+<h3 id="i-yi-hata-mesaj-kurallar">İyi Hata Mesajı Kuralları</h3>
+<ul>
+<li>açık olmalı</li>
+<li>suçlayıcı olmamalı</li>
+<li>alanın yakınında görünmeli</li>
+<li>mümkünse çözüm yönlendirmeli</li>
+</ul>
+<p>Kullanıcı hata yaptığında sistem onu aptal hissettirmemeli.</p>
+<hr>
+<h2 id="11-eri-ilebilirlik-accessibility-ekstra-de-il-temel-art">11. Erişilebilirlik (Accessibility): Ekstra Değil, Temel Şart</h2>
+<p>Erişilebilirlik çoğu ekipte ne yazık ki “sonradan bakarız” klasörüne atılır. Bu yanlış.</p>
+<p>Erişilebilirlik, sistemin herkes tarafından kullanılabilmesi demektir.</p>
+<p>Buna şunlar dahildir:
+- görme engeli olan kullanıcılar
+- işitme engeli olan kullanıcılar
+- motor beceri kısıtı olan kullanıcılar
+- bilişsel yükten etkilenen kullanıcılar
+- geçici engel yaşayan kullanıcılar
+- küçük ekran, kötü ışık, kötü internet gibi bağlamsal kısıtlar yaşayan kullanıcılar</p>
+<p>Tim Berners-Lee’nin sözü burada çok net:</p>
+<blockquote><p>Web’in gücü evrenselliğindedir. Herkes için erişilebilir olmak temel ilkedir.</p></blockquote>
+<hr>
+<h2 id="12-wcag-2-1-ve-pour-mant">12. WCAG 2.1 ve POUR Mantığı</h2>
+<p>WCAG, erişilebilirlik için temel standartlardan biridir. Dört ana ilkeye dayanır:</p>
+<h3 id="perceivable-alg-lanabilir-i-erik-farkl-kullan-c-lar-taraf-ndan-alg-lanabilir-olmal-d-r">Perceivable (Algılanabilir)
+İçerik farklı kullanıcılar tarafından algılanabilir olmalıdır.</h3>
+<h3 id="operable-i-letilebilir-aray-z-sadece-fareyle-de-il-klavyeyle-de-kullan-labilmelidir">Operable (İşletilebilir)
+Arayüz sadece fareyle değil, klavyeyle de kullanılabilmelidir.</h3>
+<h3 id="understandable-anla-labilir-dil-yap-ve-hata-mesajlar-anla-l-r-olmal-d-r">Understandable (Anlaşılabilir)
+Dil, yapı ve hata mesajları anlaşılır olmalıdır.</h3>
+<h3 id="robust-sa-lam-farkl-taray-c-lar-ve-yard-mc-teknolojilerle-al-abilmelidir">Robust (Sağlam)
+Farklı tarayıcılar ve yardımcı teknolojilerle çalışabilmelidir.</h3>
+<p>Bu dört ilke, erişilebilirliğin özünü çok iyi toplar.</p>
+<hr>
+<h2 id="13-temel-eri-ilebilirlik-kontrol-listesi">13. Temel Erişilebilirlik Kontrol Listesi</h2>
+<h3 id="13-1-g-rsellere-alt-metin-her-anlaml-g-rselin-alt-a-klamas-olmal-d-r">13.1 Görsellere Alt Metin
+Her anlamlı görselin `alt` açıklaması olmalıdır.</h3>
+<h3 id="13-2-kontrast-yeterli-olmal-metin-ile-zemin-birbirine-kar-mamal-d-r">13.2 Kontrast Yeterli Olmalı
+Metin ile zemin birbirine karışmamalıdır.</h3>
+<h3 id="13-3-form-alanlar-n-n-etiketi-olmal-label-olmadan-alanlar-zellikle-ekran-okuyucu-kullan-c-lar-i-in-ciddi-sorun-kar-r">13.3 Form Alanlarının Etiketi Olmalı
+`label` olmadan alanlar özellikle ekran okuyucu kullanıcılar için ciddi sorun çıkarır.</h3>
+<h3 id="13-4-klavye-navigasyonu-al-mal-tab-tu-uyla-t-m-etkile-imli-gelere-ula-labilmelidir">13.4 Klavye Navigasyonu Çalışmalı
+Tab tuşuyla tüm etkileşimli ögelere ulaşılabilmelidir.</h3>
+<h3 id="13-5-dinamik-i-erik-duyurulmal-geri-bildirimler-sadece-g-rsel-olmamal-d-r-yard-mc-teknolojilere-de-iletilebilmelidir">13.5 Dinamik İçerik Duyurulmalı
+Geri bildirimler sadece görsel olmamalıdır; yardımcı teknolojilere de iletilebilmelidir.</h3>
+<h3 id="13-6-font-b-y-y-nce-tasar-m-da-lmamal-sayfa-200-b-y-t-ld-nde-kullan-labilir-kalmal-d-r">13.6 Font Büyüyünce Tasarım Dağılmamalı
+Sayfa %200 büyütüldüğünde kullanılabilir kalmalıdır.</h3>
+<p>Bunlar lüks değil, temel tasarım kalitesidir.</p>
+<hr>
+<h2 id="14-prototipleme-neden-hayat-kurtar-r">14. Prototipleme Neden Hayat Kurtarır?</h2>
+<p>Kod yazmadan önce prototip üretmek, yanlış kararları ucuzken yakalamaktır.</p>
+<p>Çünkü:
+- ekran akışı erkenden test edilir,
+- kullanıcı nerede takılıyor görülür,
+- ekip ortak dil kurar,
+- yanlış yönler daha az maliyetle düzeltilir.</p>
+<p>Kodlanmış hatayı düzeltmek pahalıdır.
+Tıklanabilir prototipte yakalanan hata ise ucuzdur.</p>
+<p>Prototip, hayali görünür hale getirir.</p>
+<hr>
+<h2 id="15-kamp-s-platformu-i-in-prototip-ak">15. Kampüs Platformu İçin Prototip Akışı</h2>
+<p>Dökümandaki örnek ekranlar üzerinden düşünürsek mantıklı bir başlangıç seti şudur:</p>
+<h3 id="giri-ekran-e-posta-ifre-giri-yap-butonu-ifremi-unuttum">Giriş Ekranı
+- e-posta
+- şifre
+- giriş yap butonu
+- şifremi unuttum</h3>
+<h3 id="i-lan-listesi-arama-ubu-u-filtre-alan-kategori-se-imi-kart-yap-s">İlan Listesi
+- arama çubuğu
+- filtre alanı
+- kategori seçimi
+- kart yapısı</h3>
+<h3 id="i-lan-olu-turma-formu-ba-l-k-a-klama-kategori-fiyat-foto-raf-y-kleme-yay-nla-cta">İlan Oluşturma Formu
+- başlık
+- açıklama
+- kategori
+- fiyat
+- fotoğraf yükleme
+- yayınla CTA</h3>
+<p>Her ekran için mutlaka şu üç şey düşünülmelidir:</p>
+<p>1. Kullanıcının hedefi ne?
+2. O hedefe en kısa, en temiz yol ne?
+3. O yolda hata olursa sistem nasıl yardım edecek?</p>
+<p>İyi arayüz tasarımı tam olarak bu üç sorunun disiplinidir.</p>
+<hr>
+<h2 id="16-s-k-yap-lan-hatalar">16. Sık Yapılan Hatalar</h2>
+<h3 id="1-ui-ile-ux-i-ayn-ey-sanmak-g-zel-g-r-n-m-ile-iyi-deneyim-ayn-ey-de-ildir">1. UI ile UX’i aynı şey sanmak
+Güzel görünüm ile iyi deneyim aynı şey değildir.</h3>
+<h3 id="2-wireframe-a-amas-n-atlamak-direkt-renkli-tasar-ma-ge-mek-yap-sal-sorunlar-gizler">2. Wireframe aşamasını atlamak
+Direkt renkli tasarıma geçmek, yapısal sorunları gizler.</h3>
+<h3 id="3-placeholder-etiket-yerine-kullanmak-bu-ok-yayg-n-ve-can-s-k-c-bir-hatad-r">3. Placeholder’ı etiket yerine kullanmak
+Bu çok yaygın ve can sıkıcı bir hatadır.</h3>
+<h3 id="4-belirsiz-hata-mesajlar-yazmak-kullan-c-ya-hi-bir-yard-m-etmez">4. Belirsiz hata mesajları yazmak
+Kullanıcıya hiçbir yardım etmez.</h3>
+<h3 id="5-formu-gereksiz-alanlarla-i-irmek-her-alan-kullan-c-dan-ekstra-enerji-ister">5. Formu gereksiz alanlarla şişirmek
+Her alan, kullanıcıdan ekstra enerji ister.</h3>
+<h3 id="6-klavye-ve-eri-ilebilirli-i-unutmak-bu-hem-etik-hem-pratik-a-dan-ciddi-eksikliktir">6. Klavye ve erişilebilirliği unutmak
+Bu hem etik hem pratik açıdan ciddi eksikliktir.</h3>
+<h3 id="7-her-eyi-ayn-g-rsel-a-rl-kta-sunmak-hiyerar-i-kaybolunca-kullan-c-neyin-nemli-oldu-unu-se-emez">7. Her şeyi aynı görsel ağırlıkta sunmak
+Hiyerarşi kaybolunca kullanıcı neyin önemli olduğunu seçemez.</h3>
+<hr>
+<h2 id="17-b-l-m-zeti">17. Bölüm Özeti</h2>
+<p>Bu derste şunu gördük:</p>
+<ul>
+<li>**UI** görsel yüzdür, **UX** deneyim akışıdır.</li>
+<li>İyi ürün, bu ikisini birbirinden koparmadan birlikte çalıştırır.</li>
+<li>Nielsen’ın kullanılabilirlik sezgileri bugün hâlâ güçlü bir yol göstericidir.</li>
+<li>Gestalt ilkeleri, görsel algının arayüz kararlarını nasıl etkilediğini açıklar.</li>
+<li>**Wireframe, mockup ve prototip** farklı sorulara cevap veren farklı tasarım aşamalarıdır.</li>
+<li>Form tasarımı ve validation, kullanıcı deneyiminin en hassas alanlarındandır.</li>
+<li>Erişilebilirlik, ekstra süs değil; temel kalite şartıdır.</li>
+<li>Prototipleme, yanlışları kod yazmadan önce görmeyi sağlar.</li>
+</ul>
+<p>Kısacası arayüz tasarımı, estetik makyaj değil; kullanıcıyla sistem arasındaki sürtünmeyi azaltma sanatıdır.</p>
+<p>İyi arayüz bağırmaz. Yol gösterir. Kendini anlatmak için kullanıcıyı zorlamaz. Onu sezgisel biçimde taşır.</p>
+<hr>
+<h2 id="18-mini-al-t-rmalar">18. Mini Alıştırmalar</h2>
+<h3 id="al-t-rma-1-bir-ilan-olu-turma-formu-i-in-en-az-6-alan-belirleyin-her-alan-i-in-etiket-zorunlu-opsiyonel-bilgisi-olas-hata-mesaj-olu-turun">Alıştırma 1
+Bir ilan oluşturma formu için en az 6 alan belirleyin. Her alan için:
+- etiket,
+- zorunlu/opsiyonel bilgisi,
+- olası hata mesajı
+oluşturun.</h3>
+<h3 id="al-t-rma-2-wireframe-mockup-ve-prototip-aras-ndaki-fark-bir-e-ticaret-uygulamas-n-n-r-n-detay-sayfas-zerinden-a-klay-n">Alıştırma 2
+Wireframe, mockup ve prototip arasındaki farkı bir e-ticaret uygulamasının ürün detay sayfası üzerinden açıklayın.</h3>
+<h3 id="al-t-rma-3-kamp-s-ikinci-el-platformu-i-in-u-3-ekran-n-d-k-do-ruluklu-wireframe-ini-tasarlay-n-giri-ekran-ilan-listesi-ilan-detay-sayfas">Alıştırma 3
+Kampüs ikinci el platformu için şu 3 ekranın düşük doğruluklu wireframe’ini tasarlayın:
+- giriş ekranı
+- ilan listesi
+- ilan detay sayfası</h3>
+<h3 id="al-t-rma-4-nielsen-n-10-sezgisinden-en-az-3-tanesini-kullanarak-bir-i-lan-olu-tur-ekran-nda-hangi-tasar-m-kararlar-n-verece-inizi-yaz-n">Alıştırma 4
+Nielsen’ın 10 sezgisinden en az 3 tanesini kullanarak bir “İlan Oluştur” ekranında hangi tasarım kararlarını vereceğinizi yazın.</h3>
+<h3 id="al-t-rma-5-bir-sayfay-eri-ilebilir-yapmak-i-in-uygulanacak-en-az-5-kontrol-maddesi-yaz-n">Alıştırma 5
+Bir sayfayı erişilebilir yapmak için uygulanacak en az 5 kontrol maddesi yazın.</h3>
+<hr>
+<h2 id="kaynaklar">Kaynaklar</h2>
+<ul>
+<li>Nielsen, J. (1994). *Usability Engineering*. Morgan Kaufmann.</li>
+<li>Norman, D. (2013). *The Design of Everyday Things* (Revised ed.). Basic Books.</li>
+<li>Krug, S. (2014). *Don’t Make Me Think, Revisited*. New Riders.</li>
+<li>W3C. (2018). *Web Content Accessibility Guidelines (WCAG) 2.1*.</li>
+<li>Tidwell, J., Brewer, C., &amp; Valencia, A. (2020). *Designing Interfaces* (3rd ed.). O’Reilly.</li>
+<li>Cooper, A., Reimann, R., &amp; Cronin, D. (2007). *About Face 3*. Wiley.</li>
+</ul>
+<hr>
+<p>Bir ürünün kullanıcıdaki ilk cümlesi çoğu zaman kodla değil, arayüzle kurulur. O ilk bakışta kullanıcı ya “tamam, bunu anladım” der ya da sessizce uzaklaşır. İşte arayüz tasarımı, o ilk cümlenin tonunu belirler.</p></div></div></div><div class="post-page-nav"><div class="container container-narrow"><div class="post-nav-grid"><a href="/sistem-analizi-ve-tasarimi/2026/06/07/sistem-analizi-mimari-tasarim-ve-katmanli-yapilar/" class="post-nav-item prev"><span class="post-nav-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>Onceki Gonderi</span><span class="post-nav-title">Mimari Tasarim ve Katmanli Yapilar: Yazilimin Tasiyici Kolonlari</span></a></div></div></div></article></main><footer class="site-footer"><div class="container"><div class="footer-content"><div class="footer-brand"><svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span>Ders Takip Portali</span></div><p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p></div><div class="footer-bottom"><p>&copy; 2026 | Tum haklari saklidir.</p></div></div></footer><script src="/assets/js/main.js"></script></body></html>
