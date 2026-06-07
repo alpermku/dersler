@@ -1,0 +1,416 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Proje Yönetimi, Risk ve Dokümantasyon: İyi Fikirleri Yolda Kaybetmemek | Ders Takip Portali</title><meta name="description" content="Sistem Analizi ve Tasarımı dersi için proje yönetimi, kapsam, WBS, risk analizi, change request, sürümleme ve dokümantasyon paketi konularını detaylı anlatan ders gönderisi."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/css/main.css"></head><body><header class="site-header" id="siteHeader"><div class="container header-inner"><a href="/" class="logo"><svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="logo-text">Ders Takip Portali</span></a><nav class="main-nav" id="mainNav"><a href="/">Ana Sayfa</a><a href="/#courses">Dersler</a></nav><button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button></div></header><main><article class="post-page"><div class="post-page-header" style="--accent: #E17055; --gradient: linear-gradient(135deg, #E17055, #fab1a0)"><div class="post-page-header-bg"></div><div class="container post-page-header-content"><nav class="breadcrumbs"><a href="/">Ana Sayfa</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><a href="/courses/sistem-analizi-ve-tasarimi">Sistem Analizi ve Tasarimi</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><span>Proje Yönetimi, Risk ve Dokümantasyon: İyi Fikirleri Yolda Kaybetmemek</span></nav><h1 class="post-page-title">Proje Yönetimi, Risk ve Dokümantasyon: İyi Fikirleri Yolda Kaybetmemek</h1><div class="post-page-meta"><time datetime="2026-06-07T13:22:00+03:00"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>07 June 2026</time><span class="meta-divider"></span><span class="meta-course" style="--accent: #E17055">Sistem Analizi ve Tasarimi</span></div></div></div><div class="post-page-body"><div class="container container-narrow"><div class="post-content prose"><p>Bir yazılım projesi sadece kod yazarak başarıya ulaşmaz.</p>
+<p>Hatta bazen tam tersi olur: Teknik olarak yetenekli ekipler, kötü planlama yüzünden projeyi dağıtır. Gereksinimler kayar, teslim tarihi sislenir, herkes başka bir şeyi “öncelik” sanır, yeni istekler sessizce projeye sızar, riskler konuşulmadığı için kriz olarak patlar ve en sonunda ortada çalışan parçalar olur ama yönetilen bir ürün olmaz.</p>
+<p>İşte bu yüzden <strong>proje yönetimi</strong>, yazılım geliştirmede lüks değil; doğrudan hayatta kalma disiplinidir.</p>
+<p>Proje yönetimi, yaratıcı enerjiyi boğmak için değil; dağılmasını önlemek için vardır. Risk yönetimi, korkaklık değildir; sürprizleri küçültme sanatıdır. Dokümantasyon ise gereksiz evrak değil; ekip hafızasının yazılı biçimidir.</p>
+<p>Bu derste verdiğiniz dökümandan yararlanarak şu omurgayı netleştireceğiz:</p>
+<ul>
+<li>Yazılım proje yönetimi neden teknik ekipler için bile kritiktir?</li>
+<li>**Kapsam**, neden en hızlı kontrolden çıkan şeydir?</li>
+<li>**WBS (İş Kırılım Yapısı)**, büyük işi nasıl yönetilebilir hale getirir?</li>
+<li>**Risk analizi** neden felaket tellallığı değil, profesyonelliktir?</li>
+<li>**Değişiklik yönetimi** olmazsa proje nasıl dağılır?</li>
+<li>**Sürüm kontrolü** ve **dokümantasyon paketi**, neden projenin omurgasıdır?</li>
+</ul>
+<p>Bugün aslında şunu konuşacağız: İyi fikirlerin iyi yönetilmediğinde nasıl boşa gittiğini ve bunu nasıl engelleyebileceğimizi.</p>
+<blockquote><p>“Proje yönetimi, bilgi, beceri, araçlar ve tekniklerin proje faaliyetlerine uygulanmasıdır. Amaç, proje gereksinimlerini karşılamaktır.” &gt; **PMI, PMBOK Guide**</p></blockquote>
+<hr>
+<h2 id="bu-derste-neler-reneceksiniz">Bu Derste Neler Öğreneceksiniz?</h2>
+<p>Bu bölümün sonunda şunları yapabilir hale gelmeniz hedeflenmektedir:</p>
+<ul>
+<li>Yazılım proje yönetiminin neden kritik olduğunu açıklayabilmek</li>
+<li>**Kapsam, zaman ve maliyet** arasındaki ilişkiyi yorumlayabilmek</li>
+<li>**Scope creep** tehlikesini tanıyabilmek</li>
+<li>Basit bir **WBS** oluşturabilmek</li>
+<li>Riskleri tanımlayıp **olasılık × etki** mantığıyla değerlendirebilmek</li>
+<li>Temel **risk yanıt stratejileri** geliştirebilmek</li>
+<li>**Change Request** sürecinin neden gerekli olduğunu açıklayabilmek</li>
+<li>Git tabanlı sürümleme mantığını proje disipliniyle ilişkilendirebilmek</li>
+<li>Dönem projesi için anlamlı bir **dokümantasyon paketi** kurgulayabilmek</li>
+</ul>
+<hr>
+<h2 id="1-yaz-l-m-proje-y-netimi-nedir">1. Yazılım Proje Yönetimi Nedir?</h2>
+<p>Yazılım proje yönetimi, bir ürünün yalnızca “yapılmasını” değil, <strong>kontrollü biçimde tamamlanmasını</strong> sağlar.</p>
+<p>Bu cümledeki kritik kelime kontrollü.</p>
+<p>Çünkü yazılım projelerinde şu yanılgı çok yaygındır:</p>
+<ul>
+<li>“Zaten yazarız.”</li>
+</ul>
+<p>Evet, yazarsınız. Ama:
+- neyi ne zaman yazacaksınız?
+- hangi iş önce yapılacak?
+- neyin bittiğine kim karar verecek?
+- kapsam değişirse ne olacak?
+- teslim tarihi kayarsa nasıl tepki verilecek?
+- riskler kimin masasındadır?</p>
+<p>Bunların cevabı yoksa proje yönetimi de yoktur.</p>
+<h3 id="neden-bu-kadar-nemli">Neden Bu Kadar Önemli?</h3>
+<p>Çünkü iyi proje yönetimi şunları sağlar:</p>
+<ul>
+<li>belirsizliği azaltır</li>
+<li>öncelikleri netleştirir</li>
+<li>ekip hizasını korur</li>
+<li>sürprizleri küçültür</li>
+<li>beklentiyi yönetir</li>
+<li>teslim kalitesini yükseltir</li>
+</ul>
+<p>Kötü proje yönetimi ise teknik olarak güçlü ekipleri bile aşağı çeker.</p>
+<hr>
+<h2 id="2-proje-geni-her-ey-birbirine-ba-l">2. Proje Üçgeni: Her Şey Birbirine Bağlı</h2>
+<p>Proje yönetiminin klasik çekirdeği <strong>üç temel kısıta</strong> dayanır:</p>
+<ul>
+<li>**Kapsam (Scope)** → Ne yapılacak?</li>
+<li>**Zaman (Time)** → Ne kadar sürecek?</li>
+<li>**Maliyet (Cost)** → Ne kadar kaynak harcanacak?</li>
+</ul>
+<p>Bunlar birbirinden bağımsız değildir.</p>
+<h3 id="basit-ger-ek">Basit Gerçek</h3>
+<p>Kapsam artarsa genellikle:
+- zaman uzar,
+- maliyet artar,
+- ya da kalite baskı altına girer.</p>
+<p>Bu yüzden “bir özellik daha ekleyelim, küçük iş” cümlesi çoğu zaman masum değildir.</p>
+<h3 id="ac-ama-ger-ek-denklem">Acı Ama Gerçek Denklem</h3>
+<p>“Hızlı, ucuz, kaliteli” üçlüsünün üçünü birden aynı anda istemek çoğu zaman gerçekçi değildir.</p>
+<p>İkisini seçersiniz, biri baskılanır.</p>
+<p>Bu yüzden proje yönetimi yalnızca takvim tutmak değildir; <strong>denge kurma işidir</strong>.</p>
+<hr>
+<h2 id="3-kapsam-y-netimi-ne-yapaca-n-z-bilmezseniz-her-ey-yap-lacakm-gibi-olur">3. Kapsam Yönetimi: Ne Yapacağınızı Bilmezseniz Her Şey Yapılacakmış Gibi Olur</h2>
+<p>Kapsam, projenin sınırıdır.</p>
+<p>Yani şu sorunun net cevabıdır:</p>
+<blockquote><p>“Bu projede ne var, ne yok?”</p></blockquote>
+<p>Bu sınır net değilse ekip sürekli belirsizlik içinde kalır. O zaman herkes iyi niyetle yeni bir şey ekler. Sonra proje sessizce şişer.</p>
+<p>İşte bu noktada en sinsi düşman çıkar:</p>
+<hr>
+<h2 id="4-scope-creep-projeye-gizlice-s-zan-geni-leme">4. Scope Creep: Projeye Gizlice Sızan Genişleme</h2>
+<p><strong>Kapsam sürünmesi (scope creep)</strong>, kontrol dışı ve resmi onay olmadan projeye yeni işlerin sızmasıdır.</p>
+<p>Bunun kötü yanı şudur:</p>
+<ul>
+<li>tek bir anlık büyük patlama gibi gelmez,</li>
+<li>küçük küçük olur,</li>
+<li>ama sonunda proje başka bir şeye dönüşür.</li>
+</ul>
+<h3 id="nas-l-g-r-n-r">Nasıl Görünür?</h3>
+<ul>
+<li>“Şunu da ekleyelim”</li>
+<li>“Bu da olsa fena olmaz”</li>
+<li>“Madem bunu yapıyoruz, şunu da yapalım”</li>
+<li>“Zaten çok sürmez”</li>
+</ul>
+<p>İşte proje mezarlıklarının yarısı bu cümlelerle dolu.</p>
+<h3 id="scope-creep-i-nleme-yollar">Scope Creep’i Önleme Yolları</h3>
+<ul>
+<li>Başta kapsamı net yaz</li>
+<li>Paydaş onayı al</li>
+<li>Her yeni isteği **Change Request** sürecine sok</li>
+<li>Etki analizi yap</li>
+<li>Backlog’u sürekli önceliklendir</li>
+</ul>
+<p>Yani mesele “değişiklik olmasın” demek değil; <strong>değişiklik kontrolsüz olmasın</strong> demektir.</p>
+<hr>
+<h2 id="5-wbs-b-y-k-i-i-is-r-labilir-par-alara-ay-rmak">5. WBS: Büyük İşi Isırılabilir Parçalara Ayırmak</h2>
+<p><strong>WBS (Work Breakdown Structure / İş Kırılım Yapısı)</strong>, proje kapsamını yönetilebilir küçük iş paketlerine bölen hiyerarşik yapıdır.</p>
+<p>Bir projeye bütünden bakınca insanın gözü korkabilir. Ama parçalarsanız iş görünür hale gelir.</p>
+<h3 id="wbs-ne-i-e-yarar">WBS Ne İşe Yarar?</h3>
+<ul>
+<li>işi somutlaştırır</li>
+<li>sorumluluk atamayı kolaylaştırır</li>
+<li>ilerlemeyi ölçülebilir yapar</li>
+<li>eksikleri görünür kılar</li>
+<li>planlamayı kolaylaştırır</li>
+</ul>
+<h3 id="i-yi-wbs-nas-l-olur">İyi WBS Nasıl Olur?</h3>
+<p>En alt düzeydeki her iş paketi:
+- atanabilir olmalı,
+- ölçülebilir olmalı,
+- tamamlandı / tamamlanmadı diye izlenebilir olmalı.</p>
+<h3 id="rnek-mant-k">Örnek Mantık</h3>
+<p>Bir kampüs ikinci el platformunu düşünelim.</p>
+<p>Üst seviye başlıklar:
+- Proje Yönetimi
+- Gereksinim Analizi
+- Tasarım
+- Geliştirme
+- Test
+- Dağıtım</p>
+<p>Sonra bunlar aşağı doğru bölünür:
+- Use case yazımı
+- ER diyagramı
+- sınıf diyagramı
+- kullanıcı modülü
+- mesajlaşma modülü
+- UAT
+- prod dağıtımı</p>
+<p>Böylece sisli bir fikir, izlenebilir bir iş listesine dönüşür.</p>
+<hr>
+<h2 id="6-wbs-neden-renci-projelerinde-de-kritik">6. WBS Neden Öğrenci Projelerinde de Kritik?</h2>
+<p>Çünkü öğrenci projelerinde en sık görülen hata şudur:</p>
+<ul>
+<li>herkes projeyi biliyor sanır,</li>
+<li>ama kim ne yapacak tam belli değildir,</li>
+<li>son hafta panik başlar,</li>
+<li>bazı işler iki kez yapılır,</li>
+<li>bazı işler hiç yapılmaz.</li>
+</ul>
+<p>WBS, sadece büyük kurumsal yapıların oyuncağı değildir. Küçük ekipte bile düzen sağlar.</p>
+<p>WBS varsa:
+- iş bölünür,
+- sahiplik netleşir,
+- ilerleme görünür olur,
+- son hafta sürprizi azalır.</p>
+<hr>
+<h2 id="7-risk-y-netimi-paranoya-de-il-haz-rl-k">7. Risk Yönetimi: Paranoya Değil Hazırlık</h2>
+<p>Risk yönetimi bazen yanlış anlaşılır. İnsanlar bunu gereksiz karamsarlık gibi görebilir.</p>
+<p>Oysa risk yönetimi şu soruyu erkenden sormaktır:</p>
+<blockquote><p>“Ne ters gidebilir, ve giderse ne yapacağız?”</p></blockquote>
+<p>Bu, korku değil olgunluktur.</p>
+<p>Tom DeMarco ve Timothy Lister’in sözünü boşuna sevmiyoruz:</p>
+<blockquote><p>“Riskleri yönetemeyen, sadece krizleri yönetir.”</p></blockquote>
+<p>Yani risk konuşmazsanız risk yok olmaz. Sadece sizi hazırlıksız yakalar.</p>
+<hr>
+<h2 id="8-risk-analizi-s-reci">8. Risk Analizi Süreci</h2>
+<p>Risk yönetimi rastgele “birkaç ihtimal söyleme” işi değildir. Düzenli bir süreçtir.</p>
+<h3 id="8-1-risk-tan-mlama-nce-olas-riskleri-listelersiniz">8.1 Risk Tanımlama
+Önce olası riskleri listelersiniz.</h3>
+<p>Örnek:
+- gereksinimler net değil
+- ekipten biri ayrılabilir
+- üçüncü taraf API değişebilir
+- performans sorunu çıkabilir
+- teslim tarihi sıkışabilir</p>
+<h3 id="8-2-risk-de-erlendirme-her-risk-i-in-u-iki-soruyu-sorars-n-z-ger-ekle-me-olas-l-nedir-etkisi-ne-kadar-b-y-kt-r">8.2 Risk Değerlendirme
+Her risk için şu iki soruyu sorarsınız:
+- gerçekleşme olasılığı nedir?
+- etkisi ne kadar büyüktür?</h3>
+<h3 id="8-3-risk-yan-t-plan-risk-olursa-ne-yap-laca-n-ya-da-olmamas-i-in-ne-yap-laca-n-planlars-n-z">8.3 Risk Yanıt Planı
+Risk olursa ne yapılacağını ya da olmaması için ne yapılacağını planlarsınız.</h3>
+<h3 id="8-4-risk-i-zleme-risk-listesi-canl-tutulur-bir-kez-yaz-l-p-unutulmaz">8.4 Risk İzleme
+Risk listesi canlı tutulur. Bir kez yazılıp unutulmaz.</h3>
+<hr>
+<h2 id="9-olas-l-k-etki-matrisi">9. Olasılık × Etki Matrisi</h2>
+<p>Riskleri değerlendirmek için en pratik yöntemlerden biri <strong>olasılık × etki</strong> matrisidir.</p>
+<p>Mantık şudur:</p>
+<ul>
+<li>yüksek olasılık + yüksek etki = kritik risk</li>
+<li>düşük olasılık + düşük etki = kabul edilebilir risk</li>
+</ul>
+<h3 id="neden-i-e-yarar">Neden İşe Yarar?</h3>
+<p>Çünkü her riske aynı enerjiyi harcamak mantıksızdır.</p>
+<p>Bazı riskler:
+- izlenir,
+- bazıları için önlem alınır,
+- bazıları için ciddi azaltma planı gerekir.</p>
+<p>Bu matris, ekibin enerjisini doğru yere yönlendirir.</p>
+<hr>
+<h2 id="10-risk-yan-t-stratejileri">10. Risk Yanıt Stratejileri</h2>
+<p>Risk belirlendi. Peki sonra?</p>
+<p>Dört temel strateji vardır:</p>
+<h3 id="10-1-ka-nma-avoid-riski-do-uran-eyi-de-i-tirirsiniz">10.1 Kaçınma (Avoid)
+Riski doğuran şeyi değiştirirsiniz.</h3>
+<p>Örnek:
+- aşırı belirsiz yeni teknoloji yerine daha bilinen teknoloji seçmek</p>
+<h3 id="10-2-azaltma-mitigate-riski-tamamen-yok-edemiyorsan-z-olas-l-n-veya-etkisini-d-r-rs-n-z">10.2 Azaltma (Mitigate)
+Riski tamamen yok edemiyorsanız olasılığını veya etkisini düşürürsünüz.</h3>
+<p>Örnek:
+- erken prototip yapmak
+- yük testi yapmak
+- bilgi paylaşımı artırmak</p>
+<h3 id="10-3-transfer-transfer-riski-ba-ka-bir-tarafa-devredersiniz">10.3 Transfer (Transfer)
+Riski başka bir tarafa devredersiniz.</h3>
+<p>Örnek:
+- dış kaynak kullanmak
+- SLA sözleşmesi
+- sigorta</p>
+<h3 id="10-4-kabul-accept-risk-k-kt-r-ya-da-ka-n-lmazd-r-izlenir-ve-ger-ekle-irse-tepki-verilir">10.4 Kabul (Accept)
+Risk küçüktür ya da kaçınılmazdır; izlenir ve gerçekleşirse tepki verilir.</h3>
+<p>Buradaki kilit nokta şu:</p>
+<p><strong>Kabul</strong>, “umursamamak” değildir.
+Kabul, “farkındayız ve bilinçli olarak taşıyoruz” demektir.</p>
+<hr>
+<h2 id="11-rnek-risk-kayd-mant">11. Örnek Risk Kaydı Mantığı</h2>
+<p>İyi bir risk kaydı şu tür alanlar içerir:</p>
+<ul>
+<li>risk ID</li>
+<li>açıklama</li>
+<li>olasılık</li>
+<li>etki</li>
+<li>strateji</li>
+<li>sorumlu kişi</li>
+<li>durum</li>
+</ul>
+<p>Örnek düşünce:</p>
+<ul>
+<li>Gereksinimler belirsiz → yüksek olasılık, yüksek etki → prototip + UAT ile azalt</li>
+<li>Kilit geliştirici ayrılabilir → orta olasılık, yüksek etki → bilgi paylaşımı ve dokümantasyon</li>
+<li>API değişebilir → düşük olasılık, orta etki → sözleşme / alternatif plan</li>
+</ul>
+<p>Bu yaklaşım projeyi sakinleştirir. Çünkü belirsizlik görünür hale gelir.</p>
+<hr>
+<h2 id="12-de-i-iklik-y-netimi-de-i-im-ka-n-lmaz-kaos-art-de-il">12. Değişiklik Yönetimi: Değişim Kaçınılmaz, Kaos Şart Değil</h2>
+<p>Yazılım projelerinde değişiklik olur. Nokta.</p>
+<p>Müşteri fikrini değiştirir.
+Yeni gereksinim çıkar.
+Teknik engel görülür.
+Pazar koşulu değişir.</p>
+<p>Mesele değişiklik olmaması değil; değişikliğin <strong>yönetilmesidir</strong>.</p>
+<h3 id="change-request-s-reci-neden-gerekli">Change Request Süreci Neden Gerekli?</h3>
+<p>Çünkü her değişiklik:
+- kapsamı etkiler,
+- zamanı etkiler,
+- maliyeti etkiler,
+- teknik riski etkiler.</p>
+<p>Eğer değişiklik kapıdan sessizce içeri alınırsa proje görünmeden bozulur.</p>
+<h3 id="sa-l-kl-ak">Sağlıklı Akış</h3>
+<p>1. Değişiklik isteği yazılır
+2. Etki analizi yapılır
+3. Onay / red / erteleme kararı verilir
+4. Plan güncellenir
+5. Geliştirme + test + dokümantasyon yapılır</p>
+<p>Bu disiplin, projeyi sertleştirmez; savrulmaktan korur.</p>
+<hr>
+<h2 id="13-s-r-mleme-kim-ne-de-i-tirdi-ne-zaman-neden">13. Sürümleme: Kim Ne Değiştirdi, Ne Zaman, Neden?</h2>
+<p>Sürüm kontrolü, modern yazılım projelerinin omurgalarından biridir.</p>
+<p>Sadece kod saklama aracı değildir. Aynı zamanda proje hafızasıdır.</p>
+<h3 id="neden-hayati">Neden Hayati?</h3>
+<p>Çünkü sürümleme sayesinde:
+- geçmişe dönersiniz,
+- değişiklikleri izlersiniz,
+- ekip paralel çalışabilir,
+- hataları izole edersiniz,
+- yayın sürecini yönetirsiniz.</p>
+<h3 id="git-ak-n-n-mant">Git Akışının Mantığı</h3>
+<p>Dökümandaki hat üzerinden düşünürsek:</p>
+<ul>
+<li>`main/master` → stabil, yayınlanabilir kod</li>
+<li>`develop` → aktif geliştirme hattı</li>
+<li>`feature/*` → yeni özellikler</li>
+<li>`hotfix/*` → acil düzeltmeler</li>
+<li>`release/*` → sürüm hazırlığı</li>
+</ul>
+<p>Bu yapı, ekipte “herkes her yere bir şey atıyor” kaosunu azaltır.</p>
+<h3 id="commit-mesaj-disiplini">Commit Mesajı Disiplini</h3>
+<p>İyi commit mesajı önemlidir.</p>
+<p>Örnek:
+- <code>feat: add product search by category</code>
+- <code>fix: resolve login case sensitivity bug</code>
+- <code>docs: update API endpoint descriptions</code>
+- <code>test: add unit tests for UserService</code></p>
+<p>İyi commit mesajı, gelecekteki kendinize saygıdır.</p>
+<hr>
+<h2 id="14-dok-mantasyon-projenin-yaz-l-haf-zas">14. Dokümantasyon: Projenin Yazılı Hafızası</h2>
+<p>Dokümantasyon bazen “sonradan toparlanacak rapor yükü” sanılır. Bu büyük hata.</p>
+<p>İyi dokümantasyon şunları sağlar:
+- ortak anlayış oluşturur,
+- ekip bilgisini kişiden bağımsızlaştırır,
+- bakım ve devir sürecini kolaylaştırır,
+- test ve teslim sürecini netleştirir,
+- proje kararlarını görünür kılar.</p>
+<p>Kod her şeyi anlatmaz. Özellikle neden öyle yapıldığını çoğu zaman hiç anlatmaz.</p>
+<hr>
+<h2 id="15-i-yi-bir-dok-mantasyon-paketi-neler-i-erir">15. İyi Bir Dokümantasyon Paketi Neler İçerir?</h2>
+<p>Dökümandaki paket yapısı bayağı yerinde. Sistem Analizi dersi için güçlü bir teslim seti oluşturuyor.</p>
+<h3 id="15-1-srs-yaz-l-m-gereksinimleri-spesifikasyonu-i-ermesi-beklenenler-problem-tan-m-proje-kapsam-payda-analizi-fonksiyonel-gereksinimler-fonksiyonel-olmayan-gereksinimler-varsay-mlar-ve-k-s-tlar-nceliklendirme">15.1 SRS — Yazılım Gereksinimleri Spesifikasyonu
+İçermesi beklenenler:
+- problem tanımı
+- proje kapsamı
+- paydaş analizi
+- fonksiyonel gereksinimler
+- fonksiyonel olmayan gereksinimler
+- varsayımlar ve kısıtlar
+- önceliklendirme</h3>
+<p>Bu belge, projenin “ne yapacağını” en resmi biçimde tanımlar.</p>
+<h3 id="15-2-uml-diyagram-seti-use-case-diyagram-use-case-senaryolar-activity-diyagram-sequence-diyagram-s-n-f-diyagram-er-diyagram">15.2 UML Diyagram Seti
+- use case diyagramı
+- use case senaryoları
+- activity diyagramı
+- sequence diyagramı
+- sınıf diyagramı
+- ER diyagramı</h3>
+<p>Bunlar birlikte sistemin hem iş akışını hem yapısal mantığını görünür kılar.</p>
+<h3 id="15-3-veri-s-zl-veri-s-zl-sistemdeki-veri-elemanlar-n-n-s-zl-d-r">15.3 Veri Sözlüğü
+Veri sözlüğü, sistemdeki veri elemanlarının sözlüğüdür.</h3>
+<p>Örnek bilgiler:
+- tablo adı
+- sütun adı
+- veri tipi
+- açıklama
+- kısıtlar</p>
+<p>Bu belge özellikle veritabanı netliği ve ekip içi tutarlılık için çok değerlidir.</p>
+<h3 id="15-4-mimari-dok-mantasyon-katmanl-mimari-emas-bile-en-ili-kileri-api-endpoint-listesi-deployment-bilgisi">15.4 Mimari Dokümantasyon
+- katmanlı mimari şeması
+- bileşen ilişkileri
+- API endpoint listesi
+- deployment bilgisi</h3>
+<p>Bu da sistemin nasıl kurulduğunu ve nasıl çalıştığını anlatır.</p>
+<hr>
+<h2 id="16-proje-y-netimi-ile-dok-mantasyon-aras-ndaki-gizli-ba">16. Proje Yönetimi ile Dokümantasyon Arasındaki Gizli Bağ</h2>
+<p>Birçok ekip şunu ayrı sanır:</p>
+<ul>
+<li>proje yönetimi başka şey,</li>
+<li>dokümantasyon başka şey.</li>
+</ul>
+<p>Aslında ikisi çok bağlıdır.</p>
+<p>Çünkü dokümante edilmeyen kararlar:
+- unutulur,
+- yanlış hatırlanır,
+- kişi bağımlı hale gelir,
+- değişiklik geldiğinde ekip tekrar aynı tartışmayı yapar.</p>
+<p>İyi proje yönetimi, yazılı iz bırakır.
+İyi dokümantasyon da proje yönetimini somutlaştırır.</p>
+<hr>
+<h2 id="17-renci-projelerinde-en-s-k-g-r-len-hatalar">17. Öğrenci Projelerinde En Sık Görülen Hatalar</h2>
+<h3 id="1-kapsam-ba-ta-netle-tirmemek-bu-projenin-sonlar-na-do-ru-panik-retir">1. Kapsamı başta netleştirmemek
+Bu, projenin sonlarına doğru panik üretir.</h3>
+<h3 id="2-wbs-yapmadan-i-e-dalmak-i-listesi-g-r-nmez-kal-r-sorumluluklar-kar-r">2. WBS yapmadan işe dalmak
+İş listesi görünmez kalır, sorumluluklar karışır.</h3>
+<h3 id="3-risk-konu-mamak-sorun-k-nca-kimse-bunu-ng-rmedi-noktas-na-gelinir">3. Risk konuşmamak
+Sorun çıkınca “kimse bunu öngörmedi” noktasına gelinir.</h3>
+<h3 id="4-her-de-i-ikli-i-do-rudan-kabul-etmek-bu-scope-creep-i-in-a-k-davetiyedir">4. Her değişikliği doğrudan kabul etmek
+Bu, scope creep için açık davetiyedir.</h3>
+<h3 id="5-git-i-sadece-dosya-yedekleme-gibi-kullanmak-oysa-git-proje-y-netimi-disiplininin-de-par-as-d-r">5. Git’i sadece dosya yedekleme gibi kullanmak
+Oysa Git proje yönetimi disiplininin de parçasıdır.</h3>
+<h3 id="6-dok-mantasyonu-en-sona-b-rakmak-bu-durumda-belgeler-ya-ayan-yap-de-il-son-dakika-devi-olur">6. Dokümantasyonu en sona bırakmak
+Bu durumda belgeler yaşayan yapı değil, son dakika ödevi olur.</h3>
+<h3 id="7-bilgiyi-sadece-bir-ki-inin-kafas-nda-tutmak-bu-ekip-projelerinde-tehlikelidir">7. Bilgiyi sadece bir kişinin kafasında tutmak
+Bu, ekip projelerinde tehlikelidir.</h3>
+<hr>
+<h2 id="18-b-l-m-zeti">18. Bölüm Özeti</h2>
+<p>Bu derste şunları netleştirdik:</p>
+<ul>
+<li>Yazılım proje yönetimi, teknik üretimin kontrollü teslimata dönüşmesini sağlar.</li>
+<li>**Kapsam, zaman ve maliyet** birbirine sıkı sıkıya bağlıdır.</li>
+<li>**Scope creep**, projeyi sessizce şişiren en büyük tehlikelerden biridir.</li>
+<li>**WBS**, büyük işleri yönetilebilir paketlere böler.</li>
+<li>**Risk yönetimi**, krizleri beklemek yerine önceden hazırlık yapmaktır.</li>
+<li>**Change Request** süreci, değişimi kaosa değil karara dönüştürür.</li>
+<li>**Sürümleme**, yalnızca kod geçmişi değil proje hafızasıdır.</li>
+<li>**Dokümantasyon paketi**, projenin neyi, neden ve nasıl yaptığını görünür kılar.</li>
+</ul>
+<p>Kısacası iyi yönetilen proje, sadece geliştirilen proje değildir; planlanan, izlenen, tartışılan, belgelenen ve gerektiğinde kontrollü biçimde yön değiştirilebilen projedir.</p>
+<hr>
+<h2 id="19-mini-al-t-rmalar">19. Mini Alıştırmalar</h2>
+<h3 id="al-t-rma-1-bir-kamp-s-ikinci-el-platformu-i-in-3-seviyeli-mini-bir-wbs-olu-turun">Alıştırma 1
+Bir kampüs ikinci el platformu için 3 seviyeli mini bir WBS oluşturun.</h3>
+<h3 id="al-t-rma-2-a-a-daki-riskler-i-in-olas-l-k-etki-ve-yan-t-stratejisi-belirleyin-gereksinim-belirsizli-i-ekip-yesinin-projeyi-b-rakmas-nc-taraf-servisin-de-i-mesi-teslim-tarihine-yeti-ememe">Alıştırma 2
+Aşağıdaki riskler için olasılık, etki ve yanıt stratejisi belirleyin:
+- gereksinim belirsizliği
+- ekip üyesinin projeyi bırakması
+- üçüncü taraf servisin değişmesi
+- teslim tarihine yetişememe</h3>
+<h3 id="al-t-rma-3-bir-de-i-iklik-iste-i-rne-i-yaz-n-senaryo-projeye-favorilere-ekle-zelli-i-sonradan-eklenmek-isteniyor">Alıştırma 3
+Bir değişiklik isteği örneği yazın:
+Senaryo: Projeye “favorilere ekle” özelliği sonradan eklenmek isteniyor.</h3>
+<h3 id="al-t-rma-4-bir-d-nem-projesi-i-in-teslim-edilmesi-gereken-dok-mantasyon-paketini-madde-madde-s-ralay-n">Alıştırma 4
+Bir dönem projesi için teslim edilmesi gereken dokümantasyon paketini madde madde sıralayın.</h3>
+<h3 id="al-t-rma-5-i-yi-commit-mesaj-n-n-neden-nemli-oldu-unu-5-c-mleyle-a-klay-n">Alıştırma 5
+İyi commit mesajının neden önemli olduğunu 5 cümleyle açıklayın.</h3>
+<hr>
+<h2 id="kaynaklar">Kaynaklar</h2>
+<ul>
+<li>PMI. (2021). *PMBOK Guide* (7th ed.). Project Management Institute.</li>
+<li>DeMarco, T. &amp; Lister, T. (2003). *Waltzing with Bears*. Dorset House.</li>
+<li>Schwaber, K. (2004). *Agile Project Management with Scrum*. Microsoft Press.</li>
+<li>IEEE. (2011). *IEEE Std 29148-2011, Systems and Software Engineering — Requirements Engineering*.</li>
+<li>Chacon, S. &amp; Straub, B. (2014). *Pro Git* (2nd ed.). Apress.</li>
+</ul>
+<hr>
+<p>İyi projeler yalnızca iyi fikirlerden doğmaz. İyi projeler, o fikrin etrafına sınır çizebilen, riskini görebilen, değişikliğini yönetebilen ve hafızasını kaybetmeyen ekiplerden doğar. Yazılımın kendisi kadar, onu nasıl yönettiğiniz de sonuçtur.</p></div></div></div><div class="post-page-nav"><div class="container container-narrow"><div class="post-nav-grid"><a href="/sistem-analizi-ve-tasarimi/2026/06/07/sistem-analizi-kalite-test-ve-dogrulama/" class="post-nav-item prev"><span class="post-nav-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>Onceki Gonderi</span><span class="post-nav-title">Kalite, Test ve Dogrulama: Yazilimin Gercekten Calistigini Nasil Anlariz?</span></a></div></div></div></article></main><footer class="site-footer"><div class="container"><div class="footer-content"><div class="footer-brand"><svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span>Ders Takip Portali</span></div><p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p></div><div class="footer-bottom"><p>&copy; 2026 | Tum haklari saklidir.</p></div></div></footer><script src="/assets/js/main.js"></script></body></html>
