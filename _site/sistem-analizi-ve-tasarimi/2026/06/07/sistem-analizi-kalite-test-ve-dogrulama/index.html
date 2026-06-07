@@ -1,0 +1,436 @@
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Kalite, Test ve Doğrulama: Yazılımın Gerçekten Çalıştığını Nasıl Anlarız? | Ders Takip Portali</title><meta name="description" content="Sistem Analizi ve Tasarımı dersi için yazılım kalitesi, test seviyeleri, test case, izlenebilirlik matrisi, hata yönetimi ve regresyon konularını detaylı anlatan ders gönderisi."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/css/main.css"></head><body><header class="site-header" id="siteHeader"><div class="container header-inner"><a href="/" class="logo"><svg class="logo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="logo-text">Ders Takip Portali</span></a><nav class="main-nav" id="mainNav"><a href="/">Ana Sayfa</a><a href="/#courses">Dersler</a></nav><button class="menu-toggle" id="menuToggle" aria-label="Menu"><span></span><span></span><span></span></button></div></header><main><article class="post-page"><div class="post-page-header" style="--accent: #E17055; --gradient: linear-gradient(135deg, #E17055, #fab1a0)"><div class="post-page-header-bg"></div><div class="container post-page-header-content"><nav class="breadcrumbs"><a href="/">Ana Sayfa</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><a href="/courses/sistem-analizi-ve-tasarimi">Sistem Analizi ve Tasarimi</a><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><span>Kalite, Test ve Doğrulama: Yazılımın Gerçekten Çalıştığını Nasıl Anlarız?</span></nav><h1 class="post-page-title">Kalite, Test ve Doğrulama: Yazılımın Gerçekten Çalıştığını Nasıl Anlarız?</h1><div class="post-page-meta"><time datetime="2026-06-07T13:06:00+03:00"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>07 June 2026</time><span class="meta-divider"></span><span class="meta-course" style="--accent: #E17055">Sistem Analizi ve Tasarimi</span></div></div></div><div class="post-page-body"><div class="container container-narrow"><div class="post-content prose"><p>Bir yazılımın çalışıyor görünmesiyle gerçekten güvenilir olması aynı şey değildir.</p>
+<p>Ekran açılabilir. Buton tıklanabilir. Kayıt ekleniyor gibi görünebilir. Ama kullanıcı yanlış veri girdiğinde ne oluyor? Sistem yoğun yük altında nefes alabiliyor mu? Yeni eklenen bir özellik eski çalışan yapıyı bozdu mu? Hata verdiğinde neden verdiği anlaşılabiliyor mu? Ve en önemlisi: <strong>yazılım, vaat ettiği şeyi tutarlı biçimde yerine getiriyor mu?</strong></p>
+<p>İşte kalite, test ve doğrulama tam burada devreye girer.</p>
+<p>Test, geliştirmenin sonuna iliştirilen formalite değildir. Kalitenin görünür hale gelme yöntemidir. Bir yazılımın ne kadar “iyi” olduğunu yalnızca kodun güzelliği belirlemez; o kodun farklı koşullarda ne kadar dayanıklı, ölçülebilir ve doğrulanabilir olduğu belirler.</p>
+<p>Bu derste verdiğiniz dökümandan yararlanarak şu hattı kuracağız:</p>
+<ul>
+<li>**Yazılım kalitesi** tam olarak nedir?</li>
+<li>**Birim, entegrasyon, sistem ve kabul testleri** nasıl ayrılır?</li>
+<li>İyi bir **test case** nasıl yazılır?</li>
+<li>Gereksinim ile test arasında neden **izlenebilirlik** kurulmalıdır?</li>
+<li>**Bug raporu** neden teknik hafızadır?</li>
+<li>**Regresyon testi**, neden profesyonel ekiplerin can damarıdır?</li>
+</ul>
+<p>Bugün amaç “birkaç test yazalım” demek değil. Amaç, kalitenin şans işi olmadığını görmek.</p>
+<blockquote><p>“Test, hataların varlığını gösterebilir; ama yokluklarını asla kanıtlayamaz.” &gt; **Edsger W. Dijkstra**</p></blockquote>
+<hr>
+<h2 id="bu-derste-neler-reneceksiniz">Bu Derste Neler Öğreneceksiniz?</h2>
+<p>Bu bölümün sonunda şunları yapabilir hale gelmeniz hedeflenmektedir:</p>
+<ul>
+<li>Yazılım kalitesinin yalnızca “çalışıyor/çalışmıyor” ikiliğinden ibaret olmadığını açıklayabilmek</li>
+<li>**Test piramidi** mantığını anlayabilmek</li>
+<li>**Birim, entegrasyon, sistem, kabul testi** seviyelerini ayırt edebilmek</li>
+<li>Yapılandırılmış bir **test case** yazabilmek</li>
+<li>Pozitif, negatif, sınır değer ve eşdeğerlik testlerini örnekleyebilmek</li>
+<li>Gereksinim-test ilişkisini **izlenebilirlik matrisi** üzerinden kurabilmek</li>
+<li>Etkili bir **hata raporu** oluşturabilmek</li>
+<li>Regresyon testinin neden kritik olduğunu kavrayabilmek</li>
+</ul>
+<hr>
+<h2 id="1-yaz-l-m-kalitesi-nedir">1. Yazılım Kalitesi Nedir?</h2>
+<p>Yazılım kalitesi, bir ürünün yalnızca belirtilen gereksinimleri karşılaması değil; kullanıcı beklentilerini tutarlı biçimde karşılayabilmesi, güven vermesi ve bakım yapılabilir bir yapıda olmasıdır.</p>
+<p>Kısacası kalite şu sorunun cevabıdır:</p>
+<blockquote><p>“Bu sistem, doğru şeyi, doğru koşullarda, sürdürülebilir biçimde yapabiliyor mu?”</p></blockquote>
+<h3 id="iso-iec-25010-perspektifi">ISO/IEC 25010 Perspektifi</h3>
+<p>Yazılım kalitesini düşünürken en güçlü çerçevelerden biri <strong>ISO/IEC 25010</strong> modelidir. Bu model kaliteyi 8 ana karakteristik üzerinden ele alır:</p>
+<table>
+<thead><tr><th>Kalite Karakteristiği</th><th>Ne Anlatır?</th></tr></thead>
+<tbody>
+<tr><td>Fonksiyonel uygunluk</td><td>Sistem gereken işi doğru yapıyor mu?</td></tr>
+<tr><td>Performans verimliliği</td><td>Hız, kapasite, kaynak kullanımı nasıl?</td></tr>
+<tr><td>Uyumluluk</td><td>Diğer sistemlerle çalışabiliyor mu?</td></tr>
+<tr><td>Kullanılabilirlik</td><td>İnsanlar rahat anlayıp kullanabiliyor mu?</td></tr>
+<tr><td>Güvenilirlik</td><td>Kararlı mı, çöküyor mu, hata toleransı var mı?</td></tr>
+<tr><td>Güvenlik</td><td>Veri ve erişim güvenli mi?</td></tr>
+<tr><td>Bakım yapılabilirlik</td><td>Değiştirmek ve anlamak ne kadar kolay?</td></tr>
+<tr><td>Taşınabilirlik</td><td>Farklı ortamlara uyum sağlayabiliyor mu?</td></tr>
+</tbody>
+</table>
+<p>Bu tablo çok önemli. Çünkü kaliteyi sadece “bug var mı?” sorusuna indirgemek eksik kalır.</p>
+<p>Çünkü bazen yazılım hatasız gibi görünür ama:
+- çok yavaştır,
+- değiştirilemez durumdadır,
+- yeni kullanıcıyı kaybettirir,
+- ölçeklenemez,
+- güvenlik açığı taşır.</p>
+<p>Yani kalite çok boyutludur.</p>
+<hr>
+<h2 id="2-test-neden-geli-tirmenin-kalbidir">2. Test Neden Geliştirmenin Kalbidir?</h2>
+<p>Testin temel amacı yalnızca hatayı bulmak değildir. Test aynı zamanda şunları sağlar:</p>
+<ul>
+<li>sistem davranışını görünür kılar,</li>
+<li>beklentiyi somutlaştırır,</li>
+<li>değişiklikten korkmadan ilerlemeyi kolaylaştırır,</li>
+<li>teslim öncesi güven seviyesini artırır,</li>
+<li>ekibin “çalışıyor” kelimesini ölçülebilir hale getirmesini sağlar.</li>
+</ul>
+<p>Test olmayan ekiplerde “çalışıyor” cümlesi çoğu zaman sezgisel olur.</p>
+<p>Test olan ekiplerde ise bu cümle şu anlama gelir:</p>
+<ul>
+<li>belirli senaryolar denendi,</li>
+<li>beklenen sonuçlar doğrulandı,</li>
+<li>önceki davranışlar korunuyor,</li>
+<li>kritik iş akışları kontrol altında.</li>
+</ul>
+<hr>
+<h2 id="3-test-piramidi-her-eyi-e2e-ile-zmeye-al-ma">3. Test Piramidi: Her Şeyi E2E ile Çözmeye Çalışma</h2>
+<p>Mike Cohn’un popülerleştirdiği <strong>test piramidi</strong>, test seviyeleri arasında nasıl denge kurulması gerektiğini anlatır.</p>
+<p>Mantık basit ama güçlüdür:</p>
+<ul>
+<li>altta çok sayıda hızlı test,</li>
+<li>ortada orta düzey test,</li>
+<li>üstte az sayıda pahalı test.</li>
+</ul>
+<h3 id="piramidin-katmanlar">Piramidin Katmanları</h3>
+<p>#### Birim Testleri — yaklaşık %70
+- en hızlı
+- en ucuz
+- en fazla sayıda</p>
+<p>#### Entegrasyon Testleri — yaklaşık %20
+- orta sayıda
+- bileşenler arası etkileşimi kontrol eder</p>
+<p>#### Uçtan Uca / UI Testleri — yaklaşık %10
+- en yavaş
+- en kırılgan
+- en pahalı</p>
+<h3 id="neden-bu-denge-nemlidir">Neden Bu Denge Önemlidir?</h3>
+<p>Çünkü her şeyi UI testine yüklemek şuna yol açar:
+- testler geç çalışır,
+- kırılganlaşır,
+- hata kaynağını bulmak zorlaşır,
+- bakım maliyeti yükselir.</p>
+<p>Sadece birim testine abanmak da yetmez. Çünkü parçalar tek başına güzel çalışırken birlikte patlayabilir.</p>
+<p>Yani mesele sadece çok test yazmak değil; <strong>doğru seviyede test yazmaktır</strong>.</p>
+<hr>
+<h2 id="4-test-seviyeleri-nerede-ne-test-edilir">4. Test Seviyeleri: Nerede Ne Test Edilir?</h2>
+<p>Yazılım testinde farklı seviyeler, farklı sorulara cevap verir.</p>
+<hr>
+<h2 id="5-birim-testi-unit-test">5. Birim Testi (Unit Test)</h2>
+<p>Birim testi, en küçük test birimidir.</p>
+<p>Amaç:
+- tek bir fonksiyonu,
+- tek bir metodu,
+- tek bir sınıf davranışını
+izole biçimde test etmektir.</p>
+<h3 id="rnek">Örnek</h3>
+<p>Bir <code>calculateDiscount()</code> fonksiyonu düşünün.</p>
+<p>Birim testi şu soruyu sorar:</p>
+<ul>
+<li>%10 indirim gerçekten doğru hesaplanıyor mu?</li>
+<li>sınır değerlerde beklenen sonuç geliyor mu?</li>
+<li>null / boş durumlar uygun ele alınıyor mu?</li>
+</ul>
+<h3 id="first-i-lkesi-i-yi-bir-birim-testi-genelde-u-zellikleri-ta-r">FIRST İlkesi
+İyi bir birim testi genelde şu özellikleri taşır:</h3>
+<table>
+<thead><tr><th>İlke</th><th>Anlam</th></tr></thead>
+<tbody>
+<tr><td>Fast</td><td>Hızlı çalışmalı</td></tr>
+<tr><td>Isolated</td><td>Diğer testlerden bağımsız olmalı</td></tr>
+<tr><td>Repeatable</td><td>Her seferinde aynı sonucu vermeli</td></tr>
+<tr><td>Self-validating</td><td>Otomatik geçer/kalır diyebilmeli</td></tr>
+<tr><td>Timely</td><td>Geç kalmadan, geliştirmeye yakın yazılmalı</td></tr>
+</tbody>
+</table>
+<h3 id="neden-de-erlidir">Neden Değerlidir?</h3>
+<p>Çünkü hata en erken ve en ucuz burada yakalanır.</p>
+<hr>
+<h2 id="6-entegrasyon-testi-integration-test">6. Entegrasyon Testi (Integration Test)</h2>
+<p>Parçalar tek başına doğru çalışabilir. Ama asıl hayat, parçalar konuşmaya başladığında başlar.</p>
+<p>Entegrasyon testi tam olarak bunu kontrol eder.</p>
+<h3 id="ne-test-eder">Ne Test Eder?</h3>
+<ul>
+<li>servis + veritabanı</li>
+<li>API + iş mantığı</li>
+<li>mesajlaşan iki modül</li>
+<li>dış servis entegrasyonu</li>
+</ul>
+<h3 id="rnek">Örnek</h3>
+<p><code>ProductService</code> doğru çalışıyor olabilir.
+Ama veritabanına kayıt atarken mapping bozuksa sistem yine başarısız olur.</p>
+<p>İşte entegrasyon testi şu soruyu sorar:</p>
+<blockquote><p>“Bu bileşenler birlikte gerçekten düzgün çalışıyor mu?”</p></blockquote>
+<h3 id="yakla-mlar">Yaklaşımlar</h3>
+<ul>
+<li>**Big Bang** → Her şeyi bir anda birleştirme</li>
+<li>**Incremental** → Parça parça entegre etme</li>
+<li>**Top-Down / Bottom-Up** → Yönlü ilerleme</li>
+<li>**Sandwich** → Karma yaklaşım</li>
+</ul>
+<p>Pratikte kademeli entegrasyon genelde daha kontrollü ve anlamlıdır.</p>
+<hr>
+<h2 id="7-sistem-testi-system-test">7. Sistem Testi (System Test)</h2>
+<p>Burada artık tek birim veya küçük birleşimler değil, <strong>tüm sistem</strong> test edilir.</p>
+<p>Soru şudur:</p>
+<blockquote><p>“Bu ürün, bütün halinde beklendiği gibi çalışıyor mu?”</p></blockquote>
+<h3 id="neleri-i-erebilir">Neleri İçerebilir?</h3>
+<ul>
+<li>fonksiyonel test</li>
+<li>performans testi</li>
+<li>stres testi</li>
+<li>güvenlik testi</li>
+<li>kullanılabilirlik testi</li>
+</ul>
+<h3 id="rnek-sorular">Örnek Sorular</h3>
+<ul>
+<li>Sistem 1000 kullanıcı altında nasıl davranıyor?</li>
+<li>Yük artınca yanıt süresi ne oluyor?</li>
+<li>Güvenlik açığı var mı?</li>
+<li>Kullanıcı temel görevleri tamamlayabiliyor mu?</li>
+</ul>
+<p>Sistem testi, ürünün gerçek hayattaki duruşuna daha yakındır.</p>
+<hr>
+<h2 id="8-kabul-testi-acceptance-test-uat">8. Kabul Testi (Acceptance Test / UAT)</h2>
+<p>Kabul testi, işin son kapısıdır.</p>
+<p>Burada soru teknik değildir:</p>
+<blockquote><p>“Bu sistem müşteri veya kullanıcı beklentisini gerçekten karşılıyor mu?”</p></blockquote>
+<p>Yani sistem teknik olarak sağlam olsa da iş ihtiyacını karşılamıyorsa kabul testi başarısız sayılabilir.</p>
+<h3 id="uat-nin-nemi">UAT’nin Önemi</h3>
+<ul>
+<li>iş gereksinimleri doğrulanır</li>
+<li>teslim öncesi son güvence sağlanır</li>
+<li>müşteri tarafı “evet, bu istediğimiz şey” diyebilir</li>
+</ul>
+<h3 id="bdd-yakla-m">BDD Yaklaşımı</h3>
+<p>Kabul kriterlerini daha okunur kılmak için davranış odaklı anlatımlar kullanılabilir:</p>
+<ul>
+<li>**Koşul:** Kullanıcı kayıtlı ve aktif</li>
+<li>**Eylem:** Geçerli e-posta ve şifre ile giriş yapar</li>
+<li>**Beklenen:** Ana sayfaya yönlendirilir</li>
+</ul>
+<p>Bu yapı, teknik ekip ile iş tarafı arasında ortak dil kurar.</p>
+<hr>
+<h2 id="9-test-case-nedir">9. Test Case Nedir?</h2>
+<p>Test case, belirli bir koşulda sistemin nasıl test edileceğini, ne beklendiğini ve sonucun ne olduğunu sistematik biçimde tanımlayan yapıdır.</p>
+<p>“Biraz deneriz” yaklaşımı test değildir.</p>
+<p>Test case şu avantajları sağlar:
+- tekrar edilebilirlik,
+- izlenebilirlik,
+- netlik,
+- ekip içi ortak anlayış.</p>
+<h3 id="i-yi-bir-test-case-alanlar">İyi Bir Test Case Alanları</h3>
+<table>
+<thead><tr><th>Alan</th><th>İçerik</th></tr></thead>
+<tbody>
+<tr><td>TC-ID</td><td>Benzersiz kimlik</td></tr>
+<tr><td>İlgili gereksinim</td><td>Hangi requirement/use case ile ilgili</td></tr>
+<tr><td>Test başlığı</td><td>Ne test ediliyor</td></tr>
+<tr><td>Ön koşullar</td><td>Testten önce gereken durum</td></tr>
+<tr><td>Adımlar</td><td>Uygulanacak net test akışı</td></tr>
+<tr><td>Beklenen sonuç</td><td>Sistem ne yapmalı</td></tr>
+<tr><td>Gerçek sonuç</td><td>Testte ne oldu</td></tr>
+<tr><td>Durum</td><td>Geçti / Kaldı</td></tr>
+<tr><td>Öncelik</td><td>Yüksek / Orta / Düşük</td></tr>
+<tr><td>Ortam</td><td>Tarayıcı, OS, sürüm vb.</td></tr>
+</tbody>
+</table>
+<hr>
+<h2 id="10-i-yi-test-case-nas-l-yaz-l-r">10. İyi Test Case Nasıl Yazılır?</h2>
+<p>İyi test case:
+- açık olur,
+- tekrar edilebilir olur,
+- yoruma fazla alan bırakmaz,
+- ölçülebilir sonuç üretir.</p>
+<p>Kötü test case örneği:
+- “Giriş yapılabiliyor mu bak.”</p>
+<p>Bu çok gevşek.</p>
+<p>İyi test case örneği:
+- Giriş sayfasına git
+- Geçerli e-posta gir
+- Geçerli şifre gir
+- Giriş yap butonuna tıkla
+- Kullanıcı ana sayfaya yönlendirilmeli
+- Header’da kullanıcı adı görünmeli</p>
+<p>Bu daha nettir. Aynı senaryoyu farklı kişiler test ettiğinde aynı sonucu bekler.</p>
+<hr>
+<h2 id="11-test-case-t-rleri">11. Test Case Türleri</h2>
+<p>Farklı test türleri, farklı hata sınıflarını yakalar.</p>
+<h3 id="11-1-pozitif-test-do-ru-girdiler-verildi-inde-sistem-beklenen-davran-retiyor-mu">11.1 Pozitif Test
+Doğru girdiler verildiğinde sistem beklenen davranışı üretiyor mu?</h3>
+<h3 id="11-2-negatif-test-eksik-yanl-ya-da-ge-ersiz-girdilerde-sistem-d-zg-n-hata-veriyor-mu">11.2 Negatif Test
+Eksik, yanlış ya da geçersiz girdilerde sistem düzgün hata veriyor mu?</h3>
+<h3 id="11-3-s-n-r-de-er-analizi-hatalar-o-u-zaman-s-n-r-izgilerinde-kar">11.3 Sınır Değer Analizi
+Hatalar çoğu zaman sınır çizgilerinde çıkar.</h3>
+<p>Örnek:
+- minimum 1 karakter
+- maksimum 100 karakter</p>
+<p>Bu durumda kritik testler:
+- 0
+- 1
+- 99
+- 100
+- 101</p>
+<h3 id="11-4-e-de-erlik-b-l-mlendirme-ayn-t-r-davran-reten-giri-k-melerini-gruplars-n-z">11.4 Eşdeğerlik Bölümlendirme
+Aynı tür davranış üreten giriş kümelerini gruplarsınız.</h3>
+<p>Bu sayede her olasılığı tek tek test etmek yerine mantıklı temsilciler seçersiniz.</p>
+<p>Bu yaklaşım, test maliyetini düşürürken kapsamı korumaya yardım eder.</p>
+<hr>
+<h2 id="12-rnek-giri-use-case-i-i-in-test-d-ncesi">12. Örnek: Giriş Use Case’i İçin Test Düşüncesi</h2>
+<p>Bir giriş ekranı için düşünelim.</p>
+<h3 id="pozitif-senaryo-do-ru-e-posta-do-ru-ifre-ba-ar-l-y-nlendirme">Pozitif Senaryo
+- doğru e-posta
+- doğru şifre
+- başarılı yönlendirme</h3>
+<h3 id="negatif-senaryolar-yanl-ifre-kay-tl-olmayan-e-posta-bo-e-posta-bo-ifre-ask-ya-al-nm-hesap">Negatif Senaryolar
+- yanlış şifre
+- kayıtlı olmayan e-posta
+- boş e-posta
+- boş şifre
+- askıya alınmış hesap</h3>
+<h3 id="s-n-r-davran-senaryolar-e-posta-b-y-k-k-k-harf-fark-art-arda-ba-ar-s-z-denemeler-hesap-kilitleme">Sınır / Davranış Senaryoları
+- e-posta büyük/küçük harf farkı
+- art arda başarısız denemeler
+- hesap kilitleme</h3>
+<p>İşte burada test yaklaşımı genişlemeye başlar. Çünkü “giriş çalışıyor mu?” tek başına test düşüncesi değildir. Gerçek test düşüncesi, farklı durumları sistemli biçimde taramaktır.</p>
+<hr>
+<h2 id="13-gereksinim-test-i-zlenebilirlik-matrisi">13. Gereksinim ↔ Test İzlenebilirlik Matrisi</h2>
+<p>Bu yapı çok değerlidir ama öğrenciler bazen gereksiz dokümantasyon sanır. Aslında değildir.</p>
+<p>İzlenebilirlik matrisi şunu gösterir:</p>
+<ul>
+<li>her gereksinim en az bir testle doğrulanıyor mu?</li>
+<li>her test gerçekten bir gereksinime dayanıyor mu?</li>
+</ul>
+<h3 id="neden-nemli">Neden Önemli?</h3>
+<p>Çünkü aksi durumda iki büyük risk doğar:</p>
+<p>1. Bazı gereksinimler hiç test edilmez
+2. Bazı testler gereksiz yere yapılır ama kritik ihtiyaçlar boş kalır</p>
+<h3 id="basit-mant-k">Basit Mantık</h3>
+<table>
+<thead><tr><th>Gereksinim</th><th>Testler</th></tr></thead>
+<tbody>
+<tr><td>FR-01 Kullanıcı giriş yapabilmeli</td><td>TC-001, TC-002, TC-003...</td></tr>
+<tr><td>FR-03 İlan oluşturulabilmeli</td><td>TC-020, TC-021...</td></tr>
+<tr><td>NFR-01 Sayfa yüklenme &lt; 2 sn</td><td>performans testi</td></tr>
+</tbody>
+</table>
+<p>Bu tablo, kalite ile analiz arasındaki bağı görünür hale getirir.</p>
+<hr>
+<h2 id="14-bug-raporu-teknik-haf-za">14. Bug Raporu: Teknik Hafıza</h2>
+<p>Bir hata bulunduğunda “abi bozuk” demek yetmez.</p>
+<p>Profesyonel ekipte hata raporu, sorunun yeniden üretilebilir ve çözülebilir hale getirilmiş halidir.</p>
+<h3 id="i-yi-bug-raporu-ne-i-erir">İyi Bug Raporu Ne İçerir?</h3>
+<ul>
+<li>benzersiz bug ID</li>
+<li>kısa ve net başlık</li>
+<li>şiddet (severity)</li>
+<li>öncelik (priority)</li>
+<li>yeniden üretme adımları</li>
+<li>gerçek davranış</li>
+<li>beklenen davranış</li>
+<li>ortam bilgisi</li>
+<li>mümkünse ekran görüntüsü / log</li>
+</ul>
+<h3 id="rnek-i-yi-ba-l-k-giri-formunda-b-y-k-harf-i-eren-e-posta-yanl-bi-imde-reddediliyor">Örnek İyi Başlık
+- “Giriş formunda büyük harf içeren e-posta yanlış biçimde reddediliyor”</h3>
+<p>Bu başlık, “login bozuk”tan çok daha değerlidir.</p>
+<hr>
+<h2 id="15-hata-ya-am-d-ng-s">15. Hata Yaşam Döngüsü</h2>
+<p>Hata bulmak tek başına yeterli değildir. Hatanın süreç içindeki hareketi de yönetilmelidir.</p>
+<p>Tipik akış:</p>
+<ul>
+<li>**New** → hata raporlandı</li>
+<li>**Assigned** → geliştiriciye atandı</li>
+<li>**In Progress** → çözüm üzerinde çalışılıyor</li>
+<li>**Fixed** → düzeltildi deniyor</li>
+<li>**Retest** → yeniden test ediliyor</li>
+<li>**Closed** → gerçekten çözüldü</li>
+<li>**Reopened** → çözülmedi, tekrar açıldı</li>
+</ul>
+<p>Bu akış, kaosu azaltır. Özellikle çok geliştiricili projelerde kritik öneme sahiptir.</p>
+<hr>
+<h2 id="16-regresyon-testi-d-n-n-al-an-bug-n-lmesin">16. Regresyon Testi: Dünün Çalışanı Bugün Ölmesin</h2>
+<p>Bir şeyi düzeltirsiniz. Sonra başka bir şey bozulur.</p>
+<p>İşte regresyon testi tam olarak bunu kontrol eder.</p>
+<p>Tanım:</p>
+<blockquote><p>Sistemde yapılan değişikliklerin, daha önce çalışan işlevleri bozup bozmadığını kontrol etmek için eski testlerin yeniden çalıştırılmasıdır.</p></blockquote>
+<h3 id="neden-kritik">Neden Kritik?</h3>
+<p>Çünkü yazılım yaşayan bir yapıdır. Her değişiklik potansiyel yan etki taşır.</p>
+<p>Örnek:
+- giriş ekranı düzeldi
+- ama şifre sıfırlama bozuldu
+- ilan yükleme optimize edildi
+- ama filtreleme çalışmaz oldu</p>
+<p>Regresyon testleri yoksa ekip sürekli görünmez mayınlara basar.</p>
+<h3 id="ci-cd-ile-i-li-kisi">CI/CD ile İlişkisi</h3>
+<p>Modern ekiplerde regresyon testleri mümkün olduğunca otomatik çalıştırılır.</p>
+<p>Bu sayede:
+- commit sonrası erken uyarı alınır
+- üretime bozuk kod çıkma riski düşer
+- değişiklik yapma cesareti artar</p>
+<hr>
+<h2 id="17-kalite-ans-i-i-de-ildir">17. Kalite Şans İşi Değildir</h2>
+<p>Bu cümle önemli.</p>
+<p>Kaliteli yazılım genelde şunların ürünüdür:
+- net gereksinim,
+- iyi tasarım,
+- disiplinli geliştirme,
+- ölçülebilir test,
+- düzgün hata yönetimi,
+- tekrar eden doğrulama.</p>
+<p>Eğer ekip kaliteyi yalnızca finalde düşünürse, genelde kalite pahalı hale gelir.</p>
+<p>Kalite erken düşünülürse, sorunlar daha ucuz çözülür.</p>
+<hr>
+<h2 id="18-s-k-yap-lan-hatalar">18. Sık Yapılan Hatalar</h2>
+<h3 id="1-testi-geli-tirme-bittikten-sonra-akla-getirmek-bu-hatalar-pahal-yakalar">1. Testi geliştirme bittikten sonra akla getirmek
+Bu, hataları pahalı yakalar.</h3>
+<h3 id="2-sadece-pozitif-senaryo-test-etmek-ger-ek-hayat-negatif-durumlarla-doludur">2. Sadece pozitif senaryo test etmek
+Gerçek hayat negatif durumlarla doludur.</h3>
+<h3 id="3-beklenen-sonucu-belirsiz-yazmak-belirsiz-test-belirsiz-sonu-retir">3. Beklenen sonucu belirsiz yazmak
+Belirsiz test, belirsiz sonuç üretir.</h3>
+<h3 id="4-gereksinim-test-ba-n-kurmamak-bu-durumda-bo-luklar-g-r-nmez-hale-gelir">4. Gereksinim-test bağını kurmamak
+Bu durumda boşluklar görünmez hale gelir.</h3>
+<h3 id="5-bug-raporunu-zensiz-yazmak-i-yi-hata-yakalanm-olsa-bile-k-t-rapor-z-m-yava-lat-r">5. Bug raporunu özensiz yazmak
+İyi hata yakalanmış olsa bile kötü rapor çözümü yavaşlatır.</h3>
+<h3 id="6-regresyonu-ihmal-etmek-yeni-zellik-eklerken-eski-sistem-sessizce-bozulabilir">6. Regresyonu ihmal etmek
+Yeni özellik eklerken eski sistem sessizce bozulabilir.</h3>
+<h3 id="7-her-eyi-manuel-test-etmek-baz-alanlarda-manuel-test-gerekir-ama-tekrarlanan-kritik-ak-larda-otomasyon-hayat-kurtar-r">7. Her şeyi manuel test etmek
+Bazı alanlarda manuel test gerekir; ama tekrarlanan kritik akışlarda otomasyon hayat kurtarır.</h3>
+<hr>
+<h2 id="19-b-l-m-zeti">19. Bölüm Özeti</h2>
+<p>Bu derste şunu gördük:</p>
+<ul>
+<li>Yazılım kalitesi çok boyutlu bir kavramdır; yalnızca hata sayısından ibaret değildir.</li>
+<li>**Test piramidi**, test seviyeleri arasında doğru denge kurmayı önerir.</li>
+<li>**Birim, entegrasyon, sistem ve kabul testi** farklı sorulara cevap verir.</li>
+<li>İyi yazılmış bir **test case**, doğrulamayı tekrar edilebilir hale getirir.</li>
+<li>Pozitif, negatif, sınır değer ve eşdeğerlik testleri farklı hata sınıflarını ortaya çıkarır.</li>
+<li>**İzlenebilirlik matrisi**, gereksinimle test arasındaki bağı görünür kılar.</li>
+<li>**Bug raporu**, sorunu ekip hafızasına çevrir.</li>
+<li>**Regresyon testi**, değişimin yan etkilerini kontrol altında tutar.</li>
+</ul>
+<p>Kısacası kalite tesadüf değildir. Kalite, sistematik dikkat ve doğrulama disiplininin sonucudur.</p>
+<hr>
+<h2 id="20-mini-al-t-rmalar">20. Mini Alıştırmalar</h2>
+<h3 id="al-t-rma-1-bir-giri-ekran-i-in-en-az-8-test-case-yaz-n-2-pozitif-4-negatif-2-s-n-r-zel-durum">Alıştırma 1
+Bir giriş ekranı için en az 8 test case yazın:
+- 2 pozitif
+- 4 negatif
+- 2 sınır/özel durum</h3>
+<h3 id="al-t-rma-2-bir-i-lan-olu-tur-use-case-i-i-in-u-alanlar-i-eren-test-case-ablonu-doldurun-tc-id-n-ko-ul-ad-mlar-beklenen-sonu-ncelik">Alıştırma 2
+Bir “İlan Oluştur” use case’i için şu alanları içeren test case şablonu doldurun:
+- TC-ID
+- ön koşul
+- adımlar
+- beklenen sonuç
+- öncelik</h3>
+<h3 id="al-t-rma-3-a-a-daki-gereksinimler-i-in-mini-izlenebilirlik-matrisi-olu-turun-kullan-c-giri-yapabilmeli-ilan-olu-turabilmeli-arama-sonu-lar-2-saniye-alt-nda-gelmeli">Alıştırma 3
+Aşağıdaki gereksinimler için mini izlenebilirlik matrisi oluşturun:
+- kullanıcı giriş yapabilmeli
+- ilan oluşturabilmeli
+- arama sonuçları 2 saniye altında gelmeli</h3>
+<h3 id="al-t-rma-4-bir-hata-raporu-yaz-n-senaryo-kullan-c-b-y-k-harf-i-eren-e-posta-ile-giri-yap-nca-sistem-yanl-bi-imde-reddediyor">Alıştırma 4
+Bir hata raporu yazın:
+Senaryo: Kullanıcı büyük harf içeren e-posta ile giriş yapınca sistem yanlış biçimde reddediyor.</h3>
+<h3 id="al-t-rma-5-bir-projede-regresyon-testinin-neden-kritik-oldu-unu-5-c-mleyle-a-klay-n">Alıştırma 5
+Bir projede regresyon testinin neden kritik olduğunu 5 cümleyle açıklayın.</h3>
+<hr>
+<h2 id="kaynaklar">Kaynaklar</h2>
+<ul>
+<li>Dijkstra, E. W. (1970). *Notes on Structured Programming*.</li>
+<li>Cohn, M. (2009). *Succeeding with Agile*. Addison-Wesley.</li>
+<li>Myers, G., Sandler, C., &amp; Badgett, T. (2011). *The Art of Software Testing* (3rd ed.). Wiley.</li>
+<li>ISO/IEC 25010:2011. *Systems and Software Quality Requirements and Evaluation (SQuaRE)*.</li>
+<li>ISTQB. (2018). *Foundation Level Syllabus*.</li>
+</ul>
+<hr>
+<p>Kaliteli yazılım, tesadüfen doğru çalışan yazılım değildir. O; beklentisi tanımlanmış, davranışı sınanmış, hataları görünür hale getirilmiş ve değişim karşısında tekrar tekrar doğrulanmış yazılımdır. Sistem işte o zaman sadece “çalışıyor” olmaktan çıkar, güvenilir hale gelir.</p></div></div></div><div class="post-page-nav"><div class="container container-narrow"><div class="post-nav-grid"><a href="/sistem-analizi-ve-tasarimi/2026/06/07/sistem-analizi-arayuz-tasarimi-ve-prototipleme/" class="post-nav-item prev"><span class="post-nav-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>Onceki Gonderi</span><span class="post-nav-title">Arayuz Tasarimi ve Prototipleme: Kullanicinin Sisteme Dokundugu Yer</span></a></div></div></div></article></main><footer class="site-footer"><div class="container"><div class="footer-content"><div class="footer-brand"><svg class="footer-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span>Ders Takip Portali</span></div><p class="footer-desc">2025-2026 Bahar Donemi Ders Icerikleri ve Duyurulari</p></div><div class="footer-bottom"><p>&copy; 2026 | Tum haklari saklidir.</p></div></div></footer><script src="/assets/js/main.js"></script></body></html>
